@@ -9,10 +9,10 @@ class DatabaseService
 
     public function __construct()
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "infotech";
+        $servername = "127.0.0.1";
+        $username = "infotechmcc";
+        $password = "infotechmcc";
+        $dbname = "infotechmcc";
 
         $this->connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
