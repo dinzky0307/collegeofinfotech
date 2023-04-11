@@ -146,17 +146,23 @@
 <?php
     include('grade.php');
     $mysubject = $grade->getsubject();
+      
+    $stud = $dbService->fetchRow("SELECT * from student");
+    $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
+    $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
+
 ?>
 
 
     <div class="container" style="margin-top:60px;" x-data="PasswordHandler">
     <label class="text-primary" style="color: black; font-size: 20px;">
-    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $_SESSION['name']; ?>&nbsp;&nbsp;
+    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $stud['fname']; ?>,&nbsp;<?php echo $stud['lname']; ?>&nbsp;<?php echo $stud['mname']; ?>&nbsp;&nbsp;<?php echo $stud['year']; ?>-<?php echo $stud['section']; ?>&nbsp;
     </label>
       <!-- Example row of columns -->
     <div class="row">
         <div class="col-lg-12">
             <h2 class="text-center">Report of Grades</h2>
+            <h4><b><?php echo $stud['semester']; ?></b></h4>
             <div class="">
                 <table class="table table-bordered">
                     <thead>
