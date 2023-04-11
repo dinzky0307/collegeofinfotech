@@ -165,15 +165,5 @@ $s = $stud['semester'];
 
 </div>
 <!-- /#page-wrapper -->    
-<?php
-$result=mysql_query("SELECT COUNT(*) AS studid FROM studentsubject WHERE studid='$stud[id]'");
-$d=mysql_fetch_assoc($result);
-echo $d['studid'];
-// $studid = $dbService->fetchRow("SELECT COUNT(*) FROM table_name WHERE status = 'canceled';");
-
-// echo "<script>alert(".$studid['studid'].");</script>";
-// echo "<script>alert(".$studid['COUNT(studid)'].");</script>";
-
-?>
 <?php include('include/footer.php');
 
