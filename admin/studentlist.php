@@ -8,53 +8,6 @@
 
 ?>
 
-<?php
-    include('connection.php');
-
-
-
-if(isset($_POST["delete"])) {
-$rowid = $_POST['rowid'];
-$sql = "DELETE FROM studentsubject WHERE id='$rowid'";
-
-if ($dbconnection->query($sql) === TRUE) {
-  echo "<script type='text/javascript'>";
-            echo "Swal.fire({
-               title: 'Deleted Successfully',
-               icon: 'success',
-             })";
-            echo "</script>";
-} else {
-  echo "Error Deleting record: " . $dbconnection->error;
-}
-}
-?>
-
-
-<?php
-// include '../DatabaseService.php';
-
-// use Database\DatabaseService;
-// $search = isset($_POST['search']) ? $_POST['search']: null;
-
-// $dbService = new DatabaseService;
-
-// $stud = $dbService->fetchRow("SELECT studid, COUNT(*) FROM studentsubject GROUP BY studid ORDER BY COUNT(*) DESC");
-
-// // echo "<script>alert(".$stud['studid'].");</script>";
-// // echo "<script>alert(".$stud['COUNT(*)'].");</script>";
-
-$result=mysql_query("SELECT COUNT(*) AS studid FROM studentsubject WHERE studid='$stud[id]'");
-$d=mysql_fetch_assoc($result);
-
-// echo $d['studid'];
-// echo "<script>alert(".$studid['studid'].");</script>";
-// echo "<script>alert(".$studid['COUNT(studid)'].");</script>";
-
-?>
-
-
-
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -158,16 +111,14 @@ $d=mysql_fetch_assoc($result);
                                     <td class="text-center"><?php echo $student['year'];?> -<?php echo $student['section'];?></td>
                                     <td class="text-center"><?php echo $student['semester'];?></td>
                                     <td class="text-center"><a href="viewsubjects.php?type=student&id=<?php echo $student['id']?>">Enrolled Subjects | 
-                                    <?php echo $d['studid']; ?>
+                                    <?php
+                                    $result=mysql_query("SELECT COUNT(*) AS studid FROM studentsubject WHERE semester='$student[semester]'AND year='$student[year]' AND studid='$student[id]'");
+                                    $d=mysql_fetch_assoc($result);
+                                    echo $d['studid'];
+                                    ?>
                                     </a></td>
                                     <td class="text-center">
-                                        <!-- <a href="data/settings_model.php?q=addaccount&level=student&id=<?php echo $student['id']?>" title="Create Account" class=""><i class="fa fa-user-plus fa-lg text-success"></i></a>&nbsp; -->
-                                        <form action="" method="POST">
-                                        <input type="hidden" name="rowid" value="<?php echo $student['id']; ?>">
-                                        <button type="submit" name="delete" style="border: none;">
-                                        <a href="data/data_model.php?q=deleteStudent&table=student&id=<?php echo $student['id']?>" title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a>
-                                        </button>
-                                        </form>
+                                        <a href="data/data_model.php?q=delete&table=student&id=<?php echo $student['id']?>" title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
