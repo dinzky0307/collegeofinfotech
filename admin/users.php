@@ -60,7 +60,6 @@
                             <th class="text-center">ID Number</th>    
                             <th class="text-center">Name</th>    
                             <th class="text-center">Level</th>    
-                            <th class="text-center">Password</th>    
                             <th class="text-center">Action</th>    
                         </tr></thead>
                         <tbody>
@@ -69,7 +68,6 @@
                                 <td class="text-center"><?php echo $userdata['username'];?></td>
                                 <td class="text-center"><?php echo $userdata['lname'].', '.$userdata['fname']?></td>
                                 <td class="text-center"><?php echo $userdata['level'];?></td>
-                                <td class="text-center"><a href="settings.php?username=<?php echo $userdata['username'];?>">Update</a></td>
                                 <td class="text-center"><a href="data/data_model.php?q=delete&table=userdata&id=<?php echo $userdata['id']?>" title="Remove" class="text-danger confirmation"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a></a></td>
                             </tr>
                         <?php endforeach; ?>
