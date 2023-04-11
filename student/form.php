@@ -50,6 +50,13 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+	  		$( function() {
+	   			$( "#date" ).datepicker({
+	   				minDate: 0
+	   			});
+	  		});
+	  	</script>
 
   </head>
     <style>
@@ -178,7 +185,8 @@ input[type=radio] {
         </tr>
         <tr style="line-height: 30px;">
             <th colspan="2"></th>
-            <th>Date of Consultation : <input type="text" style="line-height: 28px; width: 50px;"></th>
+<!--             <th>Date of Consultation : <input type="text" style="line-height: 28px; width: 50px;"></th> -->
+            <th>Date of Consultation : <input type="text" style="line-height: 28px; width: 50px;" name="date" id="date" x-model="form.date" title="Choose your desired date"></th>
         </tr>
         <tr style="line-height: 30px;">
             <th colspan="3"></th>
