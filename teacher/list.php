@@ -15,6 +15,12 @@
     $consultations = $dbService->fetch(
         "SELECT {$selects} from userdata {$joins} WHERE student_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
     );
+
+    $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
+    $joins = 'INNER JOIN consultations ON userdata.id  = consultations.student_id';
+    $consultationss = $dbService->fetch(
+        "SELECT {$selects} from userdata {$joins} WHERE consultant_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
+    );
 ?>
 <div id="page-wrapper">
 
@@ -72,6 +78,40 @@
                                     </td>
                                     <td class="text-center">
                                     <a href="form.php?id=<?php echo $consultation['id']; ?>">View</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4><b>Consulted</b></h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Consulting</th>
+                                <th class="text-center">Concern</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($consultationss as $consultations): ?>
+                                <tr>
+                                    <td class="text-center"><?php echo $consultations['level']; ?></td>
+                                    <td class="text-center"><?php echo $consultations['name']; ?></td>
+                                    <td class="text-center"><?php echo $consultations['areas_concern']; ?></td>
+                                    <td class="text-center">
+                                        <?php 
+                                            echo Carbon::parse($consultations['created_at'])->format('F d, Y');
+                                        ?>
+                                    </td>
+                                    <td class="text-center">
+                                    <a href="form.php?id=<?php echo $consultations['id']; ?>">View</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
