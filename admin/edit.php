@@ -186,12 +186,10 @@ class Edit {
                 </div>
                 <div class="form-group">
                     <select name="sem" class="form-control" required>
-                        <?php 
-                            $r = mysql_query("select * from ay");
-                            while($row = mysql_fetch_array($r)):
-                        ?>
-                            <option value="<?php echo $row['semester']; ?>"><?php echo $row['semester']; ?></option>
-                        <?php endwhile; ?>
+                        <option value="">Select Semester...</option>
+                        <option <?php  if($row['sem'] == 'First Semester') echo "selected"?>>First Semester</option>
+                        <option <?php  if($row['sem'] == 'Second Semester') echo "selected"?>>Second Semester</option>
+                        <option <?php  if($row['sem'] == 'Summer') echo "selected"?>>Summer</option>
                     </select>
                 </div>
                 <div class="form-group">
