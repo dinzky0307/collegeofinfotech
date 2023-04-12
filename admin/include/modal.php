@@ -122,12 +122,10 @@
                 </div>
                 <div class="form-group">
                     <select name="sem" class="form-control" required>
-                        <?php 
-                            $r = mysql_query("select * from ay");
-                            while($row = mysql_fetch_array($r)):
-                        ?>
-                            <option value="<?php echo $row['semester']; ?>"><?php echo $row['semester']; ?></option>
-                        <?php endwhile; ?>
+                        <option value="">Select Semester...</option>
+                        <option value="First Semester">First Semester</option>
+                        <option value="Second Semester">Second Semester</option>
+                        <option value="Summer">Summer</option>
                     </select>
                 </div>
                 
