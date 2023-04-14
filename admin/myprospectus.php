@@ -276,7 +276,7 @@
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
                                             <td class="text-center">
-                                                <?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?>
+                                                <?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/3);?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
