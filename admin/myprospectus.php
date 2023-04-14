@@ -134,6 +134,9 @@
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
                     </li>
+                    <li>
+                        <a href="report.php">Student list</a>
+                    </li>
                     <li class="active">
                         Generate Reports
                     </li>
