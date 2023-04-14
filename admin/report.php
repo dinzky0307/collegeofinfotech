@@ -83,13 +83,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs hidden-print" role="tablist">
-                    <li class="<?php echo isset($_GET['page']) ? 'active' : ''; ?>"><a href="#data2" role="tab" data-toggle="tab">Student Grade and Prospectus</a></li>
-                    <li class="<?php echo isset($_GET['page']) ? '' : 'active'; ?>"><a href="#data1" role="tab" data-toggle="tab">Prospectus</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? '' : 'active'; ?>"><a href="#data2" role="tab" data-toggle="tab">Student Grade and Prospectus</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? 'active' : ''; ?>"><a href="#data1" role="tab" data-toggle="tab">Prospectus</a></li>
                 </ul>
                 <!-- Tab panes -->
                 
                 <div class="tab-content" x-ref="print">
-                    <div class="tab-pane <?php echo isset($_GET['page']) ? '' : 'active'; ?> print-container" id="data1">
+                    <div class="tab-pane <?php echo isset($_GET['page']) ? 'active' : ''; ?> print-container" id="data1">
 
 
                         <div class="table-responsive">
@@ -518,7 +518,7 @@
                         </div>
                     </div>
                     <!-- Gradesss -->
-                    <div class="tab-pane <?php echo isset($_GET['page']) ? 'active' : ''; ?>" id="data2">
+                    <div class="tab-pane <?php echo isset($_GET['page']) ? '' : 'active'; ?>" id="data2">
                         <br />
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="listInformation">
