@@ -156,7 +156,7 @@
 
     <div class="container" style="margin-top:60px;" x-data="PasswordHandler">
     <label class="text-primary" style="color: black; font-size: 20px;">
-    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $stud['fname']; ?>,&nbsp;<?php echo $stud['lname']; ?>&nbsp;<?php echo $stud['mname']; ?>&nbsp;&nbsp;<?php echo $stud['year']; ?>-<?php echo $stud['section']; ?>&nbsp;
+    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $_SESSION['name']; ?>&nbsp;&nbsp;
     </label>
       <!-- Example row of columns -->
     <div class="row">
