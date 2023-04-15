@@ -171,6 +171,13 @@ class Edit {
                     </select>
                 </div>
                 <div class="form-group">
+                    <select name="course" class="form-control" required>
+                        <option value="">Select Year...</option>
+                        <option <?php  if($row['course'] == 'BSIT') echo "selected"?>>BSIT</option>
+                
+                    </select>
+                </div>
+                <div class="form-group">
                     <select name="year" class="form-control" required>
                         <option value="">Select Year...</option>
                         <option <?php  if($row['year'] == '1') echo "selected"?>>1</option>
