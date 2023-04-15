@@ -92,6 +92,9 @@ if ($s == '1') {
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
                     </li>
+                    <li>
+                        <a href="studentlist.php">Student List</a>
+                    </li>
                 
                 </ol>
             </div>
