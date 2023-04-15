@@ -155,14 +155,19 @@ class Edit {
                         $r = mysql_query("select * from subject");
                         while($re = mysql_fetch_array($r)):
                     ?>  
-                        <option <?php  if($row['subject'] == $re['title']) echo "selected"?> value="<?php echo $re['title']; ?>"><?php echo $re['title']; ?></option>
+                        <option <?php  if($row['subject'] == $re['code']) echo "selected"?> value="<?php echo $re['title']; ?>"><?php echo $re['title']; ?></option>
                     <?php endwhile; ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <select name="course" class="form-control" required>
-                        <option value="">Select Course...</option>
-                        <option <?php  if($row['course'] == 'BSIT') echo "selected"?>>BSIT</option>
+                <div class="form-group">  
+                    <select name="teacher" class="form-control" required>
+                        <option value="">Select Instructor...</option>
+                    <?php 
+                        $r = mysql_query("select * from teacher");
+                        while($re = mysql_fetch_array($r)):
+                    ?>  
+                        <option <?php  if($row['teacher'] == $re['id'] ) echo "selected"?> value="<?php echo $re['id']; ?>"><?php echo $re['fname']; ?> <?php echo $re['lname']; ?></option>
+                    <?php endwhile; ?>
                     </select>
                 </div>
                 <div class="form-group">
