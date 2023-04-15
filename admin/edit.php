@@ -172,9 +172,7 @@ class Edit {
                 </div>
                 <div class="form-group">
                     <select name="course" class="form-control" required>
-                        <option value="">Select Year...</option>
-                        <option <?php  if($row['course'] == 'BSIT') echo "selected"?>>BSIT</option>
-                
+                        <option <?php  if($row['course'] == 'BSIT') echo "selected"?>>BSIT</option>               
                     </select>
                 </div>
                 <div class="form-group">
