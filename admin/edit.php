@@ -186,7 +186,7 @@ class Edit {
                         <option <?php  if($row['section'] == 'South') echo "selected"?>>South</option>
                         <option <?php  if($row['section'] == 'East') echo "selected"?>>East</option>
                         <option <?php  if($row['section'] == 'West') echo "selected"?>>West</option>
-                        <option <?php  if($row['section'] == 'North East') echo "selected"?>>Norteast</option>
+                        <option <?php  if($row['section'] == 'North East') echo "selected"?>>North East</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -261,7 +261,7 @@ class Edit {
                         <option <?php  if($row['section'] == 'South') echo "selected"?>>South</option>
                         <option <?php  if($row['section'] == 'East') echo "selected"?>>East</option>
                         <option <?php  if($row['section'] == 'West') echo "selected"?>>West</option>
-                        <option <?php  if($row['section'] == 'North East') echo "selected"?>>Norteast</option>
+                        <option <?php  if($row['section'] == 'North East') echo "selected"?>>North East</option>
                     </select>
                 </div>
                 <div class="form-group">
