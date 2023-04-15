@@ -64,9 +64,10 @@
             $sem = $_POST['sem'];
             $subject = $_POST['subject'];
             $description = $_POST['description'];
+            $teacher = $_POST['teacher'];
             $sy = $_POST['sy'];
             
-            echo $q = "update class set course='$course', year='$year', section='$section', sem='$sem', subject='$subject', description='$description', SY='$sy' where id=$id";
+            echo $q = "update class set course='$course', year='$year', section='$section', sem='$sem', subject='$subject', description='$description', teacher='$teacher', SY='$sy' where id=$id";
             mysql_query($q);
             $act = "update class $course $year - $section with the subject of $subject";
             $this->logs($act);
