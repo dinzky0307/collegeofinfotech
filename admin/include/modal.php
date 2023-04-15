@@ -117,7 +117,7 @@
                         <option>South</option>
                         <option>East</option>
                         <option>West</option>
-                        <option>Norteast</option>
+                        <option>North East</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -186,7 +186,7 @@
                         <option>South</option>
                         <option>East</option>
                         <option>West</option>
-                        <option>Norteast</option>
+                        <option>North East</option>
                     </select>
                 </div>
                 <div class="form-group">
