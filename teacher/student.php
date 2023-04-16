@@ -72,6 +72,7 @@
                                 <th>#</th>
                                 <th class="text-center">ID Number</th>
                                 <th class="text-center">Name</th>
+                                <th class="text-center">Year & Section</th>
                                 <th class="text-center">Prelim</th>
                                 <th class="text-center">Midterm</th>
                                 <th class="text-center">Final</th>
@@ -88,6 +89,7 @@
                                     <td><?php echo $c; ?></td>    
                                     <td class="text-center"><?php echo $row['studid']; ?></td>    
                                     <td class="text-center"><?php echo $row['fname'].', '.$row['lname'].' '.$row['mname']; ?></td>  
+                                    <td class="text-center"><?php echo $row['year']; ?> - <?php echo $row['section']; ?></td> 
                                     <?php $grade = $student->getstudentgrade($row['id'],$classid); ?>
                                     <td class="text-center"><input type="number" min="50" max="100"  required="true" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>    
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['midterm'];?>" name="midterm_grade" id="midterm"></td>    
