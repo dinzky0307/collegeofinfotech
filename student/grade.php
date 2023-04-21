@@ -27,15 +27,16 @@
         
         function getsubject(){  
           $id = $this->getid();
-          $q = "select * from studentsubject where studid=$id AND year = '1' AND semester = 'First Semester'";
+          $q = "select * from studentsubject where studid=$id";
 
           if (isset($_GET['year_semester'])) {
                $year = $_GET['year'];
                $sem = $_GET['semester'];
                $q.= " AND year = '$year' AND semester = '$sem'";
+           } else {
+               $q.= " AND year = '1' AND semester = 'First Semester'";
            }
-          //  var_dump($q);
-          //  die();
+
             $r = mysql_query($q);
             $data = array();
             while($row = mysql_fetch_array($r)){
