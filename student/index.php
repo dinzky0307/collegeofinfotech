@@ -13,6 +13,7 @@
     use Database\DatabaseService;
 
     $dbService = new DatabaseService;
+    
     $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
     $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
     $consultations = $dbService->fetch(
@@ -75,8 +76,8 @@
 <style>
     /* Dropdown Button */
 .dropbtn {
-  background-color: orange;
-  color: white;
+  background-color: ;
+  color: black;
   padding: 7px;
   font-size: 14px;
   border: none;
@@ -142,27 +143,45 @@
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
-
+    
 <?php
     include('grade.php');
     $mysubject = $grade->getsubject();
-      
-    $stud = $dbService->fetchRow("SELECT * from student");
-    $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
-    $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
+
+    // $stud = $dbService->fetchRow("SELECT * from student");
+    // $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
+    // $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
 
 ?>
 
 
     <div class="container" style="margin-top:60px;" x-data="PasswordHandler">
     <label class="text-primary" style="color: black; font-size: 20px;">
-    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $_SESSION['name']; ?>&nbsp;&nbsp;
+    <i class="fa fa-user" style="font-size: 30px;"></i> : <?php echo $_SESSION['name'];?>&nbsp;&nbsp;
     </label>
+    
       <!-- Example row of columns -->
     <div class="row">
         <div class="col-lg-12">
             <h2 class="text-center">Report of Grades</h2>
-            <h4><b><?php echo $stud['semester']; ?></b></h4>
+            <form action="">
+                <label for="cars">Select Year:</label>
+                <select name="year" id="year" class="dropbtn">
+                    <option value="1" <?php echo isset($_GET['year']) && $_GET['year'] === '1' ? 'selected' : ''; ?>>1st Year</option>
+                    <option value="2" <?php echo isset($_GET['year']) &&  $_GET['year'] === '2' ? 'selected' : ''; ?>>2nd Year</option>
+                    <option value="3" <?php echo isset($_GET['year']) && $_GET['year'] === '3' ? 'selected' : ''; ?>>3rd Year</option>
+                    <option value="4" <?php echo isset($_GET['year']) && $_GET['year'] === '4' ? 'selected' : ''; ?>>4th Year</option>
+                </select>
+                <label for="cars"  style="margin-left: 20px;">Select Semester:</label>
+                <select name="semester" id="semester" class="dropbtn">
+                    <option value="First Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'First Semester' ? 'selected' : ''; ?>>First Semester</option>
+                    <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
+                    <option value="Summer" <?php echo isset($_GET['semester']) &&  $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
+                </select>
+                <button type="submit" name="year_semester" class="btn btn-primary"><i class="fa fa-check"></i>
+                    Submit
+                </button>
+            </form>  
             <div class="">
                 <table class="table table-bordered">
                     <thead>
@@ -283,7 +302,10 @@
   
   
 </div>
+<?php 
 
+$stud = $dbService->fetchRow("SELECT* from student");
+?>
 
 
 
