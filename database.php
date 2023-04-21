@@ -4,6 +4,8 @@ $username = "infotechmcc";
 $password = "infotechmcc";
 $dbname = "infotechmcc";
 
+// Git deployment
+
 $connection = null;
 try {
   $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
