@@ -5,6 +5,10 @@
     include('connection.php');
     include('../DatabaseService.php');
 
+    use Database\DatabaseService;
+
+    $dbService = new DatabaseService;
+
     $y = $_GET['y'];
     $s = $_GET['s'];
     $id = $_GET['id'];
@@ -38,9 +42,13 @@ if (isset($_POST['submit'])) {
         $rows = mysql_fetch_assoc($results);
         $subjectcode = $rows['code'];
 
+        $student = $dbService->fetchRow("SELECT* from student where id = {$id}");
+        $section = $student['section'];
 
 //get classid
-        $result = mysql_query("SELECT subject,id FROM class WHERE subject='$subjectcode' LIMIT 1");
+        $result = mysql_query(
+            "SELECT subject,id FROM class WHERE subject='$subjectcode' AND section='$section' LIMIT 1"
+        );
         $row = mysql_fetch_assoc($result);
         $classid = $row['id'];
 
@@ -70,13 +78,7 @@ if ($s == '1') {
      }
     }
 }
-
-
-
-
-?>
-        
-                
+?>        
 
 <div id="page-wrapper">
 
@@ -91,9 +93,6 @@ if ($s == '1') {
                 <ol class="breadcrumb">
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="studentlist.php">Student List</a>
                     </li>
                 
                 </ol>
@@ -197,7 +196,7 @@ if ($s == '1') {
             </div>
         </div>
        
-
+        
 
     </div>
     <!-- /.container-fluid -->
@@ -207,13 +206,13 @@ if ($s == '1') {
 <!-- /#page-wrapper -->    
 <?php include('include/footer.php'); ?>
 
-
 <?php
-  $sqls = "SELECT subjectid FROM studentsubject WHERE studid = '$id' AND (prelim_grade+midterm_grade+final_grade)/3 <= 74";
+
+$sqls = "SELECT subjectid FROM studentsubject WHERE studid = '$id' AND (prelim_grade+midterm_grade+final_grade)/3 <= 74";
   $results = mysqli_query($dbconnection,$sqls);
   while($ss = $results->fetch_assoc()) {
     $subjectid = $ss['subjectid'];
-    $sqlss = "SELECT * FROM subject WHERE id = '$subjectid'";
+$sqlss = "SELECT * FROM subject WHERE id = '$subjectid'";
     $resultss = mysqli_query($dbconnection,$sqlss);
     while($sss = $resultss->fetch_assoc()) {
         $code = $sss['code'];
@@ -223,7 +222,7 @@ $sqlss = "SELECT * FROM subject WHERE pre = '$code'";
         echo "<script>$('.".$sss['id']."').prop('disabled', true);</script>";
         echo "<script type='text/javascript'>";
             echo "Swal.fire({
-               title: 'This Student has a failed Subject!',
+               title: 'This student has a failed subject.',
                icon: 'warning',
              })";
             echo "</script>";
