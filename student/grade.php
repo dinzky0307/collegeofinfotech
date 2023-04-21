@@ -26,9 +26,16 @@
 
         
         function getsubject(){  
+          $id = $this->getid();
+          $q = "select * from studentsubject where studid=$id AND year = '1' AND semester = 'First Semester'";
 
-            $id = $this->getid();
-            $q = "select * from studentsubject where studid=$id";
+          if (isset($_GET['year_semester'])) {
+               $year = $_GET['year'];
+               $sem = $_GET['semester'];
+               $q.= " AND year = '$year' AND semester = '$sem'";
+           }
+          //  var_dump($q);
+          //  die();
             $r = mysql_query($q);
             $data = array();
             while($row = mysql_fetch_array($r)){
@@ -47,6 +54,21 @@
             $data[] = mysql_fetch_array($r);
             return $data;
         }
+
+        function getsemester(){  
+
+          $id = $this->getid();
+          $q = "select * from student where studid=$id";
+          $r = mysql_query($q);
+          $data = array();
+          while($row = mysql_fetch_array($r)){
+              $classid = $row['classid'];
+              $q2 = "select * from class where id=$classid";
+              $r2 = mysql_query($q2);  
+              $data[] = mysql_fetch_array($r2);
+          }
+          return $data;
+      }
         
         function getgrade($classid){
             $studid = $this->getid();
@@ -62,7 +84,7 @@
                $midterm = $midterm_grade;
                $final = $finals_grade; 
                 
-               $total = ($midterm * .30) + ($final * .70);
+               $total = ($prelim * .30) + ($midterm * .30) + ($final * .40);
                 
                 $data = array(
                     'eqprelim' => $this->gradeconversion($prelim),
