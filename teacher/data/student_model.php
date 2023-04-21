@@ -152,13 +152,28 @@
                          break;
                     case 75:
                          $data = 3.0;
-                         break;                
+                         break; 
+                      case 74:
+                         $data = 3.1;
+                         break;
+                    case 73:
+                         $data = 3.2;
+                         break;
+                    case 72:
+                         $data = 3.3;
+                         break;
+                    case 71:
+                         $data = 3.4;
+                         break; 
+                    case 70:
+                         $data = 3.5;
+                         break;      
 
                      default:
                          $data = 5.0;
                 }
             }
-            return $data;
+            return sprintf("%.1f",$data);
         }
     }
 ?>
