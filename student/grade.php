@@ -194,7 +194,7 @@
                          $data = 5.0;
                 }
             }
-            return sprintf("%.1f" $data);
+            return $data;
         }
         function getteacher($teachid){
             $r = mysql_query("select * from teacher where id=$teachid");
