@@ -103,7 +103,7 @@ function gradeconversion($grade){
             return '<font color="red">Failed</font>';
         }
 
-        if ($average === 0) {
+        if ($average ==0) {
             return '<font color="black">NG</font>';
         }
 
