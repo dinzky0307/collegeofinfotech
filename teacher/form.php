@@ -10,26 +10,20 @@
     $consultation = $dbService->fetchRow("SELECT* from consultations WHERE id = {$_GET['id']}");
     $consultation['areas_concern'] = isset($consultation['areas_concern']) ? explode(',', $consultation['areas_concern']) : [];
 
-    // $users = $dbService->fetch("SELECT* from userdata WHERE level = 'admin' OR level = 'teacher'");
+    if (isset($_GET['submit'])) {
+        header('Content-Type: application/json; charset=utf-8');
 
-    // $level = isset($_SESSION['level']) ? $_SESSION['level']: null;
+        $dbService->updateConsultation([
+            'recommendation' => $_POST['recommendation'],
+            'id' => $_GET['id']
+        ]);
 
-    // if($level == null){
-    //     header('location:../index.php');
-    // }else if($level != 'student'){
-    //     header('location:../'.$level.'');
-    // }
-    // if (isset($_GET['submit'])) {
-    //     header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'success' => true
+        ]);
 
-    //     $dbService->inserToConsultation($_POST);
-
-    //     echo json_encode([
-    //         'success' => true
-    //     ]);
-
-    //     return;
-    // }
+        return;
+    }
     
 ?>
 <!DOCTYPE html>
@@ -140,7 +134,7 @@ input[type=radio] {
                 <table class="center" style="width:80%; border: 3px solid;">
         <tr style="line-height: 100px;">
             <th colspan="3" style="text-align: center;">
-                <h1 style="font-size: 40px; padding-top: 15px; padding-bottom: 20px;  font-family: Verdana, Geneva, Tahoma, sans-serif;">BSIT CONSULTATION FORM</h1>
+            <h1 style="font-size: 40px; padding-top: 15px; padding-bottom: 20px;  font-family: Verdana, Geneva, Tahoma, sans-serif;">BSIT CONSULTATION FORM</h1>
             </th>
         </tr>
         <tr style="line-height: 30px;">
@@ -162,7 +156,7 @@ input[type=radio] {
         <tr style="line-height: 30px;">
             <th><input type="radio" id="requested_by" name="requested_by"  x-model="form.requested_by"value="Parents/Guardian">Parents/Guardian</th>
             <th><input type="radio" id="form.type" name="form.type" x-model="form.type" value="Urgent">Urgent</th>
-            <th><input type="radio" id="form.thru" name="form.thru" value="F2F">F2F</th>
+            <th><input type="radio" id="form.thru" x.model="form.thru" name="form.thru" value="F2F">F2F</th>
         </tr>
         <tr style="line-height: 30px;">
             <th><input type="radio" id="requested_by" x-model="form.requested_by" name="requested_by" value="Colleague">Colleague</th>
@@ -243,8 +237,6 @@ input[type=radio] {
     </form>
 </div>
 
-
-
 <div class="AlertModal">
   <div class="AlertModalContent">
     <h1 class="AlertModalTitle"></h1>
@@ -263,6 +255,7 @@ input[type=radio] {
         const consultation = <?php echo json_encode($consultation); ?>
 
         const { 
+            id,
             requested_by,
             type,
             thru,
@@ -276,7 +269,6 @@ input[type=radio] {
             student_id,
         } = consultation
 
-        console.log(areas_concern)
         window.ConsultationForm = () => {
             return {
                 form: {
@@ -310,17 +302,18 @@ input[type=radio] {
                     return response.json()
                 },
                 submit() {
-                    this.form.areas_concern.push(this.form.other)
-                    this.postData(`${window.location}?submit=true`, new URLSearchParams(this.form).toString())
+                    this.postData(`${window.location}&submit=true`, new URLSearchParams({
+                        recommendation: this.form.recommendation
+                    }).toString())
                         .then((data) => {
                             Swal.fire({
                                 title: 'Consultation',
                                 text: 'Submitted successfully!',
                                 position: 'center',
-                            }).then(() =>window.location.href = 'http://localhost/gradingxworking/student/' )
+                            }).then(() =>window.location.href = 'http://localhost/InfoTech/admin/list.php' )
 
                             setTimeout(() => {
-                                window.location.href = 'http://localhost/gradingxworking/student/'
+                                window.location.href = 'http://localhost/InfoTech/admin/list.php'
                             }, 3000)
                         })
                 },
