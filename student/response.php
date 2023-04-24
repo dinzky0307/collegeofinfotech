@@ -131,7 +131,7 @@ input[type=radio] {
                 <br>
                 <br>
                 <br>
-                <table class="center" style="width:95%; border: 3px solid;">
+                <table class="center" style="width:80%; border: 3px solid;">
         <tr style="line-height: 100px;">
             <th colspan="3" style="text-align: center;">
                  <h1 style="font-size: 40px; padding-top: 15px; padding-bottom: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif;">BSIT CONSULTATION FORM </h1>
