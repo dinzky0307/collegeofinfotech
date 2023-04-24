@@ -178,7 +178,7 @@
                     <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
                     <option value="Summer" <?php echo isset($_GET['semester']) &&  $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                 </select>
-                <button type="submit" name="year_semester" class="btn btn-primary"><i class="fa fa-check"></i>
+                <button type="search" name="year_semester" class="btn btn-primary"><i class="fa fa-search"></i>
                     Submit
                 </button>
             </form>  
