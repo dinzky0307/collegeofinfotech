@@ -179,7 +179,7 @@
                     <option value="Summer" <?php echo isset($_GET['semester']) &&  $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                 </select>
                 <button type="search" name="year_semester" class="btn btn-primary"><i class="fa fa-search"></i>
-                    Submit
+                    Search
                 </button>
             </form>  
             <div class="">
