@@ -138,13 +138,13 @@ input[type=radio] {
     
 
   <div x-data="ConsultationForm">
-   <form class="container" method="POST" action="" style="margin-top:30px;">
+   <form class="container" method="POST" action="" style="margin-top:60px;">
         <!-- Example row of columns -->
         <div class="row print-container">
         <table class="center" style="width:80%; border: 3px solid;">
         <tr style="line-height: 100px;">
             <th colspan="3" style="text-align: center;">
-                <h1 style="font-size: 40px; padding-top: 10px; padding-bottom: 20px;">BSIT CONSULTATION FORM</h1>
+                <h1 style="font-size: 40px; padding-top: 15px; padding-bottom: 20px;">BSIT CONSULTATION FORM</h1>
             </th>
         </tr>
         <tr style="line-height: 30px;">
@@ -228,7 +228,7 @@ input[type=radio] {
         <tr style="line-height: 20px;">
             <th colspan="3" style="text-align: center;">
                 <h3>NOTES ON ACTIONS TAKEN/ADVICES/RECOMMENDATIONS</h3>
-                <input type="text" style="line-height: 40px; width: 99%; text-align: center;" class="input long" id="lname" name="lname" x-model="form.recommendation" readonly>
+                <input type="text" style="line-height: 40px; width: 99%; text-align: center;" class="input long" id="lname" name="lname" x-model="form.recommendation">
             </th>
         </tr>
         <tr style="line-height: 30px;">
