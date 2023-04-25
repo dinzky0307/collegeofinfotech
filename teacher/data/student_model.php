@@ -167,7 +167,22 @@
                          break; 
                     case 70:
                          $data = 3.5;
-                         break;      
+                         break;
+                    case 69:
+                         $data = 3.6;
+                         break;
+                    case 68:
+                         $data = 3.7;
+                         break;
+                    case 67:
+                         $data = 3.8;
+                         break;
+                   case 66:
+                         $data = 3.9;
+                         break;
+                   case 65:
+                         $data = 4.0;
+                         break;
 
                      default:
                          $data = 5.0;
