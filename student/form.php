@@ -229,7 +229,7 @@ input[type=radio] {
         <tr style="line-height: 20px;">
             <th colspan="3" style="text-align: center;">
                 <h3>NOTES ON ACTIONS TAKEN/ADVICES/RECOMMENDATIONS</h3>
-                <input type="text" style="line-height: 50px; width: 99%; text-align: center;" class="input long" id="lname" name="lname" x-model="form.recommendation" readonly>
+                <input type="text" style="line-height: 50px; width: 99%; text-align: center;" class="input long" id="lname" name="lname" x-model="form.recommendation">
             </th>
         </tr>
         <tr style="line-height: 30px;">
