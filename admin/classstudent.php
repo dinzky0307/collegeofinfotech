@@ -67,8 +67,8 @@
                                 <?php while($row = mysql_fetch_array($student)): ?>
                                 <tr>
                                     <td><?php echo $row['studid']; ?></td>
-                                    <td><?php echo $row['fname']; ?></td>
                                     <td><?php echo $row['lname']; ?></td>
+                                    <td><?php echo $row['fname']; ?></td>
                                     <td class="text-center"><a href="data/class_model.php?q=addstudent&studid=<?php echo $row['id']; ?>&classid=<?php echo $classid;?>" class="btn btn-warning">Add to class</a></td>     
                                 </tr>
                                 <?php endwhile;?>
@@ -103,8 +103,8 @@
                                 <?php foreach($studentsubject as $row): ?>
                                 <tr>
                                     <td><?php echo $row['studid']; ?></td>
-                                    <td><?php echo $row['fname']; ?></td>
                                     <td><?php echo $row['lname']; ?></td>
+                                    <td><?php echo $row['fname']; ?></td>
                                     <td class="text-center"><a href="data/class_model.php?q=removestudent&studid=<?php echo $row['id']; ?>&classid=<?php echo $classid;?>" class="confirmation"><i class="fa fa-times-circle fa-2x text-danger"></i></a></td>     
                                 </tr>
                                 <?php endforeach;?>
