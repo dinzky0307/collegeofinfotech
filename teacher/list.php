@@ -59,7 +59,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Type</th>
-                                <th class="text-center">Consulting</th>
+                                <th class="text-center">Consultant</th>
                                 <th class="text-center">Concern</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Action</th>
@@ -87,7 +87,6 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h4><b>Consulted</b></h4>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
                         <thead>
