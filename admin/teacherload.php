@@ -54,7 +54,7 @@
     $r1 = mysql_query("select * from class where teacher=$id");
     while($row = mysql_fetch_array($r1)):?>
             <tr>
-                <td class="text-center"><?php echo $row['description']?></td>            
+                <td class="text-center"><?php echo $row['subject']?> - <?php echo $row['description']?></td>            
                 <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id']?>" target="_blank">View</a></td>     
                 <td class="text-center"><?php echo $row['year']?> - <?php echo $row['section']?></td>
                 <td class="text-center"><?php echo $row['sem']?></td>
