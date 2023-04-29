@@ -113,7 +113,7 @@
                          $data = 5.0;
                 }
             }
-            return $data;
+            return sprintf("%.1f",$data);
         }
 
 
