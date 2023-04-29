@@ -188,11 +188,13 @@
                         <tr class="warning warning-info">
                             <th class="text-center">Subject Code</th>
                             <th class="text-center">Subject Description</th>
-                            <th class="text-center">Prelim</th>
+                            <!-- <th class="text-center">Prelim</th> -->
                             <th class="text-center">Midterm</th>
+                            <th class="text-center">Remark</th>
                             <th class="text-center">Final</th>
-                            <th class="text-center">Average</th>
-                            <th class="text-center">Remarks</th>
+                            <th class="text-center">Remark</th>
+                            <th class="text-center">Final Ratings</th>
+                            <th class="text-center">Final Remarks</th>
                            <!-- <th class="text-center">Units</th>-->
                         </tr>
                     </thead>
@@ -204,12 +206,32 @@
                                 <td><?php echo $row['description']; ?></td>
                                 <?php $title = $grade->getsubjectitle($row['subject']);?>
                                 <?php $mygrade = $grade->getgrade($row['id']); ?>
-                                <td class="text-center"><?php echo $grade->gradeconversion($mygrade['prelim']); ?></td>
                                 <td class="text-center"><?php echo $grade->gradeconversion($mygrade['midterm']); ?></td>
+                                <td class="text-center">
+                                <?php
+                                        if ($mygrade['eqmidterm'] >3) {
+                                            echo "<font color='red'>Failed</font>";
+                                        } else if ($mygrade['eqmidterm'] ==0) {
+                                            echo "<font color='black'>NG</font>";
+                                        }  else{
+                                            echo "<font color='green'>Passed</font>";
+                                        }
+                                ?>
+                                </td>
                                 <td class="text-center"><?php echo $grade->gradeconversion($mygrade['final']); ?></td>
+                                <td class="text-center">
+                                <?php
+                                        if ($mygrade['eqfinal'] >3) {
+                                            echo "<font color='red'>Failed</font>";
+                                        } else if ($mygrade['eqfinal'] ==0) {
+                                            echo "<font color='black'>NG</font>";
+                                        }  else{
+                                            echo "<font color='green'>Passed</font>";
+                                        }
+                                ?>
+                            </td>
                                 <td class="text-center"><?php echo $grade->gradeconversion($mygrade['total']); ?></td>
                                 <td class="text-center">
-                                
                                 <?php
                                         if ($mygrade['eqtotal'] >3) {
                                             echo "<font color='red'>Failed</font>";
@@ -220,6 +242,8 @@
                                         }
                                 ?>
                             </td>
+                               <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                            </tr>
                                <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                             </tr>
                         <?php endforeach; ?>
