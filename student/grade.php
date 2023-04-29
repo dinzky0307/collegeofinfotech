@@ -77,26 +77,26 @@
             $r = mysql_query($q);
             if($row = mysql_fetch_array($r)){
 
-               $prelim_grade = ($row['prelim_grade']);
+            //    $prelim_grade = ($row['prelim_grade']);
                $midterm_grade = ($row['midterm_grade']);
                $finals_grade = ($row['final_grade']);
                
-               $prelim = $prelim_grade;
+            //    $prelim = $prelim_grade;
                $midterm = $midterm_grade;
                $final = $finals_grade; 
                 
-               $total = ($prelim * .30) + ($midterm * .30) + ($final * .40);
+               $total = ($midterm * .30) + ($final * .70);
                 
                 $data = array(
-                    'eqprelim' => $this->gradeconversion($prelim),
+                    // 'eqprelim' => $this->gradeconversion($prelim),
                     'eqmidterm' => $this->gradeconversion($midterm),
                     'eqfinal' => $this->gradeconversion($final),
                     'eqtotal' => $this->gradeconversion($total),
-                    'prelim' => round($prelim),
+                    // 'prelim' => round($prelim),
                     'midterm' => round($midterm),
                     'final' => round($final),
                     'total' => round($total),
-                    'prelim_grade' => $row['prelim_grade'],
+                    // 'prelim_grade' => $row['prelim_grade'],
                     'midterm_grade' => $row['midterm_grade'],
                     'finals_grade' => $row['final_grade'],
                 );
