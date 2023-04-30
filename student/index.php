@@ -266,7 +266,7 @@
                     <thead>
                     <tr class="warning warning-info">
                             <th class="text-center">Type</th>
-                            <th class="text-center">Consultant</th>
+                            <th class="text-center">Consulted to:</th>
                             <th class="text-center">Concern</th>
                             <th class="text-center">Date</th>
                             <th class="text-center">View</th>
