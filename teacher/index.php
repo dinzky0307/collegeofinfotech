@@ -41,8 +41,8 @@
         <!-- /.row -->
 
         <div class="row">
-            <div class="col-lg-6 col-md-6">
-                <div class="panel panel-primary">
+            <div class="col-lg-12 col-md-6">
+                 <div class="panel"style= "background-color: #029b02; color: white;">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="subject.php">
+                   <a href="subject.php"style= "text-decoration: none; color: #029b02;">
                         <div class="panel-footer">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
@@ -63,8 +63,8 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-                <div class="panel panel-green">
+            <div class="col-lg-12 col-md-6">
+                <div class="panel "style= "background-color: #ff0800; color: white;">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="student.php">
+                    <a href="student.php"style= "text-decoration: none; color:  #ff0800;">
                         <div class="panel-footer">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
