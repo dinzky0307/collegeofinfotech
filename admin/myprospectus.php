@@ -134,9 +134,6 @@
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
                     </li>
-                    <li>
-                        <a href="report.php">Student list</a>
-                    </li>
                     <li class="active">
                         Generate Reports
                     </li>
@@ -198,8 +195,8 @@
                             <br/>
                         
                             <!-- <h4>ID Number : <b><?php echo $student['studid']; ?></h4> -->
-                            <h4><b>Name:</b> <b> <?php echo $student['fname'].', '.$student['lname'].' '.$student['mname']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Course : <b>BSIT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <h4><b>Name</b> : <b> <?php echo $student['fname'].', '.$student['lname'].' '.$student['mname']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Course : <b>BSIT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Year & Section : <b> <?php echo $student['year'].'-'.$student['section']; ?></h4>
                             <center><h3><b>FIRST YEAR</b></h3></center>
                             <!-- <h4><b> <?php echo $student['semester']; ?></h4> -->
@@ -230,8 +227,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center">
-                                                <?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -278,8 +274,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center">
-                                                <?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/3);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -330,7 +325,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['second_year']['first_semester']) < 1): ?>
@@ -376,7 +372,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['second_year']['second_semester']) < 1): ?>
@@ -426,7 +422,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['third_year']['first_semester']) < 1): ?>
@@ -472,7 +469,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['third_year']['second_semester']) < 1): ?>
@@ -517,7 +515,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['third_year']['summer']) < 1): ?>
@@ -568,7 +567,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['fourth_year']['first_semester']) < 1): ?>
@@ -614,7 +614,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['prelim_grade']+$subject['midterm_grade']+$subject['final_grade'])/3);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['fourth_year']['second_semester']) < 1): ?>
