@@ -289,7 +289,7 @@
                             <th class="text-center">Concern</th>
                             <th class="text-center">Date</th>
                             <th class="text-center">View</th>
-                            <th class="text-center">Delete</th>
+<!--                             <th class="text-center">Delete</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -305,11 +305,11 @@
                                 </td>
                                 <td class="text-center">
                                 <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a></td>
-                                <td class="text-center">
+<!--                                 <td class="text-center">
                                 <form action="" method="POST">
                                 <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
                                 <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
-                                </form></td>
+                                </form></td> -->
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
