@@ -286,7 +286,7 @@
                                 </td>
                                 <td class="text-center">
                                 <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a></td>
-                                <td class="text-center"><a href="delete.php?id=<?php echo $consultation['id']; ?>"><i class="fa fa-trash-o fa-lg text-danger remove"></i></a>
+                                <td class="text-center"><a href="./delete.php?id=<?php echo $consultation['id']; ?>"><i class="fa fa-trash-o fa-lg text-danger remove"></i></a>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
