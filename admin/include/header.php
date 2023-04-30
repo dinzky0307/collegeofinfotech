@@ -241,7 +241,7 @@
 </style>
 <body>
 <div class="dropdown" style="float:right;">
-  <button onclick="myFunction()" class="dropbtn">Menu</button>
+  <button onclick="myFunction()" class="dropbtn"><i class="fa fa-tasks" aria-hidden="true"></i></button>
   <div id="myDropdown" class="dropdown-content">
     <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
     <a href="studentlist.php"><i class="fa fa-fw fa-users"></i> Students</a>
