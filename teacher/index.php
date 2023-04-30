@@ -85,7 +85,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-6">
+<!--             <div class="col-lg-12 col-md-6">
                  <div class="panel"style= "background-color: #Edf52f; color: white;">
                     <div class="panel-heading">
                         <div class="row">
@@ -106,7 +106,7 @@
                         </div>
                     </a>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- /.row -->
         
