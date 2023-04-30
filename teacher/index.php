@@ -84,7 +84,29 @@
                         </div>
                     </a>
                 </div>
-            </div>            
+            </div>
+            <div class="col-lg-12 col-md-6">
+                 <div class="panel"style= "background-color: #Edf52f; color: white;">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-envelope fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><?php echo $consultations;?></div>
+                                <div>Consultations!</div>
+                            </div>
+                        </div>
+                    </div>
+                   <a href="subject.php"style= "text-decoration: none; color: #029b02;">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- /.row -->
         
