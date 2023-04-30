@@ -2,6 +2,8 @@
     include('include/header.php');
     include('include/sidebar.php');
     include('data/student_model.php');
+    include('connection.php');
+
 
     include('../Carbon.php');
     include('../DatabaseService.php');
@@ -21,6 +23,24 @@
     $consultationss = $dbService->fetch(
         "SELECT {$selects} from userdata {$joins} WHERE consultant_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
     );
+?>
+<?php
+
+        if(isset($_POST["delete"])) {
+        $id = $_POST['id'];
+        $sql = "delete from consultations where id = '$id'";
+
+        if ($dbconnection->query($sql) === TRUE) {
+        echo "<script type='text/javascript'>";
+                    echo "Swal.fire({
+                    title: 'Record Successfully Deleted',
+                    icon: 'success',
+                    })";
+                    echo "</script>";
+        } else {
+        echo "Error Deleting record: " . $dbconnection->error;
+        }
+        }
 ?>
 <div id="page-wrapper">
 
@@ -62,7 +82,8 @@
                                 <th class="text-center">Consulting</th>
                                 <th class="text-center">Concern</th>
                                 <th class="text-center">Date</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">View</th>
+                                <th class="text-center">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,6 +99,11 @@
                                     </td>
                                     <td class="text-center">
                                     <a href="form.php?id=<?php echo $consultation['id']; ?>">View</a></td>
+                                    <td class="text-center">
+                                    <form action="" method="POST">
+                                    <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
+                                    <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
+                                    </form></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
