@@ -189,23 +189,19 @@
 
 
 
-</style>
-
-</div>
-</head>
 <style>
 .dropbtn{
   margin-top: 10px;
   margin-right: 10px;
-  background-color: #0000;
+  background-color: #03bafc;
   color: black;
   padding-left: 6px;
   padding-right: 6px;
   padding-top: 3px;
   padding-bottom: 3px;
-  font-size: 15px;
+  font-size: 12px;
   border-style: solid;
-  border-color: black;
+  border-color: none;
   border-radius: 5px;
 }
 
@@ -241,7 +237,7 @@
 </style>
 <body>
 <div class="dropdown" style="float:right;">
-  <button onclick="myFunction()" class="dropbtn"><i class="fa fa-tasks" aria-hidden="true"></i></button>
+  <button onclick="myFunction()" class="dropbtn"><i class="fa fa-list" aria-hidden="true"></i> Dropdown Menu</button>
   <div id="myDropdown" class="dropdown-content">
     <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
     <a href="studentlist.php"><i class="fa fa-fw fa-users"></i> Students</a>
