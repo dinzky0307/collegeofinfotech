@@ -79,7 +79,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Type</th>
-                                <th class="text-center">Consulting</th>
+                                <th class="text-center">Consulted to:</th>
                                 <th class="text-center">Concern</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">View</th>
@@ -118,7 +118,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Type</th>
-                                <th class="text-center">Consultant</th>
+                                <th class="text-center">Consulted by:</th>
                                 <th class="text-center">Concern</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Action</th>
