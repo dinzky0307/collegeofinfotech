@@ -193,8 +193,86 @@
 
 </div>
 </head>
+<style>
+.dropbtn{
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: #0000;
+  color: black;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 15px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+}
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  margin-right: 10px;
+  border-style: solid 1px;
+  border-color: black;
+  border-radius: 5px;
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 12px;
+}
+
+.dropdown-content a:hover {background-color: black; color: white; border-radius: 5px;}
+.dropdown:hover .dropbtn {background-color: black; color: white;}
+</style>
 <body>
+<div class="dropdown" style="float:right;">
+  <button onclick="myFunction()" class="dropbtn">Menu</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+    <a href="studentlist.php"><i class="fa fa-fw fa-users"></i> Students</a>
+    <a href="subject.php"><i class="fa fa-fw fa-bar-chart-o"></i> Subjects</a>
+    <a href="teacherlist.php"><i class="fa fa-fw fa-user"></i> Instructors</a>
+    <a href="class.php"><i class="fa fa-fw fa-table"></i> Class Info</a>
+    <a href="list.php"><i class="fa fa-envelope"></i> Consultation</a>
+    <a href="report.php"><i class="fa fa-fw fa-folder"></i> Generate Reports</a>
+    <a href="users.php"><i class="fa fa-fw fa-users"></i> Users</a>
+    <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
+    <a href="../logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+  </div>
+</div>
+<script>
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
 
     <div id="wrapper">
 
