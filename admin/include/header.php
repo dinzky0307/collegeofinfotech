@@ -193,7 +193,7 @@
 .dropbtn{
   margin-top: 10px;
   margin-right: 10px;
-  background-color: #03bafc;
+  background-color: #0000;
   color: black;
   padding-left: 6px;
   padding-right: 6px;
@@ -237,7 +237,7 @@
 </style>
 <body>
 <div class="dropdown" style="float:right;">
-  <button onclick="myFunction()" class="dropbtn"><i class="fa fa-list" aria-hidden="true"></i> Dropdown Menu</button>
+  <button onclick="myFunction()" class="dropbtn">Dropdown Menu</button>
   <div id="myDropdown" class="dropdown-content">
     <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
     <a href="studentlist.php"><i class="fa fa-fw fa-users"></i> Students</a>
