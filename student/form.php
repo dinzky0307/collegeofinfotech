@@ -321,15 +321,8 @@ input[type=radio] {
                     this.form.areas_concern.push(this.form.other)
                     this.postData(`${window.location}?submit=true`, new URLSearchParams(this.form).toString())
                         .then((data) => {
-                            Swal.fire({
-                                title: 'Consultation',
-                                text: 'Submitted successfully!',
-                                position: 'center',
-                            }).then(() =>window.location.href = 'http://localhost/InfoTech/student/' )
-
-                            setTimeout(() => {
-                                window.location.href = 'http://localhost/InfoTech/student/'
-                            }, 3000)
+                            alert('Submitted successfully!');
+                            window.location.replace('./index.php');
                         })
                 },
             }
