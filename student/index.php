@@ -70,6 +70,9 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
   </head>
@@ -266,7 +269,8 @@
                             <th class="text-center">Consultant</th>
                             <th class="text-center">Concern</th>
                             <th class="text-center">Date</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">View</th>
+                            <th class="text-center">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -281,7 +285,8 @@
                                     ?>
                                 </td>
                                 <td class="text-center">
-                                <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
+                                <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a></td>
+                                <td class="text-center"><a href="delete.php?id=<?php echo $consultation['id']; ?>"><i class="fa fa-trash-o fa-lg text-danger remove"></i></a>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -336,6 +341,7 @@ $stud = $dbService->fetchRow("SELECT* from student");
 
 </form>
 
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -383,4 +389,14 @@ $stud = $dbService->fetchRow("SELECT* from student");
     }
 </script>
   </body>
+</script>
+  </body>
+  <script type="text/javascript">
+    $(".remove").click(function(){
+        var id = $(this).parents("tr").attr("id");
+                alert("Record deleted successfully"); 
+            });
+
+
+</script>
 </html>
