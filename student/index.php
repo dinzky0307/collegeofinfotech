@@ -148,6 +148,7 @@
     </nav>
     
 <?php
+    include('connection.php');
     include('grade.php');
     $mysubject = $grade->getsubject();
 
@@ -257,6 +258,24 @@
     </div> 
     <div class="container" style="margin-top:60px;">
       <!-- Example row of columns -->
+     <?php
+
+        if(isset($_POST["delete"])) {
+        $id = $_POST['id'];
+        $sql = "delete from consultations where id = '$id'";
+
+        if ($dbconnection->query($sql) === TRUE) {
+        echo "<script type='text/javascript'>";
+                    echo "Swal.fire({
+                    title: 'Record Successfully Deleted',
+                    icon: 'success',
+                    })";
+                    echo "</script>";
+        } else {
+        echo "Error Deleting record: " . $dbconnection->error;
+        }
+    }
+?>
     <div class="row">
         <div class="col-lg-12">
             <h2 class="text-center">Consultation</h2>
@@ -286,7 +305,11 @@
                                 </td>
                                 <td class="text-center">
                                 <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a></td>
-                                <td class="text-center"><a href="./delete.php?id=<?php echo $consultation['id']; ?>"><i class="fa fa-trash-o fa-lg text-danger remove"></i></a>
+                                <td class="text-center">
+                                <form action="" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
+                                <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
+                                </form></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
