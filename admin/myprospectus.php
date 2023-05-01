@@ -274,7 +274,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -325,7 +325,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -372,7 +372,8 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?></td>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(count($subjects['second_year']['second_semester']) < 1): ?>
@@ -422,7 +423,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -469,7 +470,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -515,7 +516,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -567,7 +568,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -614,7 +615,7 @@
                                             <td class="text-center"><?php echo $subject['labunit'];?></td>
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
-                                            <td class="text-center"><?php echo gradeconversion(($subject['midterm_grade']+$subject['final_grade'])/2);?>
+                                            <td class="text-center"><?php echo gradeconversion(($subject['total']));?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
