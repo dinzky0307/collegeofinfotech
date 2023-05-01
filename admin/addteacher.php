@@ -27,11 +27,11 @@
         mysql_query($q_create_user_teacher);
     
         echo "<script type='text/javascript'>";
-        echo "Swal.fire({
-            title: 'add new teacher $name',
-            icon: 'success',
-            })";
-        echo "</script>";
+            echo "Swal.fire({
+               title: 'Instructor successfully added!',
+               icon: 'success',
+             })";
+            echo "</script>";
     }    
 ?>
 <style>
