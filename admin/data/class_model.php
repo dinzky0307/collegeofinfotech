@@ -182,6 +182,7 @@
             $this->logs($act);
             
             header('location:../classteacher.php?classid='.$classid.'&teacherid='.$teachid.'');
+            
         }
         
     }
@@ -202,11 +203,11 @@ if (isset($_POST['addClass'])) {
     ]);
 
     echo "<script type='text/javascript'>";
-    echo "Swal.fire({
-       title: 'create new class $course $year - $section with the subject of $subject';,
-       icon: 'success',
-     })";
-    echo "</script>";
+            echo "Swal.fire({
+               title: 'Class successfully added!',
+               icon: 'success',
+             })";
+            echo "</script>";
 }
 
 // if (isset($_POST['addstudent'])) {
