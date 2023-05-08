@@ -89,9 +89,14 @@
                         <i class="fa fa-dashboard"></i> Dashboard
                     </li>
                 </ol>
+                <ol class="breadcrumb">
+                    <li class="active">
                         <h1>
                         <center>Current Academic Year and Semester:<b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></b></center>
                         </h1>
+                    </li>
+                </ol>
+                        
             </div>
             
         </div>
