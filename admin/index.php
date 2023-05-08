@@ -90,7 +90,7 @@
                     </li>
                 </ol>
                         <h1>
-                        <center><b>Current Academic Year and Semester:</b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></center>
+                        <center>Current Academic Year and Semester:<b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></b></center>
                         </h1>
             </div>
             
