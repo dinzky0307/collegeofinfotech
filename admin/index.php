@@ -90,7 +90,7 @@
                     </li>
                 </ol>
                         <h1>
-                        <marquee behavior="scroll" direction="left" style="" scrollamount="10"><b>Current Academic Year and Semester:</b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></marquee>
+                        <center><b>Current Academic Year and Semester:</b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></center>
                         </h1>
             </div>
             
