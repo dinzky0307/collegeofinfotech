@@ -90,10 +90,10 @@
                     </li>
                 </ol>
                 <ol class="breadcrumb">
-                    <li class="active" align="center">
-                        <h1>
+                    <li class="">
+                        <center><h1>
                         Current Academic Year and Semester:<b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></b>
-                        </h1>
+                        </h1></center>
                     </li>
                 </ol>
                         
