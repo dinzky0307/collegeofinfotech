@@ -236,7 +236,7 @@
 .dropdown:hover .dropbtn {background-color: black; color: white;}
 </style>
 <body>
-<!-- <div class="dropdown" style="float:right;">
+<div class="dropdown" style="float:right;">
   <button onclick="myFunction()" class="dropbtn">Dropdown Menu</button>
   <div id="myDropdown" class="dropdown-content">
     <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
@@ -250,7 +250,7 @@
     <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
     <a href="../logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
   </div>
-</div> -->
+</div>
 <script>
 function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
