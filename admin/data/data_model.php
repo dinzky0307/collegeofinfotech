@@ -129,7 +129,7 @@ if (isset($_POST['addSubject'])) {
     
     echo "<script type='text/javascript'>";
     echo "Swal.fire({
-       title: 'add new subject $code - {$title}',
+       title: 'Subject successfully added',
        icon: 'success',
      })";
     echo "</script>";
