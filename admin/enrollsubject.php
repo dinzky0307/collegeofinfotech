@@ -80,8 +80,8 @@ if ($s == '1') {
            
            echo "<script type='text/javascript'>";
             echo "Swal.fire({
-               title: 'Enrolling subject failed $code - $title!',
-               text: '',
+               title: 'Something went wrong!',
+               text: 'Please check Class maybe theres no following subject/s for this section',
                icon: 'error',
              })";
             echo "</script>";
