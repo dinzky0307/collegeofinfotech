@@ -65,7 +65,7 @@ if ($s == '1') {
         
             echo "<script type='text/javascript'>";
             echo "Swal.fire({
-               title: 'Subject Successfully Added!',
+               title: 'Subject Successfully Enrolled!',
                text: '',
                icon: 'success',
              })";
@@ -73,7 +73,13 @@ if ($s == '1') {
 
         //   echo "<script>window.location.href = 'viewsubjects.php?type=student&id=".$id."';</script>";
         } else {
-          echo "Error: " . $sql . "<br>" . $dbconnection->error;
+           echo "<script type='text/javascript'>";
+            echo "Swal.fire({
+               title: 'Enrolling subject failed!',
+               text: '',
+               icon: 'error',
+             })";
+            echo "</script>";
         }
      }
     }
