@@ -4,6 +4,7 @@
         transform: translateY(-17%) !important;
     }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- add modal for subject -->
 <div class="modal fade" id="addsubject" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modalCenter">
@@ -60,153 +61,48 @@
   </div>
 </div>
 
-<!-- add modal for class info -->
-<div class="modal fade" id="addclass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modalCenter">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Add Class Info</h3>
-        </div>
-        <div class="modal-body">
-            <form action="" method="post">
-                <div class="form-group">  
-                    <select name="subject" class="form-control" required>
-                        <option value="">Select Subject Code...</option>
-                    <?php 
-                        $r = mysql_query("select * from subject");
-                        while($row = mysql_fetch_array($r)):
-                    ?>
-                        <option value="<?php echo $row['code']; ?>"><?php echo $row['code']; ?></option>
-                    <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="form-group">  
-                    <select name="description" class="form-control" required>
-                        <option value="">Select Subject Title...</option>
-                    <?php 
-                        $r = mysql_query("select * from subject");
-                        while($row = mysql_fetch_array($r)):
-                    ?>
-                        <option value="<?php echo $row['title']; ?>"><?php echo $row['title']; ?></option>
-                    <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="teacher" class="form-control" required>
-                        <option value="">Select Teacher...</option>
-                        <?php foreach ($teachers as $teacher): ?>
-                            <option value="<?php echo $teacher['id']; ?>">
-                                <?php echo "{$teacher['fname']} {$teacher['lname']}"; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="year" class="form-control" required>
-                        <option value="">Select Year level...</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="section" class="form-control" required>
-                        <option value="">Select Section...</option>
-                        <option>North</option>
-                        <option>South</option>
-                        <option>East</option>
-                        <option>West</option>
-                        <option>North East</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="sem" class="form-control" required>
-                        <option value="">Select Semester...</option>
-                        <option value="First Semester">First Semester</option>
-                        <option value="Second Semester">Second Semester</option>
-                        <option value="Summer">Summer</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <select name="sy" class="form-control" required>
-                        <?php 
-                            $r = mysql_query("select * from ay");
-                            while($row = mysql_fetch_array($r)):
-                        ?>
-                            <option value="<?php echo $row['academic_year']; ?>">Academic Year : <?php echo $row['academic_year']; ?></option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" name="addClass" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
-            </form>
-        </div>
-    </div>
-  </div>
-</div>
+<script>
+    // Add event listener to the subject select element
+    $(document).ready(function() {
+        $('select[name="subject"]').change(function() {
+            // Get the selected subject's title
+            var subjectTitle = $(this).find('option:selected').data('title');
+            // Update the description input with the subject title
+            $('input[name="description"]').val(subjectTitle);
 
-<!-- add modal for student -->
-<div class="modal fade" id="addstudent" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modalCenter">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3><i class="fa fa-user"></i> Add Student</h3>
-        </div>
-        <div class="modal-body">
-            <form action="" method="post">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="studid" placeholder="student ID" required/>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="lname" placeholder="Lastname" required/>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="fname" placeholder="Firstname" required/>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="mname" placeholder="Middlename" required/>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="year" placeholder="Year level" required>
-                    <option value="">Select Year level...</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="section" placeholder="Section" required>
-                    <option value="">Select Section...</option>
-                        <option>North</option>
-                        <option>South</option>
-                        <option>East</option>
-                        <option>West</option>
-                        <option>North East</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="semester" placeholder="Semester" required>
-                        <option value="">Select Semester...</option>
-                        <option>First Semester</option>
-                        <option>Second Semester</option>
-                        <option>Summer</option>
-                    </select>
-                </div>
-                <input type="hidden" class="form-control" name="addStudent" value="addStudent" />
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
-            </form>
-        </div>
-    </div>
-  </div>
-</div>
+            // Get the selected subject's year level
+            var yearLevel = $(this).find('option:selected').data('year');
+            // If year level is available, update the year select element
+            if (yearLevel) {
+                $('select[name="year"]').val(yearLevel);
+            }
+        });
+    });
+</script>
+<script>
+    // Add event listener to the subject select element
+    $(document).ready(function() {
+        $('select[name="subject"]').change(function() {
+            // Get the selected subject's title
+            var subjectTitle = $(this).find('option:selected').data('title');
+            // Update the description input with the subject title
+            $('input[name="description"]').val(subjectTitle);
+
+            // Get the selected subject's year level
+            var yearLevel = $(this).find('option:selected').data('year');
+            // If year level is available, update the year select element
+            if (yearLevel) {
+                $('select[name="year"]').val(yearLevel);
+                // Disable the year select element
+                $('select[name="year"]').prop('disabled', true);
+            } else {
+                // If year level is not available, enable the year select element
+                $('select[name="year"]').prop('disabled', false);
+            }
+        });
+    });
+</script>
+
 
 <!-- add modal for instructor -->
 <div class="modal fade" id="addteacher" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
