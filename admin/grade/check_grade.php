@@ -13,7 +13,7 @@
     $grades = $dbService->fetch(
         "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id'"
     );
-
+    
 
 function gradeconversion($grade){
             $grade = round($grade);
