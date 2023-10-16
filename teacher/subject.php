@@ -3,9 +3,13 @@
     include('include/sidebar.php');
     include('data/subject_model.php');
     
+    
     $firstsem = $subject->getsubject('First Semester',$id);    
     $secondsem = $subject->getsubject('Second Semester',$id);
-    $summer = $subject->getsubject('Summer',$id);    
+    $summer = $subject->getsubject('Summer',$id);   
+    
+    
+    echo $id;
 ?>
 <?php
     // include '../DatabaseService.php';
@@ -84,7 +88,7 @@
                                             <td class="text-center"><?php echo $row['course']; ?></td>
                                             <td class="text-center"><?php echo $row['year']; ?></td>
                                             <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>">View Students</a></td>
+                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                         </tr>
                                     <?php $c++; ?>
                                     <?php endwhile; ?>
@@ -154,7 +158,8 @@
                                             <td class="text-center"><?php echo $row['course']; ?></td>
                                             <td class="text-center"><?php echo $row['year']; ?></td>
                                             <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>">View Students</a></td>
+                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];  ?>">View Students</a></td>
+                                            
                                         </tr>
                                     <?php $c++; ?>
                                     <?php endwhile; ?>
