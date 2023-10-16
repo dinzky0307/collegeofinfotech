@@ -288,10 +288,10 @@ if (isset($_POST['addClass'])) {
 
 
 // }
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "infotech";
+$servername = '127.0.0.1';
+$username = 'infotechmcc';
+$password = 'infotechmcc';
+$dbname = 'infotechmcc';
 $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 // set the PDO error mode to exception
 $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
