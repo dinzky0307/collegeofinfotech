@@ -1,10 +1,27 @@
 <?php
     include('include/header.php');
     include('include/sidebar.php');
+    include('../database.php');
     include('data/data_model.php');
     include('data/class_model.php');
     include('data/student_model.php');
     include('data/teacher_model.php');
+    $student = new Datastudent($connection); // Create an instance of the Datastudent class and pass the connection as a parameter
+    $data = new Data($connection);
+    $teacher = new Datateacher($connection);
+    $class = new Dataclass($connection);
+    if (isset($_GET['q'])) {
+        $classData = $class->$_GET['q']();
+    }
+    if (isset($_GET['q'])) {
+        $teacherData = $teacher->$_GET['q']();
+    }
+    if (isset($_GET['q'])) {
+        $data->$_GET['q']();
+    }
+    if (isset($_GET['q'])) {
+        $studentData = $student->$_GET['q']();
+    }
     $id = $_GET['id'];
     $subject = $data->getsubjectbyid($id);
     $class = $class->getclassbyid($id);
@@ -65,57 +82,55 @@ class Edit {
         </ol>
         <hr />
         <div class="modal-body">
-            <?php while($row = mysql_fetch_array($subject)): ?>
-            <form action="data/data_model.php?q=updatesubject&id=<?php echo $row['id'];?>" method="post">
+            <form action="ajax.php?action=updatesubject&id=<?php echo $subject['id'];?>" method="post">
             
                 <div class="form-group">
                     <label>Code</label>
-                    <input type="text" class="form-control" value="<?php echo $row['code']; ?>" name="code" placeholder="Subject Code" />
+                    <input type="text" class="form-control" value="<?php echo $subject['code']; ?>" name="code" placeholder="Subject Code" />
                 </div>
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" value="<?php echo $row['title']; ?>" name="title" placeholder="Subject Description" />
+                    <input type="text" class="form-control" value="<?php echo $subject['title']; ?>" name="title" placeholder="Subject Description" />
                 </div>
                 <div class="form-group">
                     <label>No. Of Lec Units</label>
-                    <input type="number" min="1" max="5" class="form-control" value="<?php echo $row['lecunit']; ?>" name="lecunit" placeholder="Lec Unit" />
+                    <input type="number" min="1" max="5" class="form-control" value="<?php echo $subject['lecunit']; ?>" name="lecunit" placeholder="Lec Unit" />
                 </div>
                 <div class="form-group">
                     <label>No. Of Lab Units</label>
-                    <input type="number" min="1" max="5" class="form-control" value="<?php echo $row['labunit']; ?>" name="labunit" placeholder="Lab Unit" />
+                    <input type="number" min="1" max="5" class="form-control" value="<?php echo $subject['labunit']; ?>" name="labunit" placeholder="Lab Unit" />
                 </div>
                 <div class="form-group">
                     <label>No. Of Total Units</label>
-                    <input type="number" min="1" max="10" class="form-control" value="<?php echo $row['totalunit']; ?>" name="totalunit" placeholder="Total Units" />
+                    <input type="number" min="1" max="10" class="form-control" value="<?php echo $subject['totalunit']; ?>" name="totalunit" placeholder="Total Units" />
                 </div>
                 <div class="form-group">
                     <label>Pre-requisites/s</label>
-                    <input type="text" class="form-control" value="<?php echo $row['pre']; ?>" name="pre" placeholder="Pre-requisites/s" />
+                    <input type="text" class="form-control" value="<?php echo $subject['pre']; ?>" name="pre" placeholder="Pre-requisites/s" />
                 </div>
                 <div class="form-group">
                 <label>Year level</label>
                     <select name="year" class="form-control" required>
                         <option value="">Select Year...</option>
-                        <option <?php  if($row['year'] == '1') echo "selected"?>>1</option>
-                        <option <?php  if($row['year'] == '2') echo "selected"?>>2</option>
-                        <option <?php  if($row['year'] == '3') echo "selected"?>>3</option>
-                        <option <?php  if($row['year'] == '4') echo "selected"?>>4</option>
+                        <option <?php  if($subject['year'] == '1') echo "selected"?>>1</option>
+                        <option <?php  if($subject['year'] == '2') echo "selected"?>>2</option>
+                        <option <?php  if($subject['year'] == '3') echo "selected"?>>3</option>
+                        <option <?php  if($subject['year'] == '4') echo "selected"?>>4</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Semester</label>
                     <select name="semester" class="form-control" required>
                         <option value="">Select Semester...</option>
-                        <option <?php  if($row['semester'] == '1') echo "selected" ?> value="1">First Semester</option>
-                        <option <?php  if($row['semester'] == '2') echo "selected" ?> value="2">Second Semester</option>
-                        <option <?php  if($row['semester'] == '3') echo "selected" ?> value="3">Summer</option>
+                        <option <?php  if($subject['semester'] == '1') echo "selected" ?> value="1">First Semester</option>
+                        <option <?php  if($subject['semester'] == '2') echo "selected" ?> value="2">Second Semester</option>
+                        <option <?php  if($subject['semester'] == '3') echo "selected" ?> value="3">Summer</option>
                     </select>
                 </div>
         </div>
         <div class="modal-footer">
             <a href="subject.php"><button type="button" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back</button></a>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
-            <?php endwhile; ?>
+            <button type="submit" class="btn btn-primary" name="updateSubject"><i class="fa fa-check"></i> Update</button>
             </form>
         </div>
         
@@ -136,7 +151,7 @@ class Edit {
         <hr />
         <div class="modal-body">
             <?php while($row = mysql_fetch_array($class)): ?>
-            <form action="data/class_model.php?q=updateclass&id=<?php echo $row['id']?>" method="post">
+            <form action="ajax.php?action=updateclass&id=<?php echo $row['id']?>" method="post">
                 <div class="form-group">  
                     <select name="subject" class="form-control" required>
                         <option value="">Select Subject...</option>
@@ -237,7 +252,7 @@ class Edit {
         <hr />
         <div class="modal-body">
             <?php while($row = mysql_fetch_array($student)): ?>
-            <form action="data/student_model.php?q=updatestudent&id=<?php echo $row['id'];?>" method="post">
+            <form action="ajax.php?action=updatestudent&id=<?php echo $row['id'];?>" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="studid" value="<?php echo $row['studid']; ?>" />
                 </div>
@@ -297,7 +312,7 @@ class Edit {
                 <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
             </li>
             <li>
-                <a href="studentlist.php">Instructor's List</a>
+                <a href="teacherlist.php">Instructor's List</a>
             </li>
             <li class="active">
                 Edit Info
@@ -306,7 +321,7 @@ class Edit {
         <hr />
         <div class="modal-body">
             <?php while($row = mysql_fetch_array($teacher)): ?>
-            <form action="data/teacher_model.php?q=updateteacher&id=<?php echo $row['id'];?>" method="post">
+            <form action="ajax.php?action=updateteacher&id=<?php echo $row['id'];?>" method="post">
                 <div class="form-group">
                 <p>Instructor ID:</p>
                     <input type="text" class="form-control" name="teachid" value="<?php echo $row['teachid']; ?>" />
