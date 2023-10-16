@@ -1,14 +1,14 @@
 <?php
-include('../database.php');
 
-    $teacher = new Datateacher();
-    if(isset($_GET['q'])){
-        $teacher->$_GET['q']();
-    }
     class Datateacher {
+
         
-        function __construct(){
-            if(!isset($_SESSION['id'])){
+    private $connection; // Add a private property to store the connection
+        
+        function __construct($connection){
+            $this->connection = $connection;
+            
+            if (!isset($_SESSION['id'])) {
                 header('location:../../');   
             }
         }
@@ -22,11 +22,39 @@ include('../database.php');
         }
         
         //get all teacher info
-        function getteacher($search){
-            $q = "select * from teacher where teachid like '%$search%' or fname like '%$search%' or lname like '%$search%' order by lname,fname,teachid";
-            $r = mysql_query($q);
+        // function getteacher($search){
+        //     $q = "select * from teacher where teachid like '%$search%' or fname like '%$search%' or lname like '%$search%' order by lname,fname,teachid";
+        //     $r = mysql_query($q);
             
-            return $r;
+        //     return $r;
+        // }
+
+        function getteacher($search)
+        {
+            $query = "SELECT * FROM teacher";
+            $queryParams = array();
+            $hasConditions = false; // Keep track of whether any conditions have been added
+
+            // Add the WHERE clause only when searching or when academic year is specified
+            if (!empty($search)) {
+                $query .= " WHERE (teachid LIKE :search OR fname LIKE :search OR lname LIKE :search)";
+                $queryParams[':search'] = '%' . $search . '%';
+                $hasConditions = true;
+            }
+
+            $query .= " ORDER BY lname, fname, teachid ASC";
+
+            $pdo_statement = $this->connection->prepare($query);
+
+            // Bind parameters only when they are present in the $queryParams array
+            foreach ($queryParams as $param => $value) {
+                $pdo_statement->bindValue($param, $value);
+            }
+
+            $pdo_statement->execute();
+            $students = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
+
+            return $students;
         }
         
         //get teacher by ID
@@ -98,6 +126,7 @@ include('../database.php');
     }
 
 
+    include('../database.php');
 
     $sql = 'SELECT * FROM teacher WHERE teachid LIKE :keyword OR fname LIKE :keyword OR lname LIKE :keyword ORDER BY lname,fname,teachid ASC ';
 
@@ -106,5 +135,6 @@ include('../database.php');
     $pdo_statement->bindValue(':keyword', '%' . '%', PDO::PARAM_STR);
     $pdo_statement->execute();
     $teachers = $pdo_statement->fetchAll();
+
 
 ?>
