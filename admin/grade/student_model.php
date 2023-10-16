@@ -12,7 +12,7 @@
                 header('location:../../');   
             }
         }
-        
+          
         function getstudentbyclass($classid){
             $q = "select * from studentsubject where classid=$classid";
             $r = mysql_query($q);
@@ -47,14 +47,17 @@
             $r = mysql_query($q);
             if($row = mysql_fetch_array($r)){
                 
+                $prelim = ($row['prelim']) * .30;   
+               
                 $midterm = ($row['midterm']) * .30;   
                 
-                $final = ($row['final']) * .70;   
+                $final = ($row['final']) * .40;   
                 
+                $prelim = $prelim;
                 $midterm = $midterm;
                 $final = $final;
                 
-                $total = ($midterm * .30) + ($final * .40);
+                $total = ($prelim * .30) + ($midterm * .30) + ($final * .40);
                 
                 $data = array(
                     'eqprelim' => $this->gradeconversion($prelim),
