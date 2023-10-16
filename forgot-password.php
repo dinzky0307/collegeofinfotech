@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Reset Password';
-        $mail->Body    = "Click the link to reset password : <a href='http://localhost/infotech/reset-pass.php?reset=$teach_id&id=$session'>Click here</a>";
+        $mail->Body    = "Click the link to reset password : <a href='https://localhost/infotech/reset-pass.php?reset=$teach_id&id=$session'>Click here</a>";
     
 
         $mail->send();
