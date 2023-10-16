@@ -187,7 +187,7 @@ if (isset($_POST['addTeacher'])) {
 <!-- /.container-fluid -->
 
 </div>
-<script>
+<!-- <script>
 document.addEventListener("DOMContentLoaded", function () {
     // Get the input element
     var studidInput = document.getElementById("teachid");
@@ -208,8 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-</script>
+</script> -->
 
 <script>
     // Function to capitalize the first letter of a string
