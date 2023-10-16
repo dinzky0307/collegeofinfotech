@@ -14,7 +14,7 @@
 
     $id = $_GET['id'];
     $stud = $dbService->fetchRow("SELECT * from student where id = {$id}");
-$studsem = $stud['semester'];
+    $studsem = $stud['semester'];
     $grades = $dbService->fetch(
         "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id' AND studentsubject.semester = '$studsem'"
     );
@@ -184,7 +184,7 @@ function gradeconversion($grade){
                         <tr>   
                             <th class="text-center">Subject Code</th>
                             <th class="text-center">Description</th>
-                            <!-- <th class="text-center">Prelim</th> -->
+                            <th class="text-center">Prelim</th>
                             <th class="text-center">Midterm</th>
                             <th class="text-center">Final</th>
                             <th class="text-center">Final Ratings</th>
@@ -192,25 +192,49 @@ function gradeconversion($grade){
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($grades as $grade): ?>
-                        <tr>
-                            <td class="text-center"><?php echo $grade['code']; ?></td>
-                            <td class="text-center"><?php echo $grade['title']; ?></td>
-                            <!-- <td class="text-center"><?php echo $student->gradeconversion($grade['prelim_grade']); ?></td> -->
-                            <td class="text-center"><?php echo $student->gradeconversion($grade['midterm_grade']); ?></td>
-                            <td class="text-center"><?php echo $student->gradeconversion($grade['final_grade']); ?></td>
-                            <td class="text-center"><?php echo $student->gradeconversion(array_sum([
-                                $grade['midterm_grade'] * 0.3,
-                                $grade['final_grade'] * 0.7
-                            ])); ?></td>
-                            <td class="text-center">
-                                <?php echo getRemarks($student->gradeconversion(array_sum([
-                                    $grade['midterm_grade'] * 0.3,
-                                    $grade['final_grade'] * 0.7
-                                ]))); ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
+                    <?php foreach ($grades as $grade): ?>
+        <tr>
+            <td class="text-center"><?php echo $grade['code']; ?></td>
+            <td class="text-center"><?php echo $grade['title']; ?></td>
+            <td class="text-center">
+                <?php echo isset($grade['prelim_grade']) ? $student->gradeconversion($grade['prelim_grade']) : ''; ?>
+            </td>
+            <td class="text-center">
+                <?php echo isset($grade['midterm_grade']) ? $student->gradeconversion($grade['midterm_grade']) : ''; ?>
+            </td>
+            <td class="text-center">
+                <?php echo isset($grade['final_grade']) ? $student->gradeconversion($grade['final_grade']) : ''; ?>
+            </td>
+            <td class="text-center">
+                <?php
+                if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
+                    $finalRatings = $student->gradeconversion(array_sum([
+                        $grade['prelim_grade'] * 0.3,
+                        $grade['midterm_grade'] * 0.3,
+                        $grade['final_grade'] * 0.4
+                    ]));
+                    echo $finalRatings;
+                } else {
+                    echo '';
+                }
+                ?>
+            </td>
+            <td class="text-center">
+                <?php
+                if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
+                    $average = $student->gradeconversion(array_sum([
+                        $grade['prelim_grade'] * 0.3,
+                        $grade['midterm_grade'] * 0.3,
+                        $grade['final_grade'] * 0.4
+                    ]));
+                    echo getRemarks($average);
+                } else {
+                    echo '';
+                }
+                ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
                     </tbody>
                 </table>
                 <div style="float: right; margin-right: 30px;">
