@@ -1,7 +1,16 @@
 <?php
     include('include/header.php');
     include('include/sidebar.php');
+
+    include('../database.php'); // Include the database connection code
+
     include('data/student_model.php');
+
+    $studentModel = new Datastudent($connection); // Create an instance of the Datastudent class and pass the connection as a parameter
+
+    if (isset($_GET['q'])) {
+        $studentModel->$_GET['q']();
+    }
 
     include('../Carbon.php');
     include('../DatabaseService.php');
@@ -15,10 +24,43 @@
     $consultations = $dbService->fetch(
         "SELECT {$selects} from userdata {$joins} WHERE consultant_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
     );
+
+    $search = isset($_POST['search']) ? $_POST['search'] : null;
+    $students = $studentModel->getstudent($search, null, null, null, null,$connection);
+
+    function deleteConsult($consultId, $connection) {
+        // Write your code to delete the subject with the given subject ID
+        $sql = "DELETE FROM consultations WHERE id = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute([$consultId]);
+    }
     
-    $search = isset($_POST['search']) ? $_POST['search']: null;
-    $student = $student->getstudent($search);
+        // Check if the delete button is clicked
+    if (isset($_POST['deleteConsult']) && isset($_POST['consultId'])) {
+        $consultId = $_POST['consultId'];
+        $delete = deleteConsult($consultId, $connection);
+    
+        if($delete){
+            // Redirect to the same page after the deletion
+            echo "<script type='text/javascript'>window.location.href = 'list.php?r=deleted';</script>";
+            exit(); // Make sure to exit after redirecting to prevent further code execution
+        }else{
+    
+        }
+    
+    }
 ?>
+<style>
+    /* Custom styling for the delete button */
+    .delete-button {
+    border: none;
+    background: none;
+    padding: 0;
+    color: #f00; /* Change the color as per your preference */
+    cursor: pointer;
+    outline: none; /* Remove outline on focus */
+    }
+</style>
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -87,7 +129,15 @@
                                         ?>
                                     </td>
                                     <td class="text-center"><a href="form.php?id=<?php echo $consultation['id']; ?>">View</a></td>
-                                    <td class="text-center"><a href="data/data_model.php?q=delete&table=consultations&id=<?php echo $consultation['id']?>"title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a></td>
+                                    <td class="text-center">
+                                    <form class="delete-form" method="post">
+                                            <input type="hidden" name="consultId" value="<?php echo $consultation['id']; ?>">
+                                            <button type="submit" name="deleteConsult" class="delete-button" title="Remove" onclick="return confirm('Are you sure you want to delete this consult?');">
+                                                <i class="fa fa-trash-o fa-lg text-danger"></i>
+                                            </button>
+                                        </form>
+                                        <!-- <a href="data/data_model.php?q=delete&table=consultations&id=<?php echo $consultation['id']?>"title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a> -->
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
