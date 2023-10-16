@@ -1,8 +1,21 @@
 <?php
     include('include/header.php');
     include('include/sidebar.php');
+    include('../database.php'); // Include the database connection code
     include('data/data_model.php');
     include('data/student_model.php');
+
+    $student = new Datastudent($connection); // Create an instance of the Datastudent class and pass the connection as a parameter
+
+    if (isset($_GET['q'])) {
+        $student->$_GET['q']();
+    }
+
+    $data = new Data($connection);
+    if (isset($_GET['q'])) {
+        $data->$_GET['q']();
+    }
+
     include '../DatabaseService.php';
 
     use Database\DatabaseService;
@@ -505,13 +518,13 @@
                             <div style="margin-left: 20px;">
                                 <h5>Prepared by:</h5>
                                 <br/>
-                                <h4><b><u>DINO L. ILUSTRISIMO</u></b></h4>
+                                <h4><b><u>DINO L. ILUSTRISIMO, MIT</u></b></h4>
                                 <h5>Head, IT Department</h5>
                             </div>
                             <div style="margin-right: 40px; float: right; margin-top: -80px;">
                                 <h5>Noted by:</h5>
                                 <br/>
-                                <h4><b><u>CANDELARIO M. AYTONA, Ed.D.</u></b></h4>
+                                <h4><b><u>Dr. FLORIPIS MONTECILLO, Ed.D.</u></b></h4>
                                 <h5></h5>
                             </div>
                             
