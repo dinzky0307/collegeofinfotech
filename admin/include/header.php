@@ -272,7 +272,3 @@ window.onclick = function(event) {
 
 
     <div id="wrapper">
-
-      
-            
-            
