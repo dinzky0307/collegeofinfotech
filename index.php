@@ -58,8 +58,8 @@ if(isset($_SESSION['level'])){
           <div class="input-field">
             <i class="fas fa-user"></i>
             <input type="text" placeholder="ID number" name="user" value="<?php 
-                        if (isset($_SESSION['teachid'])) {
-                           echo $_SESSION['teachid'];
+                        if (isset($_SESSION['username'])) {
+                           echo $_SESSION['username'];
                         }
                     ?>" required />
           </div>
