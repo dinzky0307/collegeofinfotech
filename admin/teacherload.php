@@ -1,7 +1,9 @@
 <?php
     include('include/header.php');
     include('include/sidebar.php');
+    include('../database.php');
     include('data/teacher_model.php');
+    $teacher = new Datateacher($connection);
     include('data/data_model.php');
     
     $id = $_GET['id'];
