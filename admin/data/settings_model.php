@@ -3,7 +3,7 @@
     if(isset($_GET['q'])){
         $settings->$_GET['q']();
     }
-
+    
     class Datasettings {
         
         function __construct(){
