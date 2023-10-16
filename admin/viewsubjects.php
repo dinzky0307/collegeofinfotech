@@ -12,8 +12,9 @@
     $dbService = new DatabaseService;
 
     $id = $_GET['id'];
-    $stud = $dbService->fetchRow("SELECT* from student where id = {$id}");
-
+    $stud = $dbService->fetchRow("SELECT* from student where studid = '$id'");
+    $studid = $stud['id'];
+    //print_r($studid);
 ?>
         
           
@@ -79,7 +80,8 @@ if ($dbconnection->query($sql) === TRUE) {
             }
         </style>
         <form class="hidden-print">         
-                <a href="enrollsubject.php?id=<?php echo $id; ?>&y=<?php echo $stud['year']; ?>&s=<?php echo $stud['semester']; ?>"><button type="button" class="btn btn-primary" style="float: right; margin-bottom: 10px;">
+                <a href="enrollsubject.php?id=<?php echo $id; ?>&y=<?php echo $stud['year']; ?>&s=<?php echo $stud['semester']; ?>&sec=<?php echo $stud['section']; ?>">
+                <button type="button" class="btn btn-primary" style="float: right; margin-bottom: 10px;">
                 Assign Subjects
                 </button></a>
         </form>
@@ -112,7 +114,7 @@ if ($dbconnection->query($sql) === TRUE) {
                                 <th class="text-center">Lab Unit</th>
                                 <th class="text-center">Total Units</th>
                                 <th class="text-center">Pre-requisites/s</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center">Drop Subject/s</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,9 +122,11 @@ if ($dbconnection->query($sql) === TRUE) {
 
 $y = $stud['year'];
 $s = $stud['semester'];
+$sec = $stud['section'];
+$sy = $stud['ay'];
 
 
-  $sql = "SELECT * FROM subject INNER JOIN studentsubject ON studentsubject.subjectid = subject.id WHERE studentsubject.studid = '$id' AND studentsubject.year='$y' AND studentsubject.semester='$s' ";
+  $sql = "SELECT * FROM subject INNER JOIN studentsubject ON studentsubject.subjectid = subject.id WHERE studentsubject.studid = '$studid' AND studentsubject.year='$y' AND studentsubject.semester='$s' AND studentsubject.section='$sec' AND studentsubject.SY='$sy' ";
   $result = mysqli_query($dbconnection,$sql);
    $number = 1;
   while($subjects = $result->fetch_assoc()) { ?>
