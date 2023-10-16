@@ -1,6 +1,14 @@
 <?php
 include 'config.php';
 
+if (!isset($_SESSION['reset'])) {
+    ?>
+    <script>
+        window.location.href = "forgot-password.php"
+    </script>
+    <?php 
+}
+
 
 if(isset($_POST['submit'])){
     $pass = $_POST['pass'];
@@ -9,7 +17,7 @@ if(isset($_POST['submit'])){
     // Verify that the new password matches the confirmation
     if ($pass === $newPassword) {
         // Get the user's username from the session or any other method you use for identifying the user
-        $user = $_SESSION['username'];
+        $user = $_GET['reset'];
         
         // Generate a new password hash for the user
         $hashed = password_hash($pass, PASSWORD_DEFAULT);
@@ -17,10 +25,13 @@ if(isset($_POST['submit'])){
         // Update the user's password in the database
         $updateQuery = "UPDATE userdata SET password='$hashed' WHERE username='$user'";
         $result = mysql_query($updateQuery);
+
         
         if ($result) {
             // Password reset successful
             $_SESSION['message'] = "";
+            unset($_SESSION['reset']);
+            $_SESSION['teachid'] = $user;
             
             // Update the user's session data with the new password hash
             // $_SESSION['pass'] = $passHash;
@@ -98,4 +109,3 @@ if(isset($_POST['submit'])){
     <script src="app.js"></script>
 </body>
 </html>
-
