@@ -19,7 +19,7 @@
                 header('location:../../');   
             }
         }
-        
+            
         function logs($act){            
             $date = date('m-d-Y h:i:s A');
             echo $q = "insert into log values(null,'$date','$act')";   
