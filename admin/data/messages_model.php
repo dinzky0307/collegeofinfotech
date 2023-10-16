@@ -1,7 +1,7 @@
 <?php    
 
 include '../database.php';
-
+  
 function getMessages()   {
     $userId = $_SESSION['user_id'];
 
