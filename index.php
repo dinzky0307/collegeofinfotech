@@ -5,16 +5,20 @@ include 'config.php';
 if(isset($_POST['submit'])){
     $user = $_POST['user'];
     $pass = $_POST['pass'];
-    $query = "select * from userdata where username='$user' and password='$pass'";
+    $query = "select * from userdata where username='$user' ";
     $r = mysql_query($query);
     if(mysql_num_rows($r) == 1){
-        $row = mysql_fetch_assoc($r);
-        $_SESSION['message']="You are now logged in.";
-        $_SESSION['level'] = $row['level'];
-        $_SESSION['id'] = $row['username'];
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['name'] = $row['fname'].' '.$row['lname'];
-        header('location:'.$row['level'].'');
+      $row = mysql_fetch_assoc($r);
+        if (password_verify($pass, $row['password'])) {
+          
+          $_SESSION['message']="You are now logged in.";
+          $_SESSION['level'] = $row['level'];
+          $_SESSION['id'] = $row['username'];
+          $_SESSION['user_id'] = $row['id'];
+          $_SESSION['name'] = $row['fname'].' '.$row['lname'];
+          header('location:'.$row['level'].'');
+        }
+
     }else{
         header('location:index.php?login=0');
     }
@@ -53,14 +57,18 @@ if(isset($_SESSION['level'])){
           </div>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="ID number" name="user" required />
+            <input type="text" placeholder="ID number" name="user" value="<?php 
+                        if (isset($_SESSION['teachid'])) {
+                           echo $_SESSION['teachid'];
+                        }
+                    ?>" required />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" name="pass" required />
           </div>
           <input type="submit" value="Login" name="submit" class="btn solid" style=""/>
-          <!-- <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a href="forgot-password.php" style="color: #4590ef;">Forgot Password?</a></p> -->
+          <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a href="forgot-password.php" style="color: #4590ef;">Forgot Password?</a></p>
         </form>
         <!-- <form action="" class="sign-up-form" method="post">
           <h2 class="title">Sign up</h2>
