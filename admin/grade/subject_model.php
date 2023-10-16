@@ -11,7 +11,7 @@
                 header('location:../../');   
             }
         }
-        
+            
         function getsubject($sem,$id){
             $q = "select * from class where teacher=$id and sem='$sem' order by subject asc";   
             $r = mysql_query($q);
