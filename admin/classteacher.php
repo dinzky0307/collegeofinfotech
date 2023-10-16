@@ -1,7 +1,14 @@
 <?php
     include('include/header.php');
     include('include/sidebar.php');
+    include('../database.php');
     include('data/teacher_model.php');
+
+    $teacher = new Datateacher($connection);
+    if(isset($_GET['q'])){
+        $class->$_GET['q']();
+    }
+
     $search = isset($_POST['search']) ? $_POST['search']: null;
     $teacher = $teacher->getteacher($search);
     $classid = $_GET['classid'];
