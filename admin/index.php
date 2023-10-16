@@ -5,14 +5,53 @@
     use Database\DatabaseService;
 
     $dbService = new DatabaseService;
-    $baseCountQuery = 'SELECT count(*) from student';
 
+    // Fetch the active academic year from the database
+        $activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1");
+
+        // Check if the active academic year exists and set the variables accordingly
+        if ($activeAcademicYear) {
+            $academic_year = $activeAcademicYear['academic_year'];
+            $semester = $activeAcademicYear['semester'];
+            $academicYearActive = true;
+        } else {
+            // If no active academic year, set default values or handle as you prefer
+            $academic_year = "Default Year";
+            $semester = "Default Semester";
+            $academicYearActive = false;
+        }
+
+        $newAcademicYear = "$academic_year";
+        $newSemester = "$semester";
+
+
+// Map the 'ay' table semester values to 'subject' table semester values
+$semesterMapping = [
+    'First Semester' => 1,
+    'Second Semester' => 2,
+    'Final Semester' => 3,
+];
+
+// Map the active semester to the corresponding value
+$semesterValue = isset($semesterMapping[$semester]) ? $semesterMapping[$semester] : null;
+
+// Fetch subjects based on the active semester value
+$subjects = [];
+if ($academicYearActive) {
+    $query = "SELECT * from subject where semester = {$semesterValue}";
+    // echo "Query: $query\n";
+    $subjects = $dbService->fetch($query);
+}
+// print_r($subjects);
+
+    $baseCountQuery = 'SELECT count(*) from student';
+    
     $statistics = [
         'population' => [
-            'first' => $dbService->countRows($baseCountQuery . ' WHERE year = 1'),
-            'second' => $dbService->countRows($baseCountQuery . ' WHERE year = 2'),
-            'third' => $dbService->countRows($baseCountQuery . ' WHERE year = 3'),
-            'fourth' => $dbService->countRows($baseCountQuery . ' WHERE year = 4')
+            'first' => $dbService->countRows($baseCountQuery . " WHERE year = 1 and ay = '$newAcademicYear' and semester = '$newSemester'"),
+            'second' => $dbService->countRows($baseCountQuery . " WHERE year = 2 and ay = '$newAcademicYear' and semester = '$newSemester'"),
+            'third' => $dbService->countRows($baseCountQuery . " WHERE year = 3 and ay = '$newAcademicYear' and semester = '$newSemester'"),
+            'fourth' => $dbService->countRows($baseCountQuery . " WHERE year = 4 and ay = '$newAcademicYear' and semester = '$newSemester'")
         ],
         'consultation' => [
             'academic' => 0,
@@ -53,9 +92,27 @@
             }
         }
     }
+    
+    // Check if the display value is set in the $year array and it is turned on (1).
+    $academicYearVisible = isset($year['display']) && $year['display'] == 1;
 
-    $r1 = mysql_query('select count(*) from student');
+    // Check if the academic year and semester are set in session variables.
+    $academicYearSet = isset($_SESSION['academic_year']) && isset($_SESSION['semester']);
+    $academic_year = $academicYearSet ? $_SESSION['academic_year'] : '';
+    $semester = $academicYearSet ? $_SESSION['semester'] : '';
+    
+    $ay = $dbService->fetchRow("SELECT * from ay WHERE display = 1");
+    $academic_year = $ay['academic_year'];
+    $semester = $ay['semester'];
+
+    if ($academicYearActive) {
+    $query = "SELECT count(id) from student where semester = '{$semester}' and ay = '{$activeAcademicYear['academic_year']}'";
+    $r1 = mysql_query($query);
     $count1 = mysql_fetch_array($r1);
+} else {
+    // If academic year is turned off, set the student count to zero
+    $count1 = [0];
+}
 
     $r2 = mysql_query('select count(*) from subject');
     $count2 = mysql_fetch_array($r2);
@@ -66,16 +123,11 @@
     $r4 = mysql_query('select count(*) from userdata');
     $count4 = mysql_fetch_array($r4);
 
-
-    $ay = $dbService->fetchRow("SELECT * from ay");
-
-
 ?>
 <link rel="icon" href="img/mcc.png">
 <div id="page-wrapper">    
     <div class="container-fluid">
         
-
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
@@ -91,14 +143,18 @@
                 </ol>
                 <ol class="breadcrumb">
                     <li class="">
-                        <center><h1>
-                        Current Academic Year and Semester:<b> <?php echo $ay['academic_year']; ?> | <?php echo $ay['semester']; ?></b>
-                        </h1></center>
-                    </li>
-                </ol>
+                    <center>
+                    <h1>
+                    Current Academic Year and Semester:
+                    <?php if ($activeAcademicYear) { ?>
                         
-            </div>
-            
+                            <b> <?php echo $activeAcademicYear['academic_year']; ?> | <?php echo $activeAcademicYear['semester']; ?></b>
+                        </h1>
+                    <?php } ?>
+                </center>
+                    </li>
+                </ol>         
+            </div>  
         </div>
         <!-- /.row -->
 
@@ -111,7 +167,7 @@
                                 <i class="fa fa-bar-chart-o fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo $count2[0]; ?></div>
+                                <div class="huge"><?php echo count($subjects); ?></div>
                                 <div>Subjects!</div>
                             </div>
                         </div>
@@ -216,15 +272,8 @@
                 margin: 0px;
             }
         </style>
-        
-
-
-
-
     </div>
     <!-- /.container-fluid -->
-    
-
 </div>
 
 <script>
@@ -263,9 +312,7 @@ var myChart = new Chart(ctx, {
             }
         }]
     }
-        
 
-  
     }
 });
 var ctx = document.getElementById('myChart2').getContext('2d');
@@ -298,7 +345,5 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
- 
-
 <!-- /#page-wrapper -->    
 <?php include('include/footer.php');
