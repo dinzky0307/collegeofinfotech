@@ -68,7 +68,7 @@ if(isset($_SESSION['level'])){
             <input type="password" placeholder="Password" name="pass" required />
           </div>
           <input type="submit" value="Login" name="submit" class="btn solid" style=""/>
-          <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a href="forgot-password.php" style="color: #4590ef;">Forgot Password?</a></p>
+          <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a href="password.php" style="color: #4590ef;">Forgot Password?</a></p>
         </form>
         <!-- <form action="" class="sign-up-form" method="post">
           <h2 class="title">Sign up</h2>
