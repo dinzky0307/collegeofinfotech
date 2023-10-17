@@ -377,5 +377,6 @@ if (isset($_POST['deleteYear'])) {
         }
     }
 </script>
-<!-- /#page-wrapper -->    
+<!-- /#page-wrapper -->   
+<?php include('include/modal.php'); ?>
 <?php include('include/footer.php');
