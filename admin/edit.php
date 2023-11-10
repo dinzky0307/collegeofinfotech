@@ -341,6 +341,10 @@ class Edit {
                 <p>Middlename:</p>
                     <input type="text" class="form-control" name="mname" value="<?php echo $row['mname']; ?>" />
                 </div>
+				<div class="form-group">
+                <p>Middlename:</p>
+                    <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" />
+                </div>
                 <div class="form-group">
                     <p>Gender:</p>
                     <select class="form-control" name="sex" value="<?php echo $row['sex'];?>">
