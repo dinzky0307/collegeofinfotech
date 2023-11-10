@@ -541,11 +541,10 @@ class Action
         $year = $_POST['year'];
         $section = $_POST['section'];
         $semester = $_POST['semester'];
-		$email = $_POST['email'];
     
-        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email =?, year=?, section=?, semester=? WHERE id=?";
+        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, year=?, section=?, semester=? WHERE id=?";
         $stmt = $this->db->prepare($q);
-        $stmt->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
+        $stmt->execute([$studid, $lname, $fname, $mname, $year, $section, $semester, $id]);
     
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
@@ -569,9 +568,9 @@ class Action
         $sex = $_POST['sex'];
         $email = $_POST['email'];
     
-        $q = "UPDATE teacher SET teachid=?, fname=?, lname=?, mname=?, email = ?, sex=?, email=? WHERE id=?";
+        $q = "UPDATE teacher SET teachid=?, fname=?, lname=?, mname=?, sex=?, email=? WHERE id=?";
         $stmt = $this->db->prepare($q);
-        $stmt->execute([$teachid, $fname, $lname, $mname, $email, $sex, $email, $id]);
+        $stmt->execute([$teachid, $fname, $lname, $mname, $sex, $email, $id]);
     
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
