@@ -277,7 +277,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <php echo $email['email']; ?>
+                                        <php echo $student['email']; ?>
                                     </td>
                                     
                                     <td class="text-center">
