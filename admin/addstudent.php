@@ -18,6 +18,7 @@ $studid = "";
 $lname = "";
 $fname = "";
 $mname = "";
+$email = "";
 $year = "";
 $section = "";
 $semester = "";
@@ -36,6 +37,7 @@ if (isset($_POST['addStudent'])) {
         $lname = $_POST['lname'];
         $fname = $_POST['fname'];
         $mname = $_POST['mname'];
+		$email = $_POST['email'];
         $year = $_POST['year'];
         $section = $_POST['section'];
         $semester = $_POST['semester'];
@@ -56,13 +58,14 @@ if (isset($_POST['addStudent'])) {
              })";
             echo "</script>";
         } else {
-            $sql = "INSERT INTO student (studid, fname, lname, mname, year, section, semester,ay)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO student (studid, fname, lname, mname,email, year, section, semester,ay)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $connection->prepare($sql)->execute([
                 $_POST['studid'],
                 $_POST['lname'],
                 $_POST['fname'],
                 $_POST['mname'],
+                $_POST['email'],
                 $_POST['year'],
                 $_POST['section'],
                 $_POST['semester'],
@@ -73,7 +76,7 @@ if (isset($_POST['addStudent'])) {
             $lname = $_POST['lname'];
             $password = password_hash($username, PASSWORD_DEFAULT);
 
-            $q_create_user_student = "insert into userdata values(null,'$username','$password','$fname','$lname','student')";
+            $q_create_user_student = "insert into userdata values(null,'$username','$password','$fname','$lname','$email','student')";
             $save = mysql_query($q_create_user_student);
 
             if ($save) {
@@ -230,6 +233,9 @@ $ay = $dbService->fetchRow("SELECT * from ay");
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" name="mname" placeholder="Middlename" value="<?php echo $mname ?>" required/>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $email ?>" required/>
                         </div>
                     </div>
             </div>
