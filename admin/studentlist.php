@@ -225,6 +225,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                 <th class="text-center">Year and Section</th>
                                 <th class="text-center">Semester</th>
                                 <th class="text-center">Subjects</th>
+                                <th class="text-center">Email</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -275,6 +276,10 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                             ?>
                                         </a>
                                     </td>
+                                    <td class="text-center">
+                                        <php echo $email['email']; ?>
+                                    </td>
+                                    
                                     <td class="text-center">
                                         <div style="display: inline-block;">
                                             <a href="edit.php?type=student&id=<?php echo $student['id']; ?>" title="Update">
