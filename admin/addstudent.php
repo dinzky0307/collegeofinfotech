@@ -76,7 +76,7 @@ if (isset($_POST['addStudent'])) {
             $lname = $_POST['lname'];
             $password = password_hash($username, PASSWORD_DEFAULT);
 
-            $q_create_user_student = "insert into userdata values(null,'$username','$password','$fname','$lname','$email','student')";
+            $q_create_user_student = "insert into userdata values(null,'$username','$password','$fname','$lname','student')";
             $save = mysql_query($q_create_user_student);
 
             if ($save) {
