@@ -9,7 +9,7 @@
     $summer = $subject->getsubject('Summer',$id);   
     
     
-    echo $id;
+    // echo $id;
 ?>
 <?php
     // include '../DatabaseService.php';
@@ -28,6 +28,13 @@
 
 
 ?>
+    <style>
+        /* Add this CSS to your stylesheet */
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+            /* background-color: #337ab7; Change this color to the desired fill color */
+            color: red; /* Change this color to the desired text color */
+        }
+    </style>
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -57,9 +64,9 @@
                     <li><a href="#data3" role="tab" data-toggle="tab">Summer</a></li>
                 </ul> -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="<?php echo isset($_GET['page']) ? 'active' : ''; ?>" style="border: 2px solid black; border-radius: 7px;"><a href="#data1" role="tab" data-toggle="tab">First Semester</a></li>
-                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 2px solid black; border-radius: 7px;"><a href="#data2" role="tab" data-toggle="tab">Second Semester</a></li>
-                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 2px solid black; border-radius: 7px;"><a href="#data3" role="tab" data-toggle="tab">Summer</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? 'active' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data1" role="tab" data-toggle="tab">First Semester</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data2" role="tab" data-toggle="tab">Second Semester</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data3" role="tab" data-toggle="tab">Summer</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -123,7 +130,7 @@
                                             <td class="text-center"><?php echo $row['course']; ?></td>
                                             <td class="text-center"><?php echo $row['year']; ?></td>
                                             <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>">View Students</a></td>
+                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                         </tr>
                                     <?php $c++; ?>
                                     <?php endwhile; ?>
@@ -158,7 +165,7 @@
                                             <td class="text-center"><?php echo $row['course']; ?></td>
                                             <td class="text-center"><?php echo $row['year']; ?></td>
                                             <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];  ?>">View Students</a></td>
+                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                             
                                         </tr>
                                     <?php $c++; ?>
@@ -181,5 +188,8 @@
     <!-- /.container-fluid -->
 
 </div>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
 <!-- /#page-wrapper -->    
 <?php include('include/footer.php');
