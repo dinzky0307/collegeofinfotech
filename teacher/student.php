@@ -47,6 +47,7 @@
 
     // }
 ?>
+
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -71,7 +72,7 @@
             </div>
         </div>
         <!-- /.row -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-lg-12">
                 <div class="form-inline form-padding">
                     <form action="student.php?classid=<?php echo $classid?>&y=<?php echo $year?>&sem=<?php echo $sem?>&sec=<?php echo $sec?>&ay=<?php echo $ay?>" method="post">
@@ -83,17 +84,17 @@
                             <?php endwhile; ?>
                         </select>
                         <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>                       
-                        <!-- <a href="print.php?classid=<?php echo $classid; ?>" target="_blank"><button type="button" name="submit" class="btn btn-success"><i class="fa fa-print"></i> Print</button></a>             -->
+                        <a href="print.php?classid=<?php echo $classid; ?>" target="_blank"><button type="button" name="submit" class="btn btn-success"><i class="fa fa-print"></i> Print</button></a>            
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
         <hr />
         <div class="row">
             <div class="col-lg-12">                
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="myTable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -183,4 +184,19 @@ $('.updategrade').click(function(){
     $('#'+dataid+' .updategrade').attr('href','updategrade.php?id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&b='+sub+'&cd='+code);
     $('.loading').show();
 });
+</script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    $('#myTable thead th').each(function () {
+    });
+
+    // DataTable
+    var table = $('#myTable').DataTable({
+        searching: true,
+        "columnDefs": [
+            { "searchable": true, "targets": '_all' }
+        ],
+    });
 </script>
