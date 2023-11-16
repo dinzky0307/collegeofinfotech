@@ -2,7 +2,7 @@
       include('include/header.php');
       include('include/sidebar.php');
       include('../database.php');
-      include('data/class_model.php');
+      include('data/class_model.php');      
       
       $dataclass = new Dataclass($connection);
       if (isset($_GET['q'])) {
@@ -208,7 +208,7 @@ if ($academicYearActive) {
                 <div class="modal-body">
                     <form action="" method="post">
                         <div class="form-group">
-                            <select name="subject" class="form-control" required>
+                            <select name="subject" class="form-control" required style="height: 20px">
                                 <option value="">Select Subject Code...</option>
                                 <?php
                                 $r = mysql_query("SELECT * FROM subject");
