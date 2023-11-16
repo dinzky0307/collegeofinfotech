@@ -42,38 +42,63 @@
             }
             return $student;        
         }
+        function getstudbysearch($classid, $search, $year, $sem, $sec, $ay) {
+          $q = "SELECT * FROM student WHERE fname LIKE '%$search%' OR lname LIKE '%$search%' OR studid LIKE '%$search%'";
+          $r = mysql_query($q);
+          $student = array();
+          
+          if ($r) { // Check if the query executed successfully
+              while ($row = mysql_fetch_array($r)) {
+                  $q2 = "SELECT * FROM studentsubject WHERE studid={$row['id']} AND classid={$classid} AND year={$year} AND semester={$sem} AND section={$sec} AND SY={$ay}"; 
+                  $r2 = mysql_query($q2);
+                  
+                  if ($r2 && mysql_num_rows($r2) > 0) { // Check if the second query executed successfully
+                      $student[] = $row;
+                  }
+              }
+              
+              mysql_free_result($r); // Free the result set for the first query
+          } else {
+              // Handle the query execution error here
+          }
+          
+          return $student;
+      }
+      
         
-        function getstudentgrade($studid,$classid){
-            $q = "select * from studentsubject where studid='$studid' and classid='$classid'";
+        function getstudentgrade($studid,$classid,$year,$sem,$sec,$ay){
+            $q = "select * from studentsubject where studid='$studid' and year=$year and semester='$sem' and section='$sec' and SY='$ay'";
             $r = mysql_query($q);
+            //$data = array(); // Initialize $data to an empty array
             if($row = mysql_fetch_array($r)){
 
-               //  $prelim_grade = ($row['prelim_grade']);
+                $prelim_grade = ($row['prelim_grade']);
                 $midterm_grade = ($row['midterm_grade']);
                 $finals_grade = ($row['final_grade']);
                 
-               //  $prelim = $prelim_grade;
+                $prelim = $prelim_grade;
                 $midterm = $midterm_grade;
                 $final = $finals_grade;
                 
-                $total = ($midterm * .30) + ($final * .70);
+                $total = ($prelim * .30) + ($midterm * .30) + ($final * .40);
                 
                 $data = array(
-                    // 'eqprelim' => $this->gradeconversion($prelim),
+                    'eqprelim' => $this->gradeconversion($prelim),
                     'eqmidterm' => $this->gradeconversion($midterm),
                     'eqfinal' => $this->gradeconversion($final),
                     'eqtotal' => $this->gradeconversion($total),
-                    // 'prelim' => round($prelim),
+                    'prelim' => round($prelim),
                     'midterm' => round($midterm),
                     'final' => round($final),
                     'total' => round($total),
-                    // 'prelim_grade' => $row['prelim_grade'],
+                    'prelim_grade' => $row['prelim_grade'],
                     'midterm_grade' => $row['midterm_grade'],
                     'finals_grade' => $row['final_grade'],
                 );
+
+                return $data;
             }
-            
-            return $data;
+
         }
         
         function getstudentbyid($studid){
