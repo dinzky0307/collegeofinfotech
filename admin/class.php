@@ -208,7 +208,7 @@ if ($academicYearActive) {
                 <div class="modal-body">
                     <form action="" method="post">
                         <div class="form-group">
-                            <select name="subject" class="form-control" required style="height: 20px">
+                            <select name="subject" class="form-control" required>
                                 <option value="">Select Subject Code...</option>
                                 <?php
                                 $r = mysql_query("SELECT * FROM subject");
