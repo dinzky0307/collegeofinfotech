@@ -181,7 +181,7 @@ $('.updategrade').click(function(){
     var subject = $(this).attr('data-subjects');
     var code = $(this).attr('data-scode');
     console.log(subject)
-    $('#'+dataid+' .updategrade').attr('href','updategrade.php?id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
+    $('#'+dataid+' .updategrade').attr('href','updategrade.php?updategrade&id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
     $('.loading').show();
 });
 </script>
