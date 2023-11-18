@@ -169,16 +169,16 @@
 
 <script>
 $('.updategrade').click(function(){
-    var dataid = $(this).attr('data-id');
-    var prelim = $('#'+dataid+' #prelim').val();
-    var midterm = $('#'+dataid+' #midterm').val();
-    var final = $('#'+dataid+' #final').val();
+    // var dataid = $(this).attr('data-id');
+    var prelim = $('#prelim').val();
+    var midterm = $('#midterm').val();
+    var final = $('#final').val();
     var classid = $(this).attr('data-gradeid');
-
+   
     $.ajax({
         type:"post",
         url: "updategrade.php",
-        data: {id: dataid, p: prelim, m: midterm, f: final, gradeid: classid},
+        data: {id: dataid, p: prelim, m: midterm, f: final, c: classid},
         success:function(){
             window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
         }
