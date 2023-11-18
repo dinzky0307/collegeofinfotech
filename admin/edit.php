@@ -265,8 +265,8 @@ class Edit {
                 <div class="form-group">
                     <input type="text" class="form-control" name="mname" value="<?php echo $row['mname']; ?>" />
                 </div>
-				<div class="form-group">
-                    <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" />
+                <div class="form-group">
+                    <input type="text" class="form-control" name="email" value="<?php echo $row['email']; ?>" />
                 </div>
                 <div class="form-group">
                     <select name="year" class="form-control" required>
@@ -340,10 +340,6 @@ class Edit {
                 <div class="form-group">
                 <p>Middlename:</p>
                     <input type="text" class="form-control" name="mname" value="<?php echo $row['mname']; ?>" />
-                </div>
-				<div class="form-group">
-                <p>Email:</p>
-                    <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" />
                 </div>
                 <div class="form-group">
                     <p>Gender:</p>
