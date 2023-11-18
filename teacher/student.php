@@ -182,19 +182,19 @@ $('.updategrade').click(function(){
     var subject = $(this).attr('data-subjects');
     var code = $(this).attr('data-scode');
     var grade_id = $(this).attr('data-gradeid');
-    // $.ajax({
-    //     type:"post",
-    //     url: "updategrade.php",
-    //     data: {id: dataid, p: prelim, m: midterm, f: final, c: classid, y: year, s:sem, e:sec, a: ay, subject: subject, cd: code, grade_id: grade_id},
-    //     success:function(){
-    //         window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
-    //     }
-    // })
+    $.ajax({
+        type:"post",
+        url: "updategrade.php",
+        data: {id: dataid, p: prelim, m: midterm, f: final, c: classid, y: year, s:sem, e:sec, a: ay, subject: subject, cd: code, grade_id: grade_id},
+        success:function(){
+            window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
+        }
+    })
 
     // $('#'+dataid+' .updategrade').attr('href','updategrade.php?updategrade&id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
-    // $('.loading').show();
+    $('.loading').show();
 
-    console.log(grade_id)
+    // console.log(grade_id)
 
 });
 </script>
