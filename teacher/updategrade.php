@@ -12,9 +12,10 @@ include 'connection.php';
   $sem = $_POST['s'];
   $sec = $_POST['e'];
   $ay = $_POST['a'];
-  $sub = $_POST['subject'];
-  $code = $_POST['cd'];
+ 
+  // $code = $_POST['cd'];
   $total = ($prelim + $midterm + $final) / 3;
+ $sub = $_POST['subject'];
   
   
   
