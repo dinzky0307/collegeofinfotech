@@ -12,13 +12,26 @@ if (isset($_POST['submit'])) {
     $user = $_POST['email'];
     
     // Check if the provided ID number exists in the userdata table
-    $query = "SELECT * FROM teacher, student WHERE email = '$user' UNION ALL SELECT * FROM student WHERE email = '$email' ";
+    $query = "SELECT * FROM teacher WHERE email = '$user' ";
+    $student = "SELECT * FROM student WHERE email = '$user' ";
     $result = mysql_query($query);
+
+    $result_student = mysql_query($student);
     
     if ($result && mysql_num_rows($result) == 1) {
         $data = mysql_fetch_assoc($result);
         $verification = uniqid(rand(2,5));
-        $teach_id = $data['teachid'];
+        $id = $data['teachid'];
+
+      }else if($result_student && mysql_num_rows($result_student) == 1){
+        $data = mysql_fetch_assoc($result_student);
+        $verification = uniqid(rand(2,5));
+        $id = $data['studid'];
+      }
+       else {
+        // User does not have an account, display an error message
+        $errorMessage = "No account found with the provided Email account.";
+    }
         $email = $_POST['email'];
 
         $mail = new PHPMailer(true);
@@ -49,7 +62,7 @@ if (isset($_POST['submit'])) {
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Reset Password';
-        $mail->Body    = "Click the link to reset password : <a href='https://infotechmcc.com/reset_pass.php?reset=$teach_id&id=$session'>Click here</a>";
+        $mail->Body    = "Click the link to reset password : <a href='https://infotechmcc.com/reset_pass.php?reset=$id&id=$session'>Click here</a>";
     
 
         $mail->send();
@@ -61,10 +74,8 @@ if (isset($_POST['submit'])) {
         </script>
         <?php 
 
-    } else {
-        // User does not have an account, display an error message
-        $errorMessage = "No account found with the provided Email account.";
-    }
+  
+    
 }
 ?>
 <style>
