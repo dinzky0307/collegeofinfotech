@@ -178,14 +178,14 @@ $('.updategrade').click(function(){
     $.ajax({
         type:"post",
         url: "updategrade.php",
-        data: {id: dataid, p: prelim, m: midterm, f: final, classid: classid},
+        data: {id: dataid, p: prelim, m: midterm, f: final, gradeid: classid},
         success:function(){
             window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
         }
     })
 
     // $('#'+dataid+' .updategrade').attr('href','updategrade.php?updategrade&id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
-    // $('.loading').show();
+    $('.loading').show();
 
 });
 </script>
