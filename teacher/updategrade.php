@@ -19,7 +19,7 @@ $total = ($prelim + $midterm + $final) / 3;
   $sql = "UPDATE studentsubject SET prelim_grade='$prelim', midterm_grade='$midterm', final_grade='$final', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
 
   if ($dbconnection->query($sql) === TRUE) {
-    echo "<script>window.location.href='student.php?classid=".$classid."&sem=".$sem."&sec=".$sec."&ay=".$ay."&code=".$code."&y=".$year." '</script>";
+    // echo "<script>window.location.href='student.php?classid=".$classid."&sem=".$sem."&sec=".$sec."&ay=".$ay."&code=".$code."&y=".$year." '</script>";
   } else {
     echo "Error updating record: " . $dbconnection->error;
   }
