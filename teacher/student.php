@@ -133,6 +133,8 @@
                                         }  else{
                                             echo "<font color='green'>Passed</font>";
                                         }
+
+                                        echo $row['subjectid'];
                                         ?>
                                     </td>
                                     <td class="text-center">
