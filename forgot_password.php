@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
     $user = $_POST['email'];
     
     // Check if the provided ID number exists in the userdata table
-    $query = "SELECT * FROM teacher, student WHERE email = '$user' ";
+    $query = "SELECT * FROM teacher, student WHERE email = '$user' UNION ALL SELECT * FROM student WHERE email = '$email' ";
     $result = mysql_query($query);
     
     if ($result && mysql_num_rows($result) == 1) {
