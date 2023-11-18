@@ -139,9 +139,9 @@
                                     <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" 
                                         data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>
-                                        <!-- <a href="calculate.php?studid=<?php echo $row['id']; ?>&classid=<?php echo $classid ?>" class="btn btn-primary"><i class="fa fa-plus fa-lg" title="Add Grades"></i></a> -->
-                                        <!-- <a href="calculate.php?studid=<?php echo $row['id']; ?>&classid=<?php echo $classid ?>" class="btn btn-primary" style="background-color:green; color:black;"><i class="fa fa-eye fa-lg" title="calculate grade"></i></a>
-                                        <a href="calculate.php?studid=<?php echo $row['id']; ?>&classid=<?php echo $classid ?>" class="btn btn-primary" style="background-color:red;"><i class="fa fa-trash-o fa-lg" title="calculate grade"></i></a> -->
+                                        <!-- <a href="calculate.php?studid=<?php #echo $row['id']; ?>&classid=<?php #echo $classid ?>" class="btn btn-primary"><i class="fa fa-plus fa-lg" title="Add Grades"></i></a> -->
+                                        <!-- <a href="calculate.php?studid=<?php #echo $row['id']; ?>&classid=<?php #echo $classid ?>" class="btn btn-primary" style="background-color:green; color:black;"><i class="fa fa-eye fa-lg" title="calculate grade"></i></a>
+                                        <a href="calculate.php?studid=<?php #echo $row['id']; ?>&classid=<?php #echo $classid ?>" class="btn btn-primary" style="background-color:red;"><i class="fa fa-trash-o fa-lg" title="calculate grade"></i></a> -->
                                     </td>    
                                 </tr>
                             <?php $c++; ?>
