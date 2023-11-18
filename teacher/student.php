@@ -116,7 +116,6 @@
                                 
                                 <tr id="<?php echo $row['id']; ?>">
                                     <td><?php echo $c; ?></td>    
-                                    <td><?php echo $row['subjectid']; ?></td>    
                                     <td class="text-center"><?php echo $row['studid']; ?></td>    
                                     <td class="text-center"><?php echo $row['fname'].', '.$row['lname'].' '.$row['mname']; ?></td>  
                                     <?php $grade = $student->getstudentgrade($row['id'],$classid,$year,$sem,$sec,$ay); ?>
