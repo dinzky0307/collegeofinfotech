@@ -178,7 +178,7 @@ $('.updategrade').click(function(){
     $.ajax({
         type:"post",
         url: "updategrade.php",
-        data: {id: dataid, p: prelim, m: midterm, f: final, c: classid},
+        data: {p: prelim, m: midterm, f: final, c: classid},
         success:function(){
             window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
         }
