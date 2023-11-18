@@ -66,8 +66,8 @@
       }
       
         
-        function getstudentgrade($studid,$classid,$year,$sem,$sec,$ay){
-            $q = "select * from studentsubject where studid='$studid' and year=$year and semester='$sem' and section='$sec' and SY='$ay'";
+        function getstudentgrade($id){
+            $q = "select * from studentsubject where id='$id'";
             $r = mysql_query($q);
             //$data = array(); // Initialize $data to an empty array
             if($row = mysql_fetch_array($r)){
