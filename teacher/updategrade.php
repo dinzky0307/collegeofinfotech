@@ -19,7 +19,7 @@ include 'connection.php';
   
   
   
-    $sql = "UPDATE studentsubject SET prelim_grade='$prelim', midterm_grade='$midterm', final_grade='$final', total='$total' WHERE studid='$id' AND id = '$grade_id'  AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+    $sql = "UPDATE studentsubject SET prelim_grade='$prelim', midterm_grade='$midterm', final_grade='$final', total='$total' WHERE studid='$id' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay' AND prelim_grade='$prelim' AND midterm_grade='$midterm' AND  final_grade='$final' ";
   
     if ($dbconnection->query($sql) === TRUE) {
       // echo "<script>window.location.href='student.php?classid=".$classid."&sem=".$sem."&sec=".$sec."&ay=".$ay."&code=".$code."&y=".$year." '</script>";
