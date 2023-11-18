@@ -15,9 +15,18 @@ if(isset($_GET['updategrade'])){
   $sub = $_GET['subject'];
   $code = $_GET['cd'];
   $total = ($prelim + $midterm + $final) / 3;
+
+
+  if ($prelim != 0) {
+    $sql = "UPDATE studentsubject SET prelim_grade='$prelim', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+  }else if($midterm != 0){
+    $sql = "UPDATE studentsubject SET midterm_grade='$midterm', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+  }else if ($final != 0) {
+    $sql = "UPDATE studentsubject SET final_grade='$final', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+  }
   
   
-    $sql = "UPDATE studentsubject SET prelim_grade='$prelim', midterm_grade='$midterm', final_grade='$final', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+   
   
     if ($dbconnection->query($sql) === TRUE) {
       // echo "<script>window.location.href='student.php?classid=".$classid."&sem=".$sem."&sec=".$sec."&ay=".$ay."&code=".$code."&y=".$year." '</script>";
