@@ -116,7 +116,7 @@
                                 
                                 <tr id="<?php echo $row['id']; ?>">
                                     <td><?php echo $c; ?></td>  
-                                    <td><?php echo $row['subjectid']; ?></td>   
+                                    
                                     <td class="text-center"><?php echo $row['studid']; ?></td>    
                                     <td class="text-center"><?php echo $row['fname'].', '.$row['lname'].' '.$row['mname']; ?></td>  
                                     <?php $grade = $student->getstudentgrade($row['id'],$classid,$year,$sem,$sec,$ay); ?>
@@ -144,6 +144,8 @@
                                         <!-- <a href="calculate.php?studid=<?php echo $row['id']; ?>&classid=<?php echo $classid ?>" class="btn btn-primary" style="background-color:green; color:black;"><i class="fa fa-eye fa-lg" title="calculate grade"></i></a>
                                         <a href="calculate.php?studid=<?php echo $row['id']; ?>&classid=<?php echo $classid ?>" class="btn btn-primary" style="background-color:red;"><i class="fa fa-trash-o fa-lg" title="calculate grade"></i></a> -->
                                     </td>    
+
+                                    <td><?php echo $row['subjectid']; ?></td>   
                                 </tr>
                             <?php $c++; ?>
                             <?php endforeach; ?>
