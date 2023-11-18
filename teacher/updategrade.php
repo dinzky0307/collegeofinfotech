@@ -20,6 +20,7 @@ $total = ($prelim + $midterm + $final) / 3;
 
   if ($dbconnection->query($sql) === TRUE) {
     // echo "<script>window.location.href='student.php?classid=".$classid."&sem=".$sem."&sec=".$sec."&ay=".$ay."&code=".$code."&y=".$year." '</script>";
+    echo "success";
   } else {
     echo "Error updating record: " . $dbconnection->error;
   }
