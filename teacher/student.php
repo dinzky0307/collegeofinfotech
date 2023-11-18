@@ -180,7 +180,7 @@ $('.updategrade').click(function(){
     var ay = $(this).attr('data-ay');
     var subject = $(this).attr('data-subjects');
     var code = $(this).attr('data-scode');
-    console.log(subjectcode)
+    console.log(subject)
     $('#'+dataid+' .updategrade').attr('href','updategrade.php?id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
     $('.loading').show();
 });
