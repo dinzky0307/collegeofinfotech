@@ -136,7 +136,6 @@
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                    <?php echo $row['subjectid']; ?>
                                     <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" 
                                         data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>
@@ -179,7 +178,7 @@ $('.updategrade').click(function(){
     var sem = $(this).attr('data-sem');
     var sec = $(this).attr('data-sec');
     var ay = $(this).attr('data-ay');
-    var sub = $(this).attr('data-sub');
+    var sub = $(this).attr('data-subjects');
     var code = $(this).attr('data-scode');
     console.log(code)
     $('#'+dataid+' .updategrade').attr('href','updategrade.php?id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&b='+sub+'&cd='+code);
