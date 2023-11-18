@@ -137,7 +137,7 @@
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                    <?php echo $row['id'];?>
+                                    <?php echo $row['grade_id'];?>
                                     <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" 
                                         data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>
