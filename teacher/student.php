@@ -29,7 +29,7 @@
          $subjectcode = $rows['id'];
 
          // Use prepared statement to prevent SQL injection
-        $stmt = $connection->prepare("SELECT student.studid, student.fname, student.lname, student.mname, student.id, studentsubject.year, studentsubject.semester, studentsubject.section, studentsubject.SY, studentsubject.subjectid FROM student JOIN studentsubject ON student.id = studentsubject.studid WHERE studentsubject.year = :year AND studentsubject.semester = :semester AND studentsubject.section = :section AND studentsubject.SY = :sy AND studentsubject.subjectid = :code");
+        $stmt = $connection->prepare("SELECT student.studid, student.fname, student.lname, student.mname, student.id, studentsubject.year, studentsubject.id AS grade_id,studentsubject.semester, studentsubject.section, studentsubject.SY, studentsubject.subjectid FROM student JOIN studentsubject ON student.id = studentsubject.studid WHERE studentsubject.year = :year AND studentsubject.semester = :semester AND studentsubject.section = :section AND studentsubject.SY = :sy AND studentsubject.subjectid = :code");
         //$stmt->bindParam(':classid', $classid, PDO::PARAM_INT);
         $stmt->bindParam(':year', $year, PDO::PARAM_STR);
         $stmt->bindParam(':semester', $sem, PDO::PARAM_STR);
@@ -124,6 +124,7 @@
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
                                     <td class="text-center"><?php echo $grade['total'];?></td>
                                     <td class="text-center"><?php echo $grade['eqtotal'];?></td>
+                                    <td><?php echo $grade['grade_id'];?></td>
                                     <td class="text-center">
                                         <?php
                                         if ($grade['eqtotal'] >3) {
