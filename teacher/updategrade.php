@@ -23,6 +23,8 @@ if(isset($_GET['updategrade'])){
     $sql = "UPDATE studentsubject SET midterm_grade='$midterm', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
   }else if ($final != 0) {
     $sql = "UPDATE studentsubject SET final_grade='$final', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
+  }else if($prelim != 0 && $midterm != 0 && $final != 0){
+    $sql = "UPDATE studentsubject SET prelim_grade='$prelim',midterm_grade='$midterm',final_grade='$final', total='$total' WHERE studid='$id' AND subjectid = '$sub' AND year='$year' AND semester='$sem' AND section='$sec' AND SY='$ay'";
   }
   
   
