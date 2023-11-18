@@ -11,7 +11,7 @@ $year = $_GET['y'];
 $sem = $_GET['s'];
 $sec = $_GET['e'];
 $ay = $_GET['a'];
-$sub = $_GET['b'];
+$sub = $_GET['subject'];
 $code = $_GET['cd'];
 $total = ($prelim + $midterm + $final) / 3;
 
