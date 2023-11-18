@@ -16,14 +16,6 @@ $code = $_GET['cd'];
 $total = ($prelim + $midterm + $final) / 3;
 
 
-$get_subject = $dbconnection->query("SELECT * FROM subject WHERE code = '$code' ");
-
-if($get_subject->num_rows > 0){
-  $subject = $get_subject->fetch_assoc();
-
-  $sub_id = $subject['id'];
-
-
   $sql = "UPDATE studentsubject SET prelim_grade='$prelim', midterm_grade='$midterm', final_grade='$final', total='$total' WHERE studid='$id' AND year='$year' AND classid = $classid AND semester='$sem' AND section='$sec' AND SY='$ay'";
 
   if ($dbconnection->query($sql) === TRUE) {
@@ -32,7 +24,6 @@ if($get_subject->num_rows > 0){
     echo "Error updating record: " . $dbconnection->error;
   }
 
-}
 
 
 
