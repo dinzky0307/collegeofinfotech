@@ -124,7 +124,7 @@
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
                                     <td class="text-center"><?php echo $grade['total'];?></td>
                                     <td class="text-center"><?php echo $grade['eqtotal'];?></td>
-                                    <td><?php echo $grade['grade_id'];?></td>
+                                   
                                     <td class="text-center">
                                         <?php
                                         if ($grade['eqtotal'] >3) {
@@ -137,6 +137,7 @@
                                         ?>
                                     </td>
                                     <td class="text-center">
+                                    <?php echo $grade['grade_id'];?>
                                     <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" 
                                         data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>
