@@ -118,7 +118,7 @@
                                     <td><?php echo $c; ?></td>    
                                     <td class="text-center"><?php echo $row['studid']; ?></td>    
                                     <td class="text-center"><?php echo $row['fname'].', '.$row['lname'].' '.$row['mname']; ?></td>  
-                                    <?php $grade = $student->getstudentgrade($row['id'],$classid,$year,$sem,$sec,$ay); ?>
+                                    <?php $grade = $student->getstudentgrade($row['grade_id']); ?>
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>    
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['midterm'];?>" name="midterm_grade" id="midterm"></td>    
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
