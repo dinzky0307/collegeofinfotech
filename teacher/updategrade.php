@@ -1,8 +1,9 @@
 <?php 
 
-include 'connection.php';
+
 
 if(isset($_GET['updategrade'])){
+  include 'connection.php';
   $id = $_GET['id'];
   $prelim = $_GET['p'];
   $midterm = $_GET['m'];
