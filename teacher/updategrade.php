@@ -3,7 +3,7 @@
 include 'connection.php';
 
   
-  $id = $_POST['id'];
+  $id = $_POST['classid'];
   $prelim = $_POST['p'];
   $midterm = $_POST['m'];
   $final = $_POST['f'];
