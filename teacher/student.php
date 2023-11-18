@@ -138,8 +138,7 @@
                                     </td>
                                     <td class="text-center">
                                         
-                                    <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" 
-                                        data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
+                                    <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" data-gradeid="<?php echo $row['grade_id']; ?>" data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>
                                         <!-- <a href="calculate.php?studid=<?php #echo $row['id']; ?>&classid=<?php #echo $classid ?>" class="btn btn-primary"><i class="fa fa-plus fa-lg" title="Add Grades"></i></a> -->
                                         <!-- <a href="calculate.php?studid=<?php #echo $row['id']; ?>&classid=<?php #echo $classid ?>" class="btn btn-primary" style="background-color:green; color:black;"><i class="fa fa-eye fa-lg" title="calculate grade"></i></a>
@@ -182,18 +181,18 @@ $('.updategrade').click(function(){
     var ay = $(this).attr('data-ay');
     var subject = $(this).attr('data-subjects');
     var code = $(this).attr('data-scode');
-    console.log(dataid)
-    // $.ajax({
-    //     type:"post",
-    //     url: "updategrade.php",
-    //     data: {id: dataid, p: prelim, m: midterm, f: final, c: classid, y: year, s:sem, e:sec, a: ay, subject: subject, cd: code},
-    //     success:function(){
-    //         window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
-    //     }
-    // })
+    var grade_id = $(this).attr('data-gradeid');
+    $.ajax({
+        type:"post",
+        url: "updategrade.php",
+        data: {id: dataid, p: prelim, m: midterm, f: final, c: classid, y: year, s:sem, e:sec, a: ay, subject: subject, cd: code, grade_id: grade_id},
+        success:function(){
+            window.location.href = "<?php echo $_SERVER['REQUEST_URI'] ?>"
+        }
+    })
 
     // $('#'+dataid+' .updategrade').attr('href','updategrade.php?updategrade&id='+dataid+'&p='+prelim+'&m='+midterm+'&f='+final+'&c='+classid+'&y='+year+'&s='+sem+'&e='+sec+'&a='+ay+'&subject='+subject+'&cd='+code);
-    // $('.loading').show();
+    $('.loading').show();
 
 });
 </script>
