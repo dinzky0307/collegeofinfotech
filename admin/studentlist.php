@@ -146,6 +146,8 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                             <?php endforeach; ?>
                         </select>
                         <div class="ml-auto">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#importCSVModal"><i class="fa fa-upload"></i> Import CSV</button>
                             <a href="addstudent.php"><button type="button" class="btn btn-success"><i
                                         class="fa fa-user"></i> Add Student</button></a>
                         </div>
@@ -162,7 +164,34 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
         </div>
         <!--/.row -->
         <hr />
-
+        <!-- Import CSV Modal -->
+        <div class="modal fade" id="importCSVModal" tabindex="-1" role="dialog" aria-labelledby="importCSVModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importCSVModalLabel">Import Students from CSV</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add your CSV import form here -->
+                        <form action="importcsv.php" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="csvFile">Select CSV File:</label>
+                                <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <?php if (isset($_GET['r'])): ?>
@@ -257,8 +286,8 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                         <?php echo $student['studid']; ?>
                                     </td>
                                     <td>
-                                        <?php echo $student['fname']; ?>,
-                                        <?php echo $student['lname']; ?>
+                                        <?php echo $student['lname']; ?>,
+                                        <?php echo $student['fname']; ?>
                                         <?php echo $student['mname']; ?>
                                     </td>
                                     <td class="text-center">
@@ -332,6 +361,16 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     //     } );
     // } );
 
+</script>
+<script>
+    function formToggle(ID) {
+        var element = document.getElementById(ID);
+        if (element.style.display === "none") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
 </script>
 <script>
     $(document).ready(function () {
