@@ -1,16 +1,17 @@
 <?php
 include('include/header.php');
 include('include/sidebar.php');
-include('../database.php'); 
+include('../database.php');
 include('data/student_model.php');
 
-$studentModel = new Datastudent($connection); 
+$studentModel = new Datastudent($connection);
 if (isset($_GET['q'])) {
     $studentModel->$_GET['q']();
 }
 
 include '../DatabaseService.php';
 use Database\DatabaseService;
+
 $dbService = new DatabaseService;
 
 // Fetch the active academic year from the database
@@ -55,16 +56,16 @@ if (isset($_POST['deleteStudent']) && isset($_POST['studentId'])) {
     $studentId = $_POST['studentId'];
     $delete = deleteStudent($studentId, $connection);
 
-  
-        // Redirect to the same page after the deletion
-        ?>
-        <script type="text/javascript">
-            alert("Student successfully deleted")
-            window.location.href = "studentlist.php"
-        </script>
-        <?php
-        exit(); // Make sure to exit after redirecting to prevent further code execution
-    
+
+    // Redirect to the same page after the deletion
+    ?>
+    <script type="text/javascript">
+        alert("Student successfully deleted")
+        window.location.href = "studentlist.php"
+    </script>
+    <?php
+    exit(); // Make sure to exit after redirecting to prevent further code execution
+
 
 }
 // Filter the students based on the selected year and section
@@ -154,7 +155,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                     </div>
                 </form>
             </div>
-           <!-- <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
     <form action="studentlist.php" method="POST" id="searchForm" style="float: right">
         <div class="form-group d-flex align-items-center">
             <input type="text" class="form-control" name="search" placeholder="Search by ID, Fullname, Year, or Section" />
@@ -192,6 +193,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <?php if (isset($_GET['r'])): ?>
@@ -333,21 +335,21 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     </div>
 </div>
 <script>
-    $('#studentInformation thead th').each( function () {
-    //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
-    //     if(title!=""){
-    //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    //   }
-    } );
- 
+    $('#studentInformation thead th').each(function () {
+        //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
+        //     if(title!=""){
+        //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        //   }
+    });
+
     // DataTable
     var table = $('#studentInformation').DataTable({
-    searching: true,
-    "columnDefs": [
-        { "searchable": true, "targets": '_all' }
-    ],
+        searching: true,
+        "columnDefs": [
+            { "searchable": true, "targets": '_all' }
+        ],
     });
- 
+
     // // Apply the search
     // table.columns().eq( 0 ).each( function ( colIdx ) {
     //     if( !table.settings()[0].aoColumns[colIdx].bSearchable ){
@@ -372,6 +374,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
         }
     }
 </script>
+
 <script>
     $(document).ready(function () {
         $.noConflict();
