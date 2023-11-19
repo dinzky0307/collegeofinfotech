@@ -317,30 +317,30 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script>
-    // Function to capitalize the first letter of a string
-    function capitalizeFirstLetter(input) {
-        return input.charAt(0).toUpperCase() + input.slice(1);
-    }
+// Function to capitalize all letters in a string
+function capitalizeAllLetters(input) {
+    return input.toUpperCase();
+}
 
-    // Attach an event listener to the input fields
-    document.addEventListener('DOMContentLoaded', function () {
-        const lastNameInput = document.querySelector('input[name="lname"]');
-        const firstNameInput = document.querySelector('input[name="fname"]');
-        const middleNameInput = document.querySelector('input[name="mname"]');
+// Attach an event listener to the input fields
+document.addEventListener('DOMContentLoaded', function () {
+    const lastNameInput = document.querySelector('input[name="lname"]');
+    const firstNameInput = document.querySelector('input[name="fname"]');
+    const middleNameInput = document.querySelector('input[name="mname"]');
 
-        // Listen for input events
-        lastNameInput.addEventListener('input', function () {
-            this.value = capitalizeFirstLetter(this.value);
-        });
-
-        firstNameInput.addEventListener('input', function () {
-            this.value = capitalizeFirstLetter(this.value);
-        });
-
-        middleNameInput.addEventListener('input', function () {
-            this.value = capitalizeFirstLetter(this.value);
-        });
+    // Listen for input events
+    lastNameInput.addEventListener('input', function () {
+        this.value = capitalizeAllLetters(this.value);
     });
+
+    firstNameInput.addEventListener('input', function () {
+        this.value = capitalizeAllLetters(this.value);
+    });
+
+    middleNameInput.addEventListener('input', function () {
+        this.value = capitalizeAllLetters(this.value);
+    });
+});
 </script>
 <script>
     $(document).ready(function () {
