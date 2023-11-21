@@ -180,7 +180,7 @@
             $act = "update student $name";
             $this->logs($act);
             
-            header('location:../studentlist.php?r=bobo');
+            header('location:../studentlist.php?r=udjsjudlkjskljjdkljjsdss');
         }
         //remove from class
         function removesubject(){
