@@ -43,13 +43,13 @@ sort($years);
 sort($sections);
 
 // Function to handle the deletion of a subject
-function deleteStudent($studentId, $connection)
-{
-    // Write your code to delete the subject with the given subject ID
-    $sql = "DELETE FROM student WHERE id = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->execute([$studentId]);
-}
+// function deleteStudent($studentId, $connection)
+// {
+//     // Write your code to delete the subject with the given subject ID
+//     $sql = "DELETE FROM student WHERE id = ?";
+//     $stmt = $connection->prepare($sql);
+//     $stmt->execute([$studentId]);
+// }
 
 // Check if the delete button is clicked
 if (isset($_POST['deleteStudent']) && isset($_POST['studentId'])) {
