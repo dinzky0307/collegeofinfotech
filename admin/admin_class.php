@@ -547,7 +547,7 @@ class Action
         // $stmt->execute([$studid, $lname, $fname, $mname, $year, $section, $semester, $id]);
     
         // Check if the update was successful
-        if ($stmt->rowCount() > 0) {
+        // if ($stmt->rowCount() > 0) {
             // The update was successful
             // Redirect to studentlist.php with a success message
             // header('Location: studentlist.php?r=updated');
@@ -558,10 +558,10 @@ class Action
                 alert("WHAT THE FUCK?")
             </script>
             <?php
-        } else {
+        // } else {
             // The update failed
             // Handle the error here, or redirect with an error message if desired
-        }
+        // }
     }    
 
     function updateteacher($id)
