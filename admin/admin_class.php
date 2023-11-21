@@ -534,24 +534,30 @@ class Action
     function updatestudent($id)
     {
         // include('../../config.php');
-        $studid = $_POST['studid'];
-        $lname = $_POST['lname'];
-        $fname = $_POST['fname'];
-        $mname = $_POST['mname'];
-        $year = $_POST['year'];
-        $section = $_POST['section'];
-        $semester = $_POST['semester'];
+        // $studid = $_POST['studid'];
+        // $lname = $_POST['lname'];
+        // $fname = $_POST['fname'];
+        // $mname = $_POST['mname'];
+        // $year = $_POST['year'];
+        // $section = $_POST['section'];
+        // $semester = $_POST['semester'];
     
-        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, year=?, section=?, semester=? WHERE id=?";
-        $stmt = $this->db->prepare($q);
-        $stmt->execute([$studid, $lname, $fname, $mname, $year, $section, $semester, $id]);
+        // $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, year=?, section=?, semester=? WHERE id=?";
+        // $stmt = $this->db->prepare($q);
+        // $stmt->execute([$studid, $lname, $fname, $mname, $year, $section, $semester, $id]);
     
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
             // The update was successful
             // Redirect to studentlist.php with a success message
-            header('Location: studentlist.php?r=updated');
-            exit(); // Make sure to exit after redirecting to prevent further code execution
+            // header('Location: studentlist.php?r=updated');
+            // exit(); // Make sure to exit after redirecting to prevent further code execution
+
+            ?>
+            <script>
+                alert("WHAT THE FUCK?")
+            </script>
+            <?php
         } else {
             // The update failed
             // Handle the error here, or redirect with an error message if desired
