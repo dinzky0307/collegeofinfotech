@@ -126,22 +126,22 @@ class Data
         header('location:../subject.php');
     }
 
-    // function delete()
-    // {
-    //     if (isset($_GET['id'])) {
-    //         $table = $_GET['table'];
-    //         $id = $_GET['id'];
-    //         $page = $_GET['page'];
+    function delete()
+    {
+        if (isset($_GET['id'])) {
+            $table = $_GET['table'];
+            $id = $_GET['id'];
+            $page = $_GET['page'];
 
-    //         $q = "DELETE FROM $table WHERE id=?";
-    //         $stmt = $this->connection->prepare($q);
-    //         $stmt->execute([$id]);
-    //         print_r($table);
-    //         // Perform any additional actions, such as logging the deletion
+            $q = "DELETE FROM $table WHERE id=?";
+            $stmt = $this->connection->prepare($q);
+            $stmt->execute([$id]);
+            print_r($table);
+            // Perform any additional actions, such as logging the deletion
 
-    //         header('location:../' . $page . '.php?r=deleted');
-    //     }
-    // }
+            header('location:../' . $page . '.php?r=deleted');
+        }
+    }
 
 
     function fetchRow($query, $params = [])
