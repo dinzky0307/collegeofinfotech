@@ -533,7 +533,7 @@ class Action
     
     function updatestudent($id)
     {
-        include('../../config.php');
+        // include('../../config.php');
         $studid = $_POST['studid'];
         $lname = $_POST['lname'];
         $fname = $_POST['fname'];
