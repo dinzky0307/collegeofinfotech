@@ -475,7 +475,7 @@ class Action
 
     function updatesubject($id)
     {
-        include('../../config.php');
+        // include('../../config.php');
 
         $code = $_POST['code'];
         $title = $_POST['title'];
