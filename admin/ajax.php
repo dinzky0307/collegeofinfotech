@@ -165,7 +165,7 @@ if($action == "updateclass"){
 	// if($get)
 	// 	echo $get;
 }
-if($action == "update_student"){
+if($action == "updatestudent"){
 	$get = $crud->updatestudent($id);
 	// if($get)
 	// 	echo $get;
