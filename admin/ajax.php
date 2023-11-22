@@ -1,5 +1,5 @@
 <?php
-ob_start();
+// ob_start();
 $action = $_GET['action'];
 $id = $_GET['id'];
 include 'admin_class.php';
@@ -175,5 +175,5 @@ if($action == "updateteacher"){
 	// if($get)
 	// 	echo $get;
 }
-ob_end_flush();
+// ob_end_flush();
 ?>
