@@ -550,8 +550,8 @@ class Action
         if ($stmt->rowCount() > 0) {
             // The update was successful
             // Redirect to studentlist.php with a success message
-            header('Location: studentlist.php?r=updated');
-            exit(); // Make sure to exit after redirecting to prevent further code execution
+            // header('Location: studentlist.php?r=updated');
+            // exit(); // Make sure to exit after redirecting to prevent further code execution
         } else {
             // The update failed
             // Handle the error here, or redirect with an error message if desired
