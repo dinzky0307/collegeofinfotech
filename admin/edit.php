@@ -252,7 +252,7 @@ class Edit {
         <hr />
         <div class="modal-body">
             <?php while($row = mysql_fetch_array($student)): ?>
-            <form action="ajax.php?action=updatestudent&id=<?php echo $row['id'];?>" method="post">
+            <form action="ajax.php?action=updatestudent&studid=<?php echo $row['id'];?>" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="studid" value="<?php echo $row['studid']; ?>" />
                 </div>
