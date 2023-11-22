@@ -43,31 +43,31 @@ sort($years);
 sort($sections);
 
 // Function to handle the deletion of a subject
-// function deleteStudent($studentId, $connection)
-// {
-//     // Write your code to delete the subject with the given subject ID
-//     $sql = "DELETE FROM student WHERE id = ?";
-//     $stmt = $connection->prepare($sql);
-//     $stmt->execute([$studentId]);
-// }
+function deleteStudent($studentId, $connection)
+{
+    // Write your code to delete the subject with the given subject ID
+    $sql = "DELETE FROM student WHERE id = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->execute([$studentId]);
+}
 
-// // Check if the delete button is clicked
-// if (isset($_POST['deleteStudent']) && isset($_POST['studentId'])) {
-//     $studentId = $_POST['studentId'];
-//     $delete = deleteStudent($studentId, $connection);
-
-
-//     // Redirect to the same page after the deletion
-//     ?>
-//     <script type="text/javascript">
-//         alert("Student successfully deleted")
-//         window.location.href = "studentlist.php"
-//     </script>
-//     <?php
-//     exit(); // Make sure to exit after redirecting to prevent further code execution
+// Check if the delete button is clicked
+if (isset($_POST['deleteStudent']) && isset($_POST['studentId'])) {
+    $studentId = $_POST['studentId'];
+    $delete = deleteStudent($studentId, $connection);
 
 
-// }
+    // Redirect to the same page after the deletion
+    ?>
+    <script type="text/javascript">
+        alert("Student successfully deleted")
+        window.location.href = "studentlist.php"
+    </script>
+    <?php
+    exit(); // Make sure to exit after redirecting to prevent further code execution
+
+
+}
 // Filter the students based on the selected year and section
 $filteredStudents = array_filter($students, function ($student) use ($year, $section) {
     return ($year === null || $year === $student['year']) &&
