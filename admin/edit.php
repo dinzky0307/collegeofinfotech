@@ -252,7 +252,7 @@ class Edit {
         <hr />
         <div class="modal-body">
             <?php while($row = mysql_fetch_array($student)): ?>
-            <form action="ajax.php?action=updatestudent&id=<?php echo $row['id'];?>" method="post">
+            <form action="ajax.php" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="studid" value="<?php echo $row['studid']; ?>" />
                 </div>
@@ -300,7 +300,7 @@ class Edit {
         </div>
         <div class="modal-footer">
             <a href="studentlist.php"><button type="button" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back</button></a>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+            <button type="submit" name="update_student" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
             </form>
             </form>
             <?php endwhile; ?>
