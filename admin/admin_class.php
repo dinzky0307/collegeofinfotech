@@ -12,11 +12,11 @@ class Action
 
         $this->db = $connection;
     }
-    function __destruct()
-    {
-        $this->db->close();
-        ob_end_flush();
-    }
+    // function __destruct()
+    // {
+    //     $this->db->close();
+    //     ob_end_flush();
+    // }
 
     function login()
     {
