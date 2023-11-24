@@ -199,7 +199,7 @@ if (isset($_POST['deleteYear'])) {
                         <hr>
                         <hr>
                         <label for="academicYearInput"><h2>Set Academic Year<h2></label>
-                        <input type="text" name="academicyear" id="academicYearInput" class="form-control" placeholder="Enter academic year">
+                        <input type="number" name="academicyear" id="academicYearInput" class="form-control" placeholder="Enter academic year">
                     </div>
                     <hr>
                     <h2>Set Semester</h2>
