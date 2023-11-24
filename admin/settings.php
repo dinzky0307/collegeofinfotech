@@ -272,10 +272,10 @@ if (isset($_POST['deleteYear'])) {
             <span class="slider round <?php echo isset($year['display']) && $year['display'] == 1 ? 'checked' : ''; ?>"></span>
         </label>
     </form>
-<!--                                 <form action="" method="post" style="display: inline;">
+                                <form action="" method="post" style="display: inline;">
                                     <input type="hidden" name="year_id" value="<?php echo $year['id']; ?>">
                                     <button type="submit" class="btn btn-sm btn-danger" name="deleteYear" onclick="return confirm('Are you sure you want to delete this academic year?');">Delete</button>
-                                </form> -->
+                                </form>
                             </td>
                         </tr>
                     <?php } ?>
