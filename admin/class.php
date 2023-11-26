@@ -208,7 +208,7 @@ if ($academicYearActive) {
                 <div class="modal-body">
                     <form action="" method="post">
                         <div class="form-group">
-                            <select name="subject" class="form-control" required>
+                            <select name="subject" class="form-control" required style="font-size: 16px; height: 35px">
                                 <option value="">Select Subject Code...</option>
                                 <?php
                                 $r = mysql_query("SELECT * FROM subject");
@@ -219,13 +219,13 @@ if ($academicYearActive) {
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="description" class="form-control" readonly required placeholder="Subject Description">
+                            <input type="text" name="description" class="form-control" readonly required placeholder="Subject Description" style="font-size: 16px; height: 35px">
                         </div>
                         <!-- Add hidden input fields for subject year level and semester -->
                         <input type="hidden" name="year_level" id="yearLevel">
                         <input type="hidden" name="subject_semester" id="subjectSemester">
                         <div class="form-group">
-                            <select name="teacher" class="form-control" required>
+                            <select name="teacher" class="form-control" required style="font-size: 16px; height: 35px">
                                 <option value="">Select Teacher...</option>
                                 <?php foreach ($teachers as $teacher) : ?>
                                     <option value="<?php echo $teacher['id']; ?>">
@@ -235,7 +235,7 @@ if ($academicYearActive) {
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="year" class="form-control" readonly required placeholder="Year Level">
+                            <select name="year" class="form-control" readonly required placeholder="Year Level" style="font-size: 16px; height: 35px">
                                 <option value="">Select Year level...</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -244,7 +244,7 @@ if ($academicYearActive) {
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="section" class="form-control" required>
+                            <select name="section" class="form-control" required style="font-size: 16px; height: 35px">
                                 <option value="">Select Section...</option>
                                 <option>North</option>
                                 <option>South</option>
@@ -255,10 +255,10 @@ if ($academicYearActive) {
                         </div>
                         <div class="form-group">
                             <input type="text" name="sem" class="form-control" value="<?php echo $semester; ?>"
-                                readonly>
+                                readonly style="font-size: 16px;">
                         </div>
                         <div class="form-group">
-                            <select name="sy" class="form-control" required>
+                            <select name="sy" class="form-control" required style="font-size: 16px; height: 35px">
                                 <?php
                                 $r = mysql_query("SELECT * FROM ay WHERE display = 1");
                                 while ($row = mysql_fetch_array($r)) :
