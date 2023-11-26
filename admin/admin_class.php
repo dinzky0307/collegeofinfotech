@@ -538,13 +538,14 @@ class Action
         $lname = $_POST['lname'];
         $fname = $_POST['fname'];
         $mname = $_POST['mname'];
+        $email = $_POST['email'];
         $year = $_POST['year'];
         $section = $_POST['section'];
         $semester = $_POST['semester'];
     
-        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, year=?, section=?, semester=? WHERE id=?";
+        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
         $stmt = $this->db->prepare($q);
-        $stmt->execute([$studid, $lname, $fname, $mname, $year, $section, $semester, $id]);
+        $stmt->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
     
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
