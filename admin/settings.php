@@ -316,7 +316,7 @@ if (isset($_POST['deleteYear'])) {
 
 
 <?php 
-    $conn = mysqli_connect("localhost", "root", "", "infotech");
+    $conn = mysqli_connect("127.0.0.1", "infotechmcc", "infotechmcc", "infotechmcc");
 
 
     if (isset($_POST['updatePass'])) {
