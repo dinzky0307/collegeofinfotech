@@ -24,7 +24,7 @@ if (isset($_SESSION['level']) == "student") {
 
 if (isset($_POST['confirm'])) {
 
-    $sql = mysql_query("SELECT * FROM userdata WHERE id = '".$_SESSION['user_id']."' ");
+    $sql = mysql_query("SELECT * FROM userdata WHERE id = '" . $_SESSION['user_id'] . "' ");
 
     if (mysql_num_rows($sql) > 0) {
 
@@ -41,20 +41,20 @@ if (isset($_POST['confirm'])) {
 
             $password = password_hash($_POST['confirm'], PASSWORD_DEFAULT);
 
-            $update = mysql_query("UPDATE userdata SET password = '$password' WHERE id = '".$_SESSION['user_id']."'  ");
+            $update = mysql_query("UPDATE userdata SET password = '$password' WHERE id = '" . $_SESSION['user_id'] . "'  ");
 
             unset($_SESSION['level']);
-    
-           ?>
+
+            ?>
             <script>
                 alert("Password successfully changed")
                 window.location.href = "../index.php"
             </script>
-           <?php 
-            
+        <?php
 
 
-        }   
+
+        }
     }
 }
 ?>
@@ -156,6 +156,9 @@ if (isset($_POST['confirm'])) {
             <div id="navbar" class="navbar-collapse collapse">
                 <div class="navbar-form navbar-right">
 
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeEmailModal">
+                        <i class="fa fa-envelope"></i> Change Email
+                    </button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i
                             class="fa fa-gear"></i> Change Password</button>
                     <a href="../logout.php"><button type="button" class="btn btn-danger"
@@ -238,9 +241,10 @@ if (isset($_POST['confirm'])) {
                                         <?php echo $row['description']; ?>
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
-                                    <?php $mygrade = $grade->getgrade($row['year'],$row['section'],$row['sem'],$row['SY'],$row['subject']); ?>
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['prelim'])): ?><?php echo $grade->gradeconversion($mygrade['prelim']); ?>
+                                        <?php if (isset($mygrade['prelim'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
                                         <?php endif; ?>
                                     </td>
 
@@ -260,7 +264,8 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['midterm'])): ?><?php echo $grade->gradeconversion($mygrade['midterm']); ?>
+                                        <?php if (isset($mygrade['midterm'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['midterm']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
@@ -279,7 +284,8 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['final'])): ?><?php echo $grade->gradeconversion($mygrade['final']); ?>
+                                        <?php if (isset($mygrade['final'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['final']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
@@ -297,9 +303,10 @@ if (isset($_POST['confirm'])) {
                                         }
                                         ?>
                                     </td>
-                                    
+
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['total'])): ?><?php echo $grade->gradeconversion($mygrade['total']); ?>
+                                        <?php if (isset($mygrade['total'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['total']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
@@ -396,6 +403,31 @@ if (isset($_POST['confirm'])) {
                     </div>
                 </div>
             </div>
+
+            <!-- Modal for changing email -->
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Change Email</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form action="change_email.php" method="post">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="new_email"
+                                        placeholder="New Email Address" required />
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Change</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- add modal for subject -->
             <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
                 aria-hidden="true">
