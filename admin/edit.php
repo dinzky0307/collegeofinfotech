@@ -90,38 +90,38 @@ class Edit
                         <div class="form-group">
                             <label>Code</label>
                             <input type="text" class="form-control" value="<?php echo $subject['code']; ?>" name="code"
-                                placeholder="Subject Code" />
+                                placeholder="Subject Code" style="font-size: 18px;"/>
                         </div>
                         <div class="form-group">
                             <label>Title</label>
                             <input type="text" class="form-control" value="<?php echo $subject['title']; ?>" name="title"
-                                placeholder="Subject Description" />
+                                placeholder="Subject Description" style="font-size: 18px;"/>
                         </div>
                         <div class="form-group">
                             <label>No. Of Lec Units</label>
                             <input type="number" min="1" max="5" class="form-control" value="<?php echo $subject['lecunit']; ?>"
-                                name="lecunit" placeholder="Lec Unit" />
+                                name="lecunit" placeholder="Lec Unit" style="font-size: 18px;"/>
                         </div>
                         <div class="form-group">
                             <label>No. Of Lab Units</label>
                             <input type="number" min="1" max="5" class="form-control" value="<?php echo $subject['labunit']; ?>"
-                                name="labunit" placeholder="Lab Unit" />
+                                name="labunit" placeholder="Lab Unit" style="font-size: 18px;"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>No. Of Total Units</label>
                             <input type="number" min="1" max="10" class="form-control"
-                                value="<?php echo $subject['totalunit']; ?>" name="totalunit" placeholder="Total Units" />
+                                value="<?php echo $subject['totalunit']; ?>" name="totalunit" placeholder="Total Units" style="font-size: 18px;"/>
                         </div>
                         <div class="form-group">
                             <label>Pre-requisites/s</label>
                             <input type="text" class="form-control" value="<?php echo $subject['pre']; ?>" name="pre"
-                                placeholder="Pre-requisites/s" />
+                                placeholder="Pre-requisites/s" style="font-size: 18px;"/>
                         </div>
                         <div class="form-group">
                             <label>Year level</label>
-                            <select name="year" class="form-control" required style="height: 32px;">
+                            <select name="year" class="form-control" required style="height: 32px; font-size: 18px;">
                                 <option value="">Select Year...</option>
                                 <option <?php if ($subject['year'] == '1')
                                     echo "selected" ?>>1</option>
@@ -135,7 +135,7 @@ class Edit
                             </div>
                             <div class="form-group">
                                 <label>Semester</label>
-                                <select name="semester" class="form-control" required style="height: 34px">
+                                <select name="semester" class="form-control" required style="height: 34px; font-size: 18px;">
                                     <option value="">Select Semester...</option>
                                     <option <?php if ($subject['semester'] == '1')
                                     echo "selected" ?> value="1">First Semester
