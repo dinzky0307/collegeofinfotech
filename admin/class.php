@@ -61,14 +61,15 @@ if ($academicYearActive) {
           $classId = $_POST['classId'];
           $delete = deleteClass($classId, $connection);
       
-          if ($delete) {
-              // Redirect to the same page after the deletion
-              echo "<script type='text/javascript'>window.location.href = 'class.php?r=deleted';</script>";
-              exit(); // Make sure to exit after redirecting to prevent further code execution
-          } else {
-              // Handle the deletion error if needed
-          }
-      }
+    // Redirect to the same page after the deletion
+    ?>
+    <script type="text/javascript">
+        alert("Class successfully deleted")
+        window.location.href = "class.php"
+    </script>
+    <?php
+    exit(); // Make sure to exit after redirecting to prevent further code execution
+}
 ?>
 
 <style>
