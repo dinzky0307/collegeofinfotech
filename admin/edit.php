@@ -312,22 +312,22 @@ class Edit
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Student ID:</label>
+                                <label>Student ID</label>
                                 <input type="text" class="form-control" name="studid" value="<?php echo $row['studid']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Lastname:</p>
+                                <label>Lastname</label>
                                 <input type="text" class="form-control" name="lname" value="<?php echo $row['lname']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Firstname:</p>
+                                <label>Firstname</label>
                                 <input type="text" class="form-control" name="fname" value="<?php echo $row['fname']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Middlename:</p>
+                                <label>Middlename</label>
                                 <input type="text" class="form-control" name="mname" value="<?php echo $row['mname']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
@@ -336,12 +336,12 @@ class Edit
                         <!-- <div class="row"> -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <p>Email:</p>
+                                <label>Email</label>
                                 <input type="text" class="form-control" name="email" value="<?php echo $row['email']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Year level:</p>
+                                <label>Year level</label>
                                 <select name="year" class="form-control" required style="height:40px; font-size:18px">
                                     <option value="">Select Year...</option>
                                     <option <?php if ($row['year'] == '1')
@@ -355,7 +355,7 @@ class Edit
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <p>Section:</p>
+                                    <label>Section</label>
                                     <select name="section" class="form-control" required style="height:40px; font-size:18px">
                                         <option value="">Select Section...</option>
                                         <option <?php if ($row['section'] == 'North')
@@ -371,7 +371,7 @@ class Edit
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <p>Semester:</p>
+                                    <label>Semester</label>
                                     <select name="semester" class="form-control" required style="height:40px; font-size:18px">
                                         <?php
                                     $r = mysql_query("select * from ay");
@@ -419,29 +419,29 @@ class Edit
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                <p>Lastname:</p>
+                                <label>Lastname</label>
                                 <input type="text" class="form-control" name="lname" value="<?php echo $row['lname']; ?>"
                                     style="height:38px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Firstname:</p>
+                                <label>Firstname</label>
                                 <input type="text" class="form-control" name="fname" value="<?php echo $row['fname']; ?>"
                                     style="height:38px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Middlename:</p>
+                                <label>Middlename</label>
                                 <input type="text" class="form-control" name="mname" value="<?php echo $row['mname']; ?>"
                                     style="height:38px; font-size:18px" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <p>Instructor ID:</p>
+                                <label>Instructor ID</label>
                                 <input type="text" class="form-control" name="teachid" value="<?php echo $row['teachid']; ?>"
                                     style="height:38px; font-size:18px" />
                             </div>
                             <div class="form-group">
-                                <p>Gender:</p>
+                                <label>Gender</label>
                                 <select class="form-control" name="sex" value="<?php echo $row['sex']; ?>"
                                     style="height:38px; font-size:18px">
                                     <label for="sex">Select Gender....</label>
@@ -450,7 +450,7 @@ class Edit
                                 </select>
                             </div>
                             <div class="form-group">
-                                <p>Email:</p>
+                                <label>Email</label>
                                 <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
