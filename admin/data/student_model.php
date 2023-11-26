@@ -169,11 +169,12 @@
             $lname = $_POST['lname'];
             $fname = $_POST['fname'];
             $mname = $_POST['mname'];
+            $email = $_POST['email'];
             $year = $_POST['year'];
             $section = $_POST['section'];
             $semester = $_POST['semester'];
            
-            $q = "update student set studid='$studid', lname='$lname', fname='$fname', mname='$mname', year='$year', section='$section', semester='$semester' where id=$id";
+            $q = "update student set studid='$studid', lname='$lname', fname='$fname', mname='$mname', email='$email', year='$year', section='$section', semester='$semester' where id=$id";
             mysql_query($q);
             
             $name = $fname.' '.$lname;
