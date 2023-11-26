@@ -254,12 +254,8 @@ if ($academicYearActive) {
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="sem" class="form-control" required>
-                                <option value="">Select Semester...</option>
-                                <option value="First Semester">First Semester</option>
-                                <option value="Second Semester">Second Semester</option>
-                                <option value="Summer">Summer</option>
-                            </select>
+                            <input type="text" name="sem" class="form-control" value="<?php echo $semester; ?>"
+                                readonly>
                         </div>
                         <div class="form-group">
                             <select name="sy" class="form-control" required>
