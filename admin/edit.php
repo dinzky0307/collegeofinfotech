@@ -312,7 +312,7 @@ class Edit
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <p>Student ID:</p>
+                                <label>Student ID:</label>
                                 <input type="text" class="form-control" name="studid" value="<?php echo $row['studid']; ?>"
                                     style="height:40px; font-size:18px" />
                             </div>
