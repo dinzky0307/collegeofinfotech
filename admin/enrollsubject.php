@@ -374,9 +374,13 @@ if (isset($_POST['submit'])) {
                                 echo '</tr>';
 
                                 // Disable the subjects that the student has already enrolled in
-                                $subjectid = $subject['id'];
-                                echo "<script>$('." . $subjectid . "').prop('disabled', true);</script>";
-                            }
+    $subjectid = $subject['id'];
+    if ($irregular != 1) {
+        echo "<script>$('." . $subjectid . "').prop('disabled', true);</script>";
+    } else {
+        echo "<script>$('." . $subjectid . "').prop('disabled', false);</script>";
+    }
+}
 
                             ?>
                         </tbody>
