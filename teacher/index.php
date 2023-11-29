@@ -20,7 +20,7 @@
         $students = $students + $count3[0];
     }
 
-    $get_subs = mysql_query("SELECT * FROM class WHERE teacher = $id ");
+    $get_subs = mysql_query("SELECT * FROM class WHERE teacher = $tmp ");
     if (mysql_num_rows($get_subs) > 0) {
         while ($subs_row = mysql_fetch_array($get_subs)) {
             echo $subs_row['subject'];
