@@ -27,11 +27,22 @@
     $get_class = mysql_query("SELECT * FROM class WHERE teacher = $teach_id");
     if (mysql_num_rows($get_class) > 0) {
         while ($fetch_class = mysql_fetch_array($get_class)) {
-            $subject_name[] = $fetch_class['subject'];
+            $subject_code = $fetch_class['subject'];
+
+            $get_subjects = mysql_query("SELECT * FROM subject WHERE code = '$subject_code'");
+            if (mysql_num_rows($get_subjects) > 0) {
+                $fetch_subjects = mysql_fetch_array($get_subjects);
+
+                $subject_id = $fetch_subjects['id'];
+
+                echo $subject_id;
+
+            }
+
         }
     }
 
-    echo print_r($subject_name);
+    
 
 ?>
 <div id="page-wrapper">
