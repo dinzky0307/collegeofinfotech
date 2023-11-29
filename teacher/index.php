@@ -21,7 +21,7 @@
     }
 
     $get_teach = mysql_query("SELECT * FROM teacher WHERE teachid = '$tmp'");
-    $fetch_teach = mysqli_fetch_array($get_teach);
+    $fetch_teach = mysql_fetch_array($get_teach);
     $teach_id = $fetch_teach['id'];
 
     echo $teach_id;
