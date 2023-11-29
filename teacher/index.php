@@ -31,7 +31,7 @@
         }
     }
 
-    echo $class_id;
+    echo print_r($class_id);
 
 ?>
 <div id="page-wrapper">
