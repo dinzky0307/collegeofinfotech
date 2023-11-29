@@ -426,7 +426,7 @@ while ($ss = $results->fetch_assoc()) {
 $sql = "SELECT subjectid FROM studentsubject WHERE studid = '$id'";
 $result = mysqli_query($dbconnection, $sql);
 while ($s = $result->fetch_assoc()) {
-    echo "<script>$('." . $s['subjectid'] . "').prop('disabled', true);</script>";
+    echo "<script>$('." . $s['subjectid'] . "').prop('', true);</script>";
 }
 ?>
 
