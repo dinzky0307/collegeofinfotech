@@ -35,7 +35,7 @@
 
                 $subject_id = $fetch_subjects['id'];
 
-                echo $subject_id;
+                echo $subject_id."\n";
 
             }
 
