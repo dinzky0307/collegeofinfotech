@@ -14,7 +14,7 @@
     $r2 = mysql_query("select * from class where teacher=$teachid");
     $students = 0;
     while($row = mysql_fetch_array($r2)){
-        $id = $row['id'];   
+        echo $id = $row['id'];   
         $r3 = mysql_query("select count(*) from studentsubject where classid=$id");
         $count3 = mysql_fetch_array($r3);
         $students = $students + $count3[0];
