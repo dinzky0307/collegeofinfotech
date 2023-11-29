@@ -35,7 +35,8 @@
 
                 $subject_id = $fetch_subjects['id'];
 
-                echo $subject_id."\n";
+                $cnt_students = mysql_query("SELECT COUNT(*) FROM studentsubject WHERE subjectid = $subject_id ");
+                $all_students = mysql_fetch_array($cnt_students);
 
             }
 
@@ -95,7 +96,7 @@
                                 <i class="fa fa-users fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo $students; ?></div>
+                                <div class="huge"><?php echo  $all_students[0]; ?></div>
                                 <div>Students!</div>
                             </div>
                         </div>
