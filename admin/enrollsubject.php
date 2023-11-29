@@ -366,6 +366,7 @@ if (isset($_POST['submit'])) {
                                 echo '<input class="' . $subject['id'] . ' name" name="check_list[]" type="checkbox" value="' . $subject['id'] . '" data-id="' . $subject['id'] . '"/>';
                                 echo '</td>';
                                 echo '<td class="text-center">' . $subject['code'] . '</td>';
+                                echo '<td class="text-center">' . $subject['classid'] . '</td>';
                                 echo '<td class="text-center">' . $subject['title'] . '</td>';
                                 echo '<td class="text-center">' . $subject['lecunit'] . '</td>';
                                 echo '<td class="text-center">' . $subject['labunit'] . '</td>';
