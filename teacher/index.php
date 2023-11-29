@@ -2,7 +2,7 @@
     include('include/header.php');
     include('include/sidebar.php');
 
-    echo $tmp = $_SESSION['id'];
+    $tmp = $_SESSION['id'];
     $q = "select * from teacher where teachid='$tmp'";
     $r = mysql_query($q);
     $result = mysql_fetch_array($r);
@@ -20,12 +20,11 @@
         $students = $students + $count3[0];
     }
 
-    $get_subs = mysql_query("SELECT * FROM class WHERE teacher = $tmp ");
-    if (mysql_num_rows($get_subs) > 0) {
-        while ($subs_row = mysql_fetch_array($get_subs)) {
-            echo $subs_row['subject'];
-        }
-    }
+    $get_teach = mysql_query("SELECT * FROM teacher WHERE teachid = '$tmp'");
+    $fetch_teach = mysqli_fetch_array($get_teach);
+    $teach_id = $fetch_teach['id'];
+
+    echo $teach_id;
 
 ?>
 <div id="page-wrapper">
