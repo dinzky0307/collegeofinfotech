@@ -24,7 +24,14 @@
     $fetch_teach = mysql_fetch_array($get_teach);
     $teach_id = $fetch_teach['id'];
 
-    echo $teach_id;
+    $get_class = mysql_query("SELECT * FROM class WHERE teacher = $teach_id");
+    if (mysql_num_rows($get_class) > 0) {
+        while ($fetch_class = mysql_fetch_array($get_class)) {
+            $class_id[] = $fetch_class['id'];
+        }
+    }
+
+    echo $class_id;
 
 ?>
 <div id="page-wrapper">
