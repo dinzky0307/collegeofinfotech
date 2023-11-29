@@ -2,7 +2,7 @@
     include('include/header.php');
     include('include/sidebar.php');
 
-    $tmp = $_SESSION['id'];
+    echo $tmp = $_SESSION['id'];
     $q = "select * from teacher where teachid='$tmp'";
     $r = mysql_query($q);
     $result = mysql_fetch_array($r);
