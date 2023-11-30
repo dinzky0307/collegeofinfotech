@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="col-lg-12 col-md-6">
-                <div class="panel "style= "background-color: #ff0800; color: white;">
+                <div class="panel "style= "background-color: #ff0800; color: white; height: 110px;">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -101,13 +101,13 @@
                             </div>
                         </div>
                     </div>
-                    <a href="student.php"style= "text-decoration: none; color:  #ff0800;">
+<!--                     <a href="student.php"style= "text-decoration: none; color:  #ff0800;">
                         <div class="panel-footer">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
                             <div class="clearfix"></div>
                         </div>
-                    </a>
+                    </a> -->
                 </div>
             </div>
 <!--             <div class="col-lg-12 col-md-6">
