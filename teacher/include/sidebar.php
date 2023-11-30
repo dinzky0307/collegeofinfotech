@@ -10,9 +10,9 @@
                     <li>
                         <a href="subject.php"><i class="fa fa-fw fa-bar-chart-o"></i> My Subjects</a>
                     </li>
-                    <li>
+<!--                     <li>
                         <a href="student.php"><i class="fa fa-fw fa-table"></i> My Students</a>
-                    </li>
+                    </li> -->
                     <!-- <li>
                         <a href="message.php"><i class="fa fa-comment"></i> Message</a> 
                     </li> -->
