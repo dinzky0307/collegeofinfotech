@@ -40,16 +40,17 @@
             <a href="users.php"><i class="fa fa-fw fa-users"></i> Users</a>
         </li>
 
-        <li>
-            <a href="#" data-toggle="modal" data-target="#downloadModal"><i class="fa fa-fw fa-download"></i>
-                Downloadables</a>
-        </li>
+
 
 
         <li>
             <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
         </li>
 
+                <li>
+            <a href="#" data-toggle="modal" data-target="#downloadModal"><i class="fa fa-fw fa-download"></i>
+                Downloadables</a>
+        </li>
 
         <!-- <li>
                         <a href="logs.php"><i class="fa fa-fw fa-archive"></i> Recent Activity </a>
