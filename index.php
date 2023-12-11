@@ -109,7 +109,7 @@ if(isset($_SESSION['level'])){
   </div>
 
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-<!--   <script src="app.js"></script> -->
+  <script src="app.js"></script>
 </body>
 
 </html>
