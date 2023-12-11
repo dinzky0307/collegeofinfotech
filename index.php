@@ -41,7 +41,7 @@ if(isset($_SESSION['level'])){
     <link rel="icon" href="img/mcc.png">
 
     <title>InfoTech</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style1.css" />
 </head>
 
 <body>
