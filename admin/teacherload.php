@@ -8,6 +8,24 @@
     
     $id = $_GET['id'];
     $teacher = $teacher->getteacherbyid($id);
+
+if (isset($_POST['deleteSubject'])) {
+    $classId = $_POST['classId'];
+    $teachId = $_POST['teachId'];
+
+    $deleted = removeSubject($classId, $teachId, $connection);
+
+    if ($deleted) {
+        ?>
+        <script type="text/javascript">
+            alert("Subject successfully deleted");
+            window.location.href = "teacherload.php?id=<?php echo $teachId; ?>";
+        </script>
+        <?php
+        exit(); // Exit to prevent further code execution
+    }
+}
+    
 ?>
 <div id="page-wrapper">
 
@@ -60,7 +78,16 @@
                 <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id']?>" target="_blank">View</a></td>     
                 <td class="text-center"><?php echo $row['year']?> - <?php echo $row['section']?></td>
                 <td class="text-center"><?php echo $row['sem']?></td>
-                <td class="text-center"><a href="data/teacher_model.php?q=removesubject&teachid=<?php echo $id;?>&classid=<?php echo $row['id']; ?>"><i class="fa fa-times-circle text-danger fa-2x confirmation"></i></a></td>
+                <td class="text-center">
+                <form class="delete-form" method="post" style="display: inline-block;">
+                     <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
+                        <input type="hidden" name="teachId" value="<?php echo $id; ?>">
+                            <button type="submit" name="deleteSubject" class="delete-button" title="Remove">
+                                <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
+                            </button>
+                </form>
+<!--<a href="data/teacher_model.php?q=removesubject&teachid=<?php echo $id;?>&classid=<?php echo $row['id']; ?>">
+                    <i class="fa fa-times-circle text-danger fa-2x confirmation"></i></a></td> -->
             </tr>
     <?php endwhile;
 ?>
