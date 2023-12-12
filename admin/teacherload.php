@@ -27,6 +27,16 @@ if (isset($_POST['deleteSubject'])) {
 }
     
 ?>
+
+<style>
+    .no-border {
+    border: none;
+    background: none; /* Optional: Remove background if necessary */
+    /* Any additional styles you want to apply */
+}
+</style>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -53,13 +63,17 @@ if (isset($_POST['deleteSubject'])) {
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
-                <?php while($row = mysql_fetch_array($teacher)): ?>
-                <h4>Instructor ID : <?php echo $row['teachid']; ?></h4>
-                <h4>Name : <?php echo $row['fname'].' '.$row['lname']; ?></h4>
+                <?php while ($row = mysql_fetch_array($teacher)): ?>
+                    <h4>Instructor ID :
+                        <?php echo $row['teachid']; ?>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Name :
+                        <?php echo $row['fname'] . ' ' . $row['mname'] . ' ' . $row['lname']; ?>
+                    </h4>
                 <?php endwhile; ?>
                 <hr />
                 <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" id="load">
                     <thead>
                         <tr>
                             <th class="text-center">Subject</th>
@@ -82,7 +96,7 @@ if (isset($_POST['deleteSubject'])) {
                 <form class="delete-form" method="post" style="display: inline-block;">
                      <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
                         <input type="hidden" name="teachId" value="<?php echo $id; ?>">
-                            <button type="submit" name="deleteSubject" class="delete-button" title="Remove">
+                            <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove">
                                 <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
                             </button>
                 </form>
@@ -103,5 +117,38 @@ if (isset($_POST['deleteSubject'])) {
     <!-- /.container-fluid -->
 
 </div>
-<!-- /#page-wrapper -->    
+
+<script>
+    $('#load thead th').each(function () {
+        //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
+        //     if(title!=""){
+        //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        //   }
+    });
+
+    // DataTable
+    var table = $('#load').DataTable({
+        searching: true,
+        "columnDefs": [
+            { "searchable": true, "targets": '_all' }
+        ],
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        $('#load').DataTable();
+    });
+    function handleSearchInput(event) {
+        // Get the form element
+        const form = document.getElementById('searchForm');
+        // Submit the form
+        form.submit();
+    }
+    // Listen for the "keyup" event on the search input and call the handleSearchInput function
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.addEventListener('keyup', handleSearchInput);
+</script>
+
 <?php include('include/footer.php');
