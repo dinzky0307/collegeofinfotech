@@ -1,13 +1,13 @@
 <?php
-    include('include/header.php');
-    include('include/sidebar.php');
-    include('../database.php');
-    include('data/teacher_model.php');
-    $teacher = new Datateacher($connection);
-    include('data/data_model.php');
-    
-    $id = $_GET['id'];
-    $teacher = $teacher->getteacherbyid($id);
+include('include/header.php');
+include('include/sidebar.php');
+include('../database.php');
+include('data/teacher_model.php');
+$teacher = new Datateacher($connection);
+include('data/data_model.php');
+
+$id = $_GET['id'];
+$teacher = $teacher->getteacherbyid($id);
 
 if (isset($_POST['deleteSubject'])) {
     $classId = $_POST['classId'];
@@ -25,7 +25,7 @@ if (isset($_POST['deleteSubject'])) {
         exit(); // Exit to prevent further code execution
     }
 }
-    
+
 ?>
 
 <style>
@@ -34,9 +34,10 @@ if (isset($_POST['deleteSubject'])) {
     background: none; /* Optional: Remove background if necessary */
     /* Any additional styles you want to apply */
 }
-</style>
 
+</style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+
 <div id="page-wrapper">
 
     <div class="container-fluid">
@@ -73,51 +74,60 @@ if (isset($_POST['deleteSubject'])) {
                 <?php endwhile; ?>
                 <hr />
                 <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="load">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Subject</th>
-                            <th class="text-center">Students</th>
-                            <th class="text-center">Year & Section</th>
-                            <th class="text-center">Semester</th>
-                            <th class="text-center">Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-<?php
-    $r1 = mysql_query("select * from class where teacher=$id");
-    while($row = mysql_fetch_array($r1)):?>
-            <tr>
-                <td class="text-center"><?php echo $row['subject']?> - <?php echo $row['description']?></td>            
-                <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id']?>" target="_blank">View</a></td>     
-                <td class="text-center"><?php echo $row['year']?> - <?php echo $row['section']?></td>
-                <td class="text-center"><?php echo $row['sem']?></td>
-                <td class="text-center">
-                <form class="delete-form" method="post" style="display: inline-block;">
-                     <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
-                        <input type="hidden" name="teachId" value="<?php echo $id; ?>">
-                            <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove">
-                                <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
-                            </button>
-                </form>
-<!--<a href="data/teacher_model.php?q=removesubject&teachid=<?php echo $id;?>&classid=<?php echo $row['id']; ?>">
-                    <i class="fa fa-times-circle text-danger fa-2x confirmation"></i></a></td> -->
-            </tr>
-    <?php endwhile;
-?>
-                    </tbody>
-                </table>    
-            </div>
+                    <table class="table table-striped table-bordered" id="load">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Subject</th>
+                                <th class="text-center">Students</th>
+                                <th class="text-center">Year & Section</th>
+                                <th class="text-center">Semester</th>
+                                <th class="text-center">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $r1 = mysql_query("select * from class where teacher=$id");
+                            while ($row = mysql_fetch_array($r1)): ?>
+                                <tr>
+                                    <td class="text-center">
+                                        <?php echo $row['subject'] ?> -
+                                        <?php echo $row['description'] ?>
+                                    </td>
+                                    <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id'] ?>"
+                                            target="_blank">View</a></td>
+                                    <td class="text-center">
+                                        <?php echo $row['year'] ?> -
+                                        <?php echo $row['section'] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $row['sem'] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <form class="delete-form" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
+                                            <input type="hidden" name="teachId" value="<?php echo $id; ?>">
+                                            <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove">
+                                                <!-- onclick="return confirm('Are you sure you want to delete this subject?');"> -->
+                                                <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
+                                            </button>
+                                        </form>
+                                        <!-- <a href="data/teacher_model.php?q=removesubject&teachid=<?php echo $id; ?>&classid=<?php echo $row['id']; ?>"> -->
+                                        <!-- <i class="fa fa-times-circle text-danger fa-2x confirmation"></i></a></td> -->
+                                </tr>
+                            <?php endwhile;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-       
+
 
 
     </div>
     <!-- /.container-fluid -->
 
 </div>
-
 <script>
     $('#load thead th').each(function () {
         //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
@@ -133,6 +143,19 @@ if (isset($_POST['deleteSubject'])) {
             { "searchable": true, "targets": '_all' }
         ],
     });
+
+    // // Apply the search
+    // table.columns().eq( 0 ).each( function ( colIdx ) {
+    //     if( !table.settings()[0].aoColumns[colIdx].bSearchable ){
+    //     table.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
+    // }
+    //     $( 'input', table.column( colIdx ).header() ).on( 'keyup change', function () {
+    //         table
+    //             .column( colIdx )
+    //             .search( this.value )
+    //             .draw();
+    //     } );
+    // } );
 
 </script>
 <script>
@@ -150,5 +173,5 @@ if (isset($_POST['deleteSubject'])) {
     const searchInput = document.querySelector('input[name="search"]');
     searchInput.addEventListener('keyup', handleSearchInput);
 </script>
-
+<!-- /#page-wrapper -->
 <?php include('include/footer.php');
