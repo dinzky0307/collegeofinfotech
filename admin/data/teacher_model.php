@@ -125,6 +125,16 @@
         
     }
 
+    function removeSubject($classId, $teachId, $connection){
+    $sql = "UPDATE class SET teacher = NULL WHERE id = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->execute([$classId]);
+
+    // Log the action
+    // ...
+
+    return true; // Return true if deletion is successful, false otherwise
+    }
 
     include('../database.php');
 
