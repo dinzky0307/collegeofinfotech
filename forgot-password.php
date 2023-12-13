@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
     <meta name="author" content="">
     <link rel="icon" href="img/mcc.png">
     <title>InfoTech</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style1.css">
 </head>
 <body>
     <div class="container">
@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
         <p class="p" style=" text-shadow: 1px 2px 3px black;
   color: #f0f0f0;">Madridejos Community College</p>
           <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
-  color: #f0f0f0;">College of Computer</h2>
+  color: #f0f0f0;">College of Computer Studies</h2>
         </div>
         <!-- <img src="img/register.svg" class="image" alt=""/> -->
       </div>
