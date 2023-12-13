@@ -111,7 +111,7 @@ if (isset($_POST['submit'])) {
         <div class="content">
         <img src="img/mcc.png" alt="mcc" width="230" height="200" style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
         <p class="p" style=" text-shadow: 1px 2px 3px black;
-  color: #f0f0f0;">Madridejos Community College</p>
+  color: #f0f0f0;"></p>
           <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
   color: #f0f0f0;">College of Computer Studies</h2>
         </div>
