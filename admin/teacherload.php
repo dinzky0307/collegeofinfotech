@@ -106,8 +106,8 @@ if (isset($_POST['deleteSubject'])) {
                                         <form class="delete-form" method="post" style="display: inline-block;">
                                             <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
                                             <input type="hidden" name="teachId" value="<?php echo $id; ?>">
-                                            <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove">
-                                                <!-- onclick="return confirm('Are you sure you want to delete this subject?');"> -->
+                                            <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove"
+                                                onclick="return confirm('Are you sure you want to delete this subject?');">
                                                 <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
                                             </button>
                                         </form>
