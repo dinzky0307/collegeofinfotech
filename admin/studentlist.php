@@ -149,7 +149,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                         <div class="ml-auto">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#importCSVModal"><i class="fa fa-upload"></i> Import CSV</button>
-                              <a href="updatestudentsubject.php"><button type="button" class="btn btn-success"><i
+                              <a href="updatestudentsubject.php"><button type="button" class="btn btn-warning"><i
                                         class="fa fa-user-edit"></i> Update Student</button></a>
                             <a href="addstudent.php"><button type="button" class="btn btn-success"><i
                                         class="fa fa-user"></i> Add Student</button></a>
