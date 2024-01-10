@@ -110,6 +110,21 @@ if(isset($_SESSION['level'])){
 
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
   <script src="app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+  function focusOnUsername() {
+    const usernameInput = document.querySelector('input[name="user"]');
+    if (usernameInput) {
+      usernameInput.focus(); // Focus on the username input field
+    }
+  }
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    focusOnUsername(); // Call the focus function for mobile devices
+  }
+});
+ </script>
 </body>
 
 </html>
