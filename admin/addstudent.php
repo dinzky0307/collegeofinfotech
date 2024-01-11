@@ -11,9 +11,6 @@ if (isset($_GET['q'])) {
     $studentModel->$_GET['q']();
 }
 
-// Fetch the active academic year from the database
-$activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1");
-
 $search = isset($_POST['search']) ? $_POST['search'] : null;
 $student = $student->getstudent($search, null, null, null, $connection);
 
