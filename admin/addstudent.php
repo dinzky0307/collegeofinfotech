@@ -259,7 +259,9 @@ $ay = $dbService->fetchRow("SELECT * from ay");
                             <option value="East" <?php echo $section == "East" ? "selected" : "" ?> >East</option>
                             <option value="West" <?php echo $section == "West" ? "selected" : "" ?> >West</option>
                             <option value="South East" <?php echo $section == "South East" ? "selected" : "" ?> >South East</option>
+				<option value="South West" <?php echo $section == "South West" ? "selected" : "" ?> >South West</option>
                             <option value="North East" <?php echo $section == "North East" ? "selected" : "" ?> >North East</option>
+				<option value="North West" <?php echo $section == "North West" ? "selected" : "" ?> >North West</option>
                         </select>
                     </div>
                     <div class="form-group" style="height:44px">
