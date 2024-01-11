@@ -37,16 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['csvFile'])) {
             $semester = $data[7];
             $ay = $data[8];
 
+                        // Check if the student ID already exists
+            $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ?");
+            $existStatement->execute([$studid]);
+            $exists = $existStatement->fetch();
             
-            // $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ?");
-            // $existStatement->execute([$studid]);
-            // $exists = $existStatement->fetch();
-            
-            // Check if the student ID already exists
-$existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
-$existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
-$existStatement->setFetchMode(PDO::FETCH_ASSOC);
-$exists = $existStatement->fetch();
+
+// $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
+// $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
+// $existStatement->setFetchMode(PDO::FETCH_ASSOC);
+// $exists = $existStatement->fetch();
             
             if ($exists) {
                 $idExists = true;
