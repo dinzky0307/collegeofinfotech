@@ -14,17 +14,6 @@ if (isset($_GET['q'])) {
 // Fetch the active academic year from the database
 $activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1");
 
-// Check if the active academic year exists and set the variables accordingly
-if ($activeAcademicYear) {
-    $academic_year = $activeAcademicYear['academic_year'];
-    $semester = $activeAcademicYear['semester'];
-    $academicYearActive = true;
-} else {
-    $academic_year = null;
-    $semester = null;
-    $academicYearActive = false;
-}
-
 $search = isset($_POST['search']) ? $_POST['search'] : null;
 $student = $student->getstudent($search, null, null, null, $connection);
 
