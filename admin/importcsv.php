@@ -37,11 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['csvFile'])) {
             $semester = $data[7];
             $ay = $data[8];
 
+            
+            // $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ?");
+            // $existStatement->execute([$studid]);
+            // $exists = $existStatement->fetch();
+            
             // Check if the student ID already exists
-            $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ?");
-            $existStatement->execute([$studid]);
+            $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
+            $existStatement->execute([$studid, $ay, $semester]);
             $exists = $existStatement->fetch();
-
+            
             if ($exists) {
                 $idExists = true;
                 // Display alert for each existing ID
