@@ -37,17 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['csvFile'])) {
             $semester = $data[7];
             $ay = $data[8];
 
-                        // Check if the student ID already exists
+            // Check if the student ID already exists
             $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ?");
             $existStatement->execute([$studid]);
             $exists = $existStatement->fetch();
-            
 
-// $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
-// $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
-// $existStatement->setFetchMode(PDO::FETCH_ASSOC);
-// $exists = $existStatement->fetch();
-            
             if ($exists) {
                 $idExists = true;
                 // Display alert for each existing ID
@@ -68,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['csvFile'])) {
         } else {
             echo "<script>alert('CSV file imported successfully for all students.');</script>";
         }
-
     }
 } else {
     // Display alert if CSV file is not uploaded
@@ -78,11 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['csvFile'])) {
 include('include/footer.php');
 
 ob_end_flush(); // Flush the output buffer and send it to the browser
-?>
 
-<script>
-    // Use JavaScript to perform the redirect after the alert is displayed
-    setTimeout(function () {
-        window.location.href = 'studentlist.php';
-    }, 10); // Redirect after 1 second (adjust as needed)
-</script>
+// Redirect after the alert is displayed
+echo "<script>setTimeout(function () { window.location.href = 'studentlist.php'; }, 1000);</script>";
+?>
