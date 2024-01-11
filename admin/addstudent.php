@@ -44,13 +44,11 @@ if (isset($_POST['addStudent'])) {
         $ay = $_POST['sy'];
 
 
-        // Check existing ID
-$existStatement = $connection->prepare("SELECT s.studid FROM student s
-                                         JOIN ay a ON s.ay = a.academic_year
-                                         WHERE s.studid = :studid AND a.display = 1");
-$existStatement->bindParam(':studid', $_POST['studid'], PDO::PARAM_STR);
-$existStatement->execute();
-$exists = $existStatement->fetch(PDO::FETCH_ASSOC);
+// Check existing ID and academic year
+$existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ?");
+$existStatement->execute([$_POST['studid'], $_POST['sy']]);
+$existStatement->setFetchMode(PDO::FETCH_ASSOC);
+$exists = $existStatement->fetch();
 
         if ($exists) {
             echo "<script type='text/javascript'>";
