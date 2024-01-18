@@ -232,7 +232,7 @@ $ay = $dbService->fetchRow("SELECT * from ay");
                             <input type="text" class="form-control" name="fname" placeholder="Firstname" value="<?php echo $fname ?>" required/>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="mname" placeholder="Middlename" value="<?php echo $mname ?>" required/>
+                            <input type="text" class="form-control" name="mname" placeholder="Middlename" value="<?php echo $mname ?>" />
                         </div>
                         <div class="form-group">
                             <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $email ?>" required/>
