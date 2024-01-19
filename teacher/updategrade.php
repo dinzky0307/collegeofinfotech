@@ -15,7 +15,7 @@ include 'connection.php';
   $sub = $_POST['subject'];
   $code = $_POST['cd'];
   $grade_id = $_POST['grade_id'];
-  $total = ($prelim + $midterm + $final) / 3;
+  $total = (($midterm*0.3) + ($final*0.7)) ;
   
   
   
