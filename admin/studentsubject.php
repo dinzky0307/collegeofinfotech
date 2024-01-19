@@ -249,7 +249,9 @@ function gradeconversion($grade){
 
     </div>
     <!-- /.container-fluid -->
-
+    <form class = hidden-print>
+    <a href="report.php"><button type="button" class="btn btn-default" data-dismiss="modal" style="float: right; border: 2px solid black">Close</button></a>
+    </form>
 </div>
 <!-- /#page-wrapper -->    
 <?php include('include/footer.php');
