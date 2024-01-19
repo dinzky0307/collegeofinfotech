@@ -100,7 +100,7 @@
                                 <th>#</th>
                                 <th class="text-center">ID Number</th>
                                 <th class="text-center">Name</th>
-                                <th class="text-center">Prelim</th>
+<!--                                 <th class="text-center">Prelim</th> -->
                                 <th class="text-center">Midterm</th>
                                 <th class="text-center">Final</th>
                                 <th class="text-center">Average</th>
