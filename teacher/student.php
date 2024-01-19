@@ -119,7 +119,7 @@
                                     <td class="text-center"><?php echo $row['studid']; ?></td>    
                                     <td class="text-center"><?php echo $row['fname'].', '.$row['lname'].' '.$row['mname']; ?></td>  
                                     <?php $grade = $student->getstudentgrade($row['grade_id']); ?>
-                                    <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>    
+<!--                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>     -->
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['midterm'];?>" name="midterm_grade" id="midterm"></td>    
                                     <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
                                     <td class="text-center"><?php echo $grade['total'];?></td>
@@ -171,7 +171,7 @@
 <script>
 $('.updategrade').click(function(){
     var dataid = $(this).attr('data-id');
-    var prelim = $('#'+dataid+' #prelim').val();
+    // var prelim = $('#'+dataid+' #prelim').val();
     var midterm = $('#'+dataid+' #midterm').val();
     var final = $('#'+dataid+' #final').val();
     var classid = $(this).attr('data-classid');
