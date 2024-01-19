@@ -115,97 +115,97 @@
                  $data = 0;
             }else{
                 switch ($grade) {
-                     case $grade > 94:
+                     case 1.0:
                          $data = 1.0;
                          break;
-                     case 94:
+                     case 1.1:
                          $data = 1.1;
                          break;
-                    case 93:
+                    case 1.2:
                          $data = 1.2;
                          break;
-                    case 92:
+                    case 1.3:
                          $data = 1.3;
                          break;
-                    case 91:
+                    case 1.4:
                          $data = 1.4;
                          break;
-                    case 90:
+                    case 1.5:
                          $data = 1.5;
                          break;
-                    case 89:
+                    case 1.6:
                          $data = 1.6;
                          break;
-                    case 88:
+                    case 1.7:
                          $data = 1.7;
                          break;
-                    case 87:
+                    case 1.8:
                          $data = 1.8;
                          break;
-                    case 86:
+                    case 1.9:
                          $data = 1.9;
                          break;
-                    case 85:
+                    case 2.0:
                          $data = 2.0;
                          break;
-                    case 84:
+                    case 2.1:
                          $data = 2.1;
                          break;
-                    case 83:
+                    case 2.2:
                          $data = 2.2;
                          break;
-                    case 82:
+                    case 2.3:
                          $data = 2.3;
                          break;
-                    case 81:
+                    case 2.4:
                          $data = 2.4;
                          break;
-                    case 80:
+                    case 2.5:
                          $data = 2.5;
                          break;
-                   case 79:
+                   case 2.6:
                          $data = 2.6;
                          break;
-                    case 78:
+                    case 2.7:
                          $data = 2.7;
                          break;
-                    case 77:
+                    case 2.8:
                          $data = 2.8;
                          break;
-                    case 76:
+                    case 2.9:
                          $data = 2.9;
                          break;
-                    case 75:
+                    case 3.0:
                          $data = 3.0;
                          break; 
-                      case 74:
+                      case 3.1:
                          $data = 3.1;
                          break;
-                    case 73:
+                    case 3.2:
                          $data = 3.2;
                          break;
-                    case 72:
+                    case 3.3:
                          $data = 3.3;
                          break;
-                    case 71:
+                    case 3.4:
                          $data = 3.4;
                          break; 
-                    case 70:
+                    case 3.5:
                          $data = 3.5;
                          break;
-                    case 69:
+                    case 3.6:
                          $data = 3.6;
                          break;
-                    case 68:
+                    case 3.7:
                          $data = 3.7;
                          break;
-                    case 67:
+                    case 3.8:
                          $data = 3.8;
                          break;
-                   case 66:
+                   case 3.9:
                          $data = 3.9;
                          break;
-                   case 65:
+                   case 4.0:
                          $data = 4.0;
                          break;
 
