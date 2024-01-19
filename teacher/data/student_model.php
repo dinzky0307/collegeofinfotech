@@ -80,7 +80,7 @@
                 $midterm = $midterm_grade;
                 $final = $finals_grade;
                 
-                $total = ($prelim * .30) + ($midterm * .30) + ($final * .40);
+                $total = (($prelim + $midterm)/2) * .30) + ($final * .70);
                 
                 $data = array(
                     'eqprelim' => $this->gradeconversion($prelim),
