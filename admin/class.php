@@ -252,6 +252,9 @@ if ($academicYearActive) {
                                 <option>East</option>
                                 <option>West</option>
                                 <option>North East</option>
+                                <option>North West</option>
+                                <option>South East</option>
+                                <option>South West</option>
                             </select>
                         </div>
                         <div class="form-group">
