@@ -143,7 +143,7 @@ if (isset($_POST['submit'])) {
                 })";
                 echo "</script>";
                 // Redirect with parameters
-                echo "<script type='text/javascript'>window.location.href = 'studentlist.php?';</script>";
+                echo "<script type='text/javascript'>window.location.href = 'addstudent.php?';</script>";
             } else {
                 // Print any error messages
                 $errorInfo = $pdo_statement_insert->errorInfo();
