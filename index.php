@@ -95,7 +95,7 @@ if(isset($_SESSION['level'])){
     
 
     <div class="panels-container" >
-      <div class="panel left-panel" style="max-height: 85%">
+      <div class="panel left-panel" style="max-height: 87%">
         <div class="content">
         <img src="img/mcc.png" alt="mcc" width="230" height="200" style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
         <p class="p" style=" text-shadow: 1px 2px 3px black;
