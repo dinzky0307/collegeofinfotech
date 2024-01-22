@@ -52,7 +52,7 @@ if(isset($_SESSION['level'])){
           <h2 class="title">Log In</h2>
           <div class="form-group" style="color: red;">
                 <?php if(isset($_GET['login'])): ?>
-                    <label class="text-danger">Invalid Username/Password try again !!</label>&nbsp;
+                    <label class="text-danger">Invalid Username/Password try again</label>&nbsp;
                 <?php endif; ?>
           </div>
           <div class="input-field">
