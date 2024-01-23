@@ -58,7 +58,7 @@ $exists = $existStatement->fetch();
              })";
             echo "</script>";
         } else {
-            $sql = "INSERT INTO student (studid, fname, lname, mname,email, year, section, semester,ay)
+            $sql = "INSERT INTO student (studid, lname, fname, mname,email, year, section, semester,ay)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $connection->prepare($sql)->execute([
                 $_POST['studid'],
