@@ -209,9 +209,7 @@ function gradeconversion($grade){
                 <?php
                 if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
                     $finalRatings = $student->gradeconversion(array_sum([
-                        $grade['prelim_grade'] * 0.3,
-                        $grade['midterm_grade'] * 0.3,
-                        $grade['final_grade'] * 0.4
+                        (($grade['prelim_grade'] + $grade['midterm_grade'])/2) * 0.3, $grade['final_grade'] * 0.7
                     ]));
                     echo $finalRatings;
                 } else {
@@ -223,9 +221,7 @@ function gradeconversion($grade){
                 <?php
                 if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
                     $average = $student->gradeconversion(array_sum([
-                        $grade['prelim_grade'] * 0.3,
-                        $grade['midterm_grade'] * 0.3,
-                        $grade['final_grade'] * 0.4
+                            (($grade['prelim_grade'] + $grade['midterm_grade'])/2) * 0.3, $grade['final_grade'] * 0.7
                     ]));
                     echo getRemarks($average);
                 } else {
