@@ -374,6 +374,12 @@ class Edit
                                         echo "selected" ?>>West</option>
                                         <option <?php if ($row['section'] == 'North East')
                                         echo "selected" ?>>North East</option>
+                                        <option <?php if ($row['section'] == 'North West')
+                                        echo "selected" ?>>North West</option>
+                                        <option <?php if ($row['section'] == 'South East')
+                                        echo "selected" ?>>South East</option>
+                                        <option <?php if ($row['section'] == 'South West')
+                                        echo "selected" ?>>South West</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
