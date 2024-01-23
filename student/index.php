@@ -251,7 +251,7 @@ if (isset($_POST['confirm'])) {
                                     <td class="text-center">
                                         <?php
                                         if (isset($mygrade['eqprelim'])) {
-                                            if ($mygrade['eqprelim'] > 3) {
+                                            if ($mygrade['eqprelim'] > 3.0) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($mygrade['eqprelim'] == 0) {
                                                 echo "<font color='black'>NG</font>";
@@ -271,7 +271,7 @@ if (isset($_POST['confirm'])) {
                                     <td class="text-center">
                                         <?php
                                         if (isset($mygrade['eqmidterm'])) {
-                                            if ($mygrade['eqmidterm'] > 3) {
+                                            if ($mygrade['eqmidterm'] > 3.0) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($mygrade['eqmidterm'] == 0) {
                                                 echo "<font color='black'>NG</font>";
@@ -291,7 +291,7 @@ if (isset($_POST['confirm'])) {
                                     <td class="text-center">
                                         <?php
                                         if (isset($mygrade['eqfinal'])) {
-                                            if ($mygrade['eqfinal'] > 3) {
+                                            if ($mygrade['eqfinal'] > 3.0) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($mygrade['eqfinal'] == 0) {
                                                 echo "<font color='black'>NG</font>";
@@ -312,7 +312,7 @@ if (isset($_POST['confirm'])) {
                                     <td class="text-center">
                                         <?php
                                         if (isset($mygrade['eqtotal'])) {
-                                            if ($mygrade['eqtotal'] > 3) {
+                                            if ($mygrade['eqtotal'] > 3.0) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($mygrade['eqtotal'] == 0) {
                                                 echo "<font color='black'>NG</font>";
