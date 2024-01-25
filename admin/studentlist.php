@@ -318,7 +318,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                                 <i class="fa fa-edit fa-lg text-primary"></i>
                                             </a>
                                         </div>
-                                        || &nbsp; &nbsp;
+                                       &nbsp; || &nbsp; 
                                         <!-- Form to handle subject deletion -->
                                         <form class="delete-form" method="post" style="display: inline-block;">
                                             <input type="hidden" name="studentId" value="<?php echo $student['id']; ?>">
