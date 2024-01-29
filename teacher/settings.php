@@ -2,25 +2,26 @@
     include('include/header.php');
     include('include/sidebar.php');
     include '../DatabaseService.php';
+    include 'connection.php';
 
     use Database\DatabaseService;
 
     $username = isset($_GET['username']) ? $_GET['username'] : $_SESSION['id'];
+ 
+    // if (isset($_POST['new'])) {
+    //     $dbService = new DatabaseService;
+    //     $dbService->updatePassword([
+    //         'id' => $_SESSION['user_id'],
+    //         'password_confirmation' => $_POST['confirm'],
+    //     ]);
 
-    if (isset($_POST['new'])) {
-        $dbService = new DatabaseService;
-        $dbService->updatePassword([
-            'id' => $_SESSION['user_id'],
-            'password_confirmation' => $_POST['confirm'],
-        ]);
-
-        echo "<script type='text/javascript'>";
-        echo "Swal.fire({
-            title: 'Password changed!',
-            icon: 'success',
-        })";
-        echo "</script>";
-    }
+    //     echo "<script type='text/javascript'>";
+    //     echo "Swal.fire({
+    //         title: 'Password changed!',
+    //         icon: 'success',
+    //     })";
+    //     echo "</script>";
+    // }
 ?>
 <div id="page-wrapper" x-data="PasswordHandler">
 
@@ -54,7 +55,7 @@
                         <label>Confirm Password</label>
                         <input type="password" name="confirm" class="form-control" x-ref="confirm">
                     </div>
-                    <button type="button" @click.prevent="validate" class="btn btn-success btn-lg" name="changePassword">Update Password</button>
+                    <button type="submit" name="updatePass" @click="validate" class="btn btn-success btn-lg" name="changePassword">Update Password</button>
                 </form>  
              </div>
         </div>
@@ -64,6 +65,37 @@
     </div>
     <!-- /.container-fluid -->
 </div>
+<?php 
+    $conn = mysqli_connect("localhost", "root", "", "infotech");
+
+
+    if (isset($_POST['updatePass'])) {
+        $password = htmlspecialchars(stripslashes(trim($_POST['new'])));
+        $re_pass = $_POST['confirm'];
+
+        if ($password != $re_pass) {
+            ?>
+            <script type="text/javascript">
+                alert("Password don't match")
+            </script>
+            <?php 
+        }else{
+            $teacher = $_SESSION['user_id'];
+            $pass_hashed = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $conn->query("UPDATE userdata SET password = '$pass_hashed' WHERE   id = '$teacher'");
+            ?>
+            <script type="text/javascript">
+                alert("Password successfully updated")
+                window.location.href = "settings.php"
+            </script>
+            <?php
+
+        }
+
+
+    }
+
+?>
 <script>
     window.PasswordHandler = () => {
         return {
