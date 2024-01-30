@@ -14,13 +14,6 @@ use Database\DatabaseService;
 
 $dbService = new DatabaseService;
 
-$mysubject = $dbService->fetch(
-    "SELECT DISTINCT s.subject, s.description
-    FROM studentsubject ss
-    JOIN subject s ON ss.subject_id = s.id
-    WHERE ss.student_id = {$_SESSION['user_id']}"
-);
-
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
 if (isset($_SESSION['level']) == "student") {
