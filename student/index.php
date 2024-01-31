@@ -227,7 +227,7 @@ if (isset($_POST['confirm'])) {
                                 <th class="text-center">Remark</th>
                                 <th class="text-center">Final Ratings</th>
                                 <th class="text-center">Final Remarks</th>
-                                <!-- <th class="text-center">Units</th>-->
+                                <th class="text-center">Units</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -324,9 +324,9 @@ if (isset($_POST['confirm'])) {
                                         }
                                         ?>
                                     </td>
-                                    <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                    <td class="text-center"><?php echo $title[0]['unit']; ?></td>
                                 </tr>
-                                <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                <td class="text-center"><?php echo $title[0]['unit']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
