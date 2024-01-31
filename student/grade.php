@@ -45,7 +45,12 @@ function getsubject()
     $r = mysql_query($q);
     $data = array();
     while ($row = mysql_fetch_array($r)) {
-        $subjectid = $row['subjectid'];
+          $classid = $row['classid'];
+          $year = $row['year'];
+          $section = $row['section'];
+          $sem = $row['semester'];
+          $SY = $row['SY'];
+          $subjectid = $row['subjectid'];
 
         $q3 = "SELECT * FROM subject WHERE id = $subjectid";
         $r3 = mysql_query($q3);
@@ -53,7 +58,7 @@ function getsubject()
             $subjectcode = $srow['code'];
             
             // Fetch all classes for the subject, regardless of the student having grades
-            $q2 = "SELECT * FROM class WHERE subject = '$subjectcode'";
+            $q2 = "select * from class where year=$year AND section='$section' AND sem='$sem' AND SY='$SY' AND subject='$subjectcode'";
             $r2 = mysql_query($q2);
             
             // Append all classes to the data array
