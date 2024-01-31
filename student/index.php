@@ -57,6 +57,8 @@ if (isset($_POST['confirm'])) {
         }
     }
 }
+    $enrolledSubjects = $grade->getEnrolledSubjects($_SESSION['user_id'], $_GET['year'], $_GET['semester']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -232,14 +234,21 @@ if (isset($_POST['confirm'])) {
                         </thead>
                         <tbody>
 
-                            <?php foreach ($mysubject as $row): ?>
+<!--                             <?php foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
                                         <?php echo $row['subject']; ?>
                                     </td>
                                     <td>
                                         <?php echo $row['description']; ?>
-                                    </td>
+                                    </td> -->
+                                    <?php
+                            if (!empty($enrolledSubjects)) {
+                                foreach ($enrolledSubjects as $subject) {
+                                    echo '<tr>';
+                                    echo '<td>' . $subject['code'] . '</td>';
+                                    echo '<td>' . $subject['title'] . '</td>';
+                                    
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
@@ -325,9 +334,12 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                     </td>
 <!--                                     <td class="text-center"><?php echo $title[0]['unit']; ?></td> -->
-                                </tr>
+                                echo '</tr>';
+                        }
+                            } else {
 <!--                                 <td class="text-center"><?php echo $title[0]['unit']; ?></td> -->
-                                </tr>
+                                echo '<tr><td colspan="10" class="text-center">No subjects enrolled for the selected year and semester</td></tr>';
+                            }
                             <?php endforeach; ?>
                         </tbody>
                     </table>
