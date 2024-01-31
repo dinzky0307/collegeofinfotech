@@ -149,6 +149,24 @@ function getsubject()
           return $data;
      }
 
+     function getEnrolledSubjects($studentId, $year, $semester)
+{
+    $q = "SELECT subject.code, subject.title FROM studentsubject 
+          JOIN subject ON studentsubject.subjectid = subject.id
+          WHERE studentsubject.studid = $studentId
+          AND studentsubject.year = '$year' 
+          AND studentsubject.semester = '$semester'";
+
+    $r = mysql_query($q);
+    $data = array();
+
+    while ($row = mysql_fetch_array($r)) {
+        $data[] = $row;
+    }
+
+    return $data;
+}
+
 
      function gradeconversion($grade)
      {
