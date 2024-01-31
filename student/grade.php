@@ -32,36 +32,25 @@ class Datagrade
 function getsubject()
 {
     $id = $this->getid();
-    $q = "SELECT * FROM studentsubject WHERE studid = $id";
 
     if (isset($_GET['year_semester'])) {
         $year = $_GET['year'];
         $sem = $_GET['semester'];
-        $q .= " AND year = '$year' AND semester = '$sem'";
     } else {
-        $q .= " AND year = '1' AND semester = 'First Semester'";
+        // Default values if not provided in the URL
+        $year = '1';
+        $sem = 'First Semester';
     }
 
+    // Fetch all subjects based on the student's enrollment year and semester
+    $q = "SELECT * FROM subject WHERE year = '$year' AND semester = '$sem'";
     $r = mysql_query($q);
+
     $data = array();
     while ($row = mysql_fetch_array($r)) {
-        $subjectid = $row['subjectid'];
-
-        $q3 = "SELECT * FROM subject WHERE id = $subjectid";
-        $r3 = mysql_query($q3);
-        while ($srow = mysql_fetch_array($r3)) {
-            $subjectcode = $srow['code'];
-            
-            // Fetch all classes for the subject, regardless of the student having grades
-            $q2 = "SELECT * FROM class WHERE subject = '$subjectcode'";
-            $r2 = mysql_query($q2);
-            
-            // Append all classes to the data array
-            while ($classRow = mysql_fetch_array($r2)) {
-                $data[] = $classRow;
-            }
-        }
+        $data[] = $row;
     }
+
     return $data;
 }
 
