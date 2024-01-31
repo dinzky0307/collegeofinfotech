@@ -58,6 +58,8 @@ function getsubject()
             
             // Append all classes to the data array
             while ($classRow = mysql_fetch_array($r2)) {
+                $classRow['subject_code'] = $subjectcode;
+                $classRow['subject_description'] = $srow['description'];
                 $data[] = $classRow;
             }
         }
