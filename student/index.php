@@ -231,24 +231,34 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-
-                            <?php foreach ($mysubject as $row): ?>
+<!--                             <?php foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
                                         <?php echo $row['subject']; ?>
                                     </td>
                                     <td>
                                         <?php echo $row['description']; ?>
-                                    </td>
+                                    </td> -->
+                            <?php
+                                // Fetch enrolled subjects for the current student
+                                $enrolledSubjects = $grade->getEnrolledSubjects($_SESSION['studid'], $stud['year'], $stud['semester']);
+        
+    // Loop through enrolled subjects and display them
+    foreach ($enrolledSubjects as $subject) {
+        echo '<tr>';
+        echo '<td>' . $subject['code'] . '</td>';
+        echo '<td>' . $subject['description'] . '</td>';
+
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-                                    <td class="text-center">
+                                    
+                                    echo '<td class="text-center">';
                                         <?php if (isset($mygrade['prelim'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
                                         <?php endif; ?>
-                                    </td>
+                                    echo '</td>';
 
-                                    <td class="text-center">
+                                    echo '<td class="text-center">';
                                         <?php
                                         if (isset($mygrade['eqprelim'])) {
                                             if ($mygrade['eqprelim'] > 3.0) {
@@ -262,13 +272,15 @@ if (isset($_POST['confirm'])) {
                                             echo "<font color='black'>NG</font>";
                                         }
                                         ?>
-                                    </td>
-                                    <td class="text-center">
+                                    echo '</td>';
+        
+                                    echo '<td class="text-center">';
                                         <?php if (isset($mygrade['midterm'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['midterm']); ?>
                                         <?php endif; ?>
-                                    </td>
-                                    <td class="text-center">
+                                    echo '</td>';
+                            
+                                    echo '<td class="text-center">';
                                         <?php
                                         if (isset($mygrade['eqmidterm'])) {
                                             if ($mygrade['eqmidterm'] > 3.0) {
@@ -282,13 +294,15 @@ if (isset($_POST['confirm'])) {
                                             echo "<font color='black'>NG</font>";
                                         }
                                         ?>
-                                    </td>
-                                    <td class="text-center">
+                                    echo '</td>';
+                            
+                                    echo '<td class="text-center">';
                                         <?php if (isset($mygrade['final'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['final']); ?>
                                         <?php endif; ?>
-                                    </td>
-                                    <td class="text-center">
+                                    echo '</td>';
+                            
+                                    echo '<td class="text-center">';
                                         <?php
                                         if (isset($mygrade['eqfinal'])) {
                                             if ($mygrade['eqfinal'] > 3.0) {
@@ -302,14 +316,15 @@ if (isset($_POST['confirm'])) {
                                             echo "<font color='black'>NG</font>";
                                         }
                                         ?>
-                                    </td>
+                                   echo '</td>';
 
-                                    <td class="text-center">
+                                    echo '<td class="text-center">';
                                         <?php if (isset($mygrade['total'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['total']); ?>
                                         <?php endif; ?>
-                                    </td>
-                                    <td class="text-center">
+                                    echo '</td>';
+                            
+                                    echo '<td class="text-center">';
                                         <?php
                                         if (isset($mygrade['eqtotal'])) {
                                             if ($mygrade['eqtotal'] > 3.0) {
@@ -323,13 +338,13 @@ if (isset($_POST['confirm'])) {
                                             echo "<font color='black'>NG</font>";
                                         }
                                         ?>
-                                    </td>
+                                    echo '</td>';
 <!--                                     <td class="text-center"><?php echo $title[0]['unit']; ?></td> -->
-                                    </td>
+                                    echo '</td>';
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
-                                </tr>
+                               echo '</tr>';
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
-                                </tr>
+                                echo '</tr>';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
