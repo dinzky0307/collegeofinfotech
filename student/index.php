@@ -57,6 +57,8 @@ if (isset($_POST['confirm'])) {
         }
     }
 }
+                                    // Fetch enrolled subjects for the current student
+                                $enrolledSubjects = $grade->getEnrolledSubjects($_SESSION['studid'], $stud['year'], $stud['semester']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -239,12 +241,11 @@ if (isset($_POST['confirm'])) {
                                     <td>
                                         <?php echo $row['description']; ?>
                                     </td> -->
-                            <?php
-                                // Fetch enrolled subjects for the current student
-                                $enrolledSubjects = $grade->getEnrolledSubjects($_SESSION['studid'], $stud['year'], $stud['semester']);
+                           
+
         
     // Loop through enrolled subjects and display them
-    foreach ($enrolledSubjects as $subject) {
+    <?php foreach ($enrolledSubjects as $subject) {
         echo '<tr>';
         echo '<td>' . $subject['code'] . '</td>';
         echo '<td>' . $subject['description'] . '</td>';
