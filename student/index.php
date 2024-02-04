@@ -235,10 +235,10 @@ if (isset($_POST['confirm'])) {
                             <?php foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
-                                        <?php echo $row['subject']; ?>
+                                        <?php echo $row['code']; ?>
                                     </td>
                                     <td>
-                                        <?php echo $row['description']; ?>
+                                        <?php echo $row['title']; ?>
                                     </td> 
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
