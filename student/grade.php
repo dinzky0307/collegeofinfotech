@@ -32,9 +32,9 @@ class Datagrade
 function getsubject()
 {
     $id = $this->getid();
-    $q = "SELECT subject.* FROM studentsubject
-          INNER JOIN subject ON studentsubject.subjectid = subject.id
-          WHERE studentsubject.studid=$id";
+    $q = "SELECT subject.*, studentsubject.* FROM studentsubject 
+          JOIN subject ON studentsubject.subjectid = subject.id
+          WHERE studentsubject.studid = $id";
 
     if (isset($_GET['year_semester'])) {
         $year = $_GET['year'];
