@@ -13,7 +13,6 @@ use Carbon\Carbon;
 use Database\DatabaseService;
 
 $dbService = new DatabaseService;
-$grade = new Datagrade();
 
 $subjects = $grade->getallsubjects();
 
