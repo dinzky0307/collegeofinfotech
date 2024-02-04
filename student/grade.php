@@ -34,7 +34,8 @@ function getsubject()
     $id = $this->getid();
 
     // Assuming your tables are named 'subject' and 'studentsubject'
-    $q = "SELECT subject.code AS subject_code, subject.title AS subject_description
+    $q = "SELECT subject.code AS subject_code, subject.title AS subject_description,
+                 studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade, studentsubject.total
           FROM studentsubject
           JOIN subject ON studentsubject.subjectid = subject.id
           WHERE studentsubject.studid = $id";
@@ -54,6 +55,7 @@ function getsubject()
     }
     return $data;
 }
+
 
 
 
