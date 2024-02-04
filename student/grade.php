@@ -82,60 +82,52 @@ function getsubject()
           return $data;
      }
 
-     function getgrade($year, $section, $sem, $sy, $subject)
-     {
-          $studid = $this->getid();
-          $data = array();
+    function getgrade($year, $section, $sem, $sy, $subject)
+{
+    $studid = $this->getid();
+    $data = array();
 
-          $q3 = "SELECT * FROM subject WHERE code='$subject'";
-          $r3 = mysql_query($q3);
+    $subjectQuery = "SELECT id FROM subject WHERE code='$subject'";
+    $subjectResult = mysql_query($subjectQuery);
 
-          if ($r3) {
-               $subjectcode = '';
-               while ($srow = mysql_fetch_array($r3)) {
-                    $subjectcode = $srow['id'];
-               }
+    if ($subjectResult) {
+        $subjectId = mysql_fetch_assoc($subjectResult)['id'];
 
-               $q = "SELECT * FROM studentsubject WHERE studid='$studid' AND year='$year' AND section='$section' AND semester='$sem' AND SY='$sy' AND subjectid='$subjectcode'";
-               $r = mysql_query($q);
+        $gradeQuery = "SELECT * FROM studentsubject 
+                       WHERE studid='$studid' 
+                       AND year='$year' 
+                       AND section='$section' 
+                       AND semester='$sem' 
+                       AND SY='$sy' 
+                       AND subjectid='$subjectId'";
 
-               if ($r) {
-                    if ($row = mysql_fetch_array($r)) {
-                         $prelim_grade = ($row['prelim_grade']);
-                         $midterm_grade = ($row['midterm_grade']);
-                         $finals_grade = ($row['final_grade']);
+        $gradeResult = mysql_query($gradeQuery);
 
-                         $prelim = $prelim_grade;
-                         $midterm = $midterm_grade;
-                         $final = $finals_grade;
+        if ($gradeResult) {
+            $gradeData = mysql_fetch_assoc($gradeResult);
 
-                         $total = (($prelim + $midterm)/2) * .30 + ($final) * .70;
+            $data = array(
+                'eqprelim' => $this->gradeconversion($gradeData['prelim_grade']),
+                'eqmidterm' => $this->gradeconversion($gradeData['midterm_grade']),
+                'eqfinal' => $this->gradeconversion($gradeData['final_grade']),
+                'eqtotal' => $this->gradeconversion($gradeData['total_grade']),
+                'prelim' => round($gradeData['prelim_grade']),
+                'midterm' => round($gradeData['midterm_grade']),
+                'final' => round($gradeData['final_grade']),
+                'total' => round($gradeData['total_grade']),
+                'prelim_grade' => $gradeData['prelim_grade'],
+                'midterm_grade' => $gradeData['midterm_grade'],
+                'finals_grade' => $gradeData['final_grade'],
+            );
+        } else {
+            echo "Query execution failed for grades: " . mysql_error();
+        }
+    } else {
+        echo "Query execution failed for subject ID: " . mysql_error();
+    }
 
-                         $data = array(
-                              'eqprelim' => $this->gradeconversion($prelim),
-                              'eqmidterm' => $this->gradeconversion($midterm),
-                              'eqfinal' => $this->gradeconversion($final),
-                              'eqtotal' => $this->gradeconversion($total),
-                              'prelim' => round($prelim),
-                              'midterm' => round($midterm),
-                              'final' => round($final),
-                              'total' => round($total),
-                              'prelim_grade' => $row['prelim_grade'],
-                              'midterm_grade' => $row['midterm_grade'],
-                              'finals_grade' => $row['final_grade'],
-                         );
-                    }
-               } else {
-                    // Handle query execution error
-                    echo "Query execution failed 1: " . mysql_error();
-               }
-          } else {
-               // Handle query execution error
-               echo "Query execution failed 2: " . mysql_error();
-          }
-
-          return $data;
-     }
+    return $data;
+}
 
      function getEnrolledSubjects($studentId, $year, $semester)
 {
