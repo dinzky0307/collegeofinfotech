@@ -30,41 +30,42 @@ class Datagrade
 
 
      function getsubject()
-     {
-          $id = $this->getid();
-          $q = "select * from studentsubject where studid=$id";
+    {
+        $id = $this->getid();
+        $q = "SELECT * FROM studentsubject WHERE studid=$id";
 
-          if (isset($_GET['year_semester'])) {
-               $year = $_GET['year'];
-               $sem = $_GET['semester'];
-               $q .= " AND year = '$year' AND semester = '$sem'";
-          } else {
-               $q .= " AND year = '1' AND semester = 'First Semester'";
-          }
+        if (isset($_GET['year_semester'])) {
+            $year = $_GET['year'];
+            $sem = $_GET['semester'];
+            $q .= " AND year = '$year' AND semester = '$sem'";
+        } else {
+            $q .= " AND year = '1' AND semester = 'First Semester'";
+        }
 
-          $r = mysql_query($q);
-          $data = array();
-          while ($row = mysql_fetch_array($r)) {
-               $classid = $row['classid'];
-               $year = $row['year'];
-               $section = $row['section'];
-               $sem = $row['semester'];
-               $SY = $row['SY'];
-               $subjectid = $row['subjectid'];
+        $result = $this->conn->query($q);
+        $data = array();
+        
+        while ($row = $result->fetch_assoc()) {
+            $subjectid = $row['subjectid'];
+            $classid = $row['classid'];
+            $year = $row['year'];
+            $section = $row['section'];
+            $sem = $row['semester'];
+            $SY = $row['SY'];
 
-               $q3 = "select * from subject where id=$subjectid";
-               $r3 = mysql_query($q3);
-               while ($srow = mysql_fetch_array($r3)) {
-                    $subjectcode = $srow['code'];
+            $q3 = "SELECT * FROM subject WHERE id=$subjectid";
+            $result3 = $this->conn->query($q3);
 
-                    $q2 = "select * from class where year=$year AND section='$section' AND sem='$sem' AND SY='$SY' AND subject='$subjectcode'";
-                    $r2 = mysql_query($q2);
-                    $data[] = mysql_fetch_array($r2);
-               }
-          }
-          return $data;
-     }
+            while ($srow = $result3->fetch_assoc()) {
+                $subjectcode = $srow['code'];
 
+                $q2 = "SELECT * FROM class WHERE year=$year AND section='$section' AND sem='$sem' AND SY='$SY' AND subject='$subjectcode'";
+                $result2 = $this->conn->query($q2);
+                $data[] = $result2->fetch_assoc();
+            }
+        }
+        return $data;
+    }
 
      function getsubjectitle($code)
      {
