@@ -16,6 +16,8 @@ $dbService = new DatabaseService;
 
 $id = $_SESSION['id']; // Assuming user_id is the correct session variable to fetch student ID
 $stud = $dbService->fetchRow("SELECT * FROM student WHERE studid = '$id'");
+$studid = $stud['id'];
+
 
 // Fetch all subjects based on the student's enrolled year, semester, and section
 $enrolledSubjects = $dbService->fetch(
