@@ -268,6 +268,8 @@ function displayStatus($eqGrade)
                                         <?php if (isset($mygrade['prelim'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
                                         <?php endif; ?>
+        <?php print_r($mygrade); ?>
+
                                     </td>
 
                                     <td class="text-center">
