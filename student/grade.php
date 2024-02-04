@@ -140,7 +140,7 @@ class Datagrade
                // Handle query execution error
                echo "Query execution failed 2: " . mysql_error();
           }
-console.log('prelim_grade');
+print_r($row);
           return $data;
      }
 
