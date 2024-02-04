@@ -240,8 +240,7 @@ if (isset($_POST['confirm'])) {
         <td>
             <?php echo $row['subject_description']; ?>
         </td>
-                                    <?php $title = $grade->getsubjectitle($row['subject']); ?>
-                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+                                    
             <td class="text-center">
             <?php echo isset($row['prelim_grade']) ? $grade->gradeconversion($row['prelim_grade']) : ''; ?>
         </td>
