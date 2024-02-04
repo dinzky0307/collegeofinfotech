@@ -232,20 +232,23 @@ if (isset($_POST['confirm'])) {
                         </thead>
                         <tbody>
                             
-<?php foreach ($mysubject as $row): ?>
-    <tr>
-        <td>
-            <?php echo $row['subject_code']; ?>
-        </td>
-        <td>
-            <?php echo $row['subject_description']; ?>
-        </td>
-                                    
-            <td class="text-center">
-            <?php echo isset($row['prelim_grade']) ? $grade->gradeconversion($row['prelim_grade']) : ''; ?>
-        </td>
+                        <?php foreach ($mysubject as $row): ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $row['subject_code']; ?>
+                                    </td>
+                                        <td>
+                                            <?php echo $row['subject_description']; ?>
+                                       </td>
+                                    <?php $title = $grade->getsubjectitle($row['subject']); ?>
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['prelim'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
+                                        <?php endif; ?>
+                                    </td>
 
-                                                                        <td class="text-center">
+                                    <td class="text-center">
                                         <?php
                                         if (isset($mygrade['eqprelim'])) {
                                             if ($mygrade['eqprelim'] > 3.0) {
