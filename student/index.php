@@ -263,8 +263,10 @@ if (isset($_POST['confirm'])) {
             echo "<font color='green'>Passed</font>";
         }
         ?>
-    <?php else: ?>
+    <?php else: 
         echo "<font color='black'>NG</font>";
+                                        
+                                        ?>
     <?php endif; ?>
 </td>
 
