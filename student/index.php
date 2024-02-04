@@ -14,8 +14,6 @@ use Database\DatabaseService;
 
 $dbService = new DatabaseService;
 
-$subjects = $grade->getallsubjects();
-
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
 if (isset($_SESSION['level']) == "student") {
@@ -59,6 +57,7 @@ if (isset($_POST['confirm'])) {
         }
     }
 }
+$subjects = $grade->getallsubjects();
 ?>
 <!DOCTYPE html>
 <html lang="en">
