@@ -242,11 +242,9 @@ if (isset($_POST['confirm'])) {
         </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-                                    <td class="text-center">
-                                        <?php if (isset($mygrade['prelim'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
-                                        <?php endif; ?>
-                                    </td>
+        <td>
+            <?php echo isset($row['prelim_grade']) ? $row['prelim_grade'] : ''; ?>
+        </td>
 
                                     <td class="text-center">
                                         <?php
