@@ -33,10 +33,16 @@ function getsubject()
 {
     $id = $this->getid();
 
-    // Assuming your tables are named 'subject' and 'studentsubject'
-    $q = "SELECT subject.code AS subject_code, subject.title AS subject_description
+    // Assuming your tables are named 'subject', 'studentsubject', and 'grades'
+    $q = "SELECT 
+            subject.code AS subject_code, 
+            subject.title AS subject_description,
+            grades.prelim_grade,
+            grades.midterm_grade,
+            grades.final_grade
           FROM studentsubject
           JOIN subject ON studentsubject.subjectid = subject.id
+          LEFT JOIN grades ON studentsubject.studid = grades.studid AND studentsubject.subjectid = grades.subjectid
           WHERE studentsubject.studid = $id";
 
     if (isset($_GET['year_semester'])) {
@@ -54,7 +60,6 @@ function getsubject()
     }
     return $data;
 }
-
 
 
 
