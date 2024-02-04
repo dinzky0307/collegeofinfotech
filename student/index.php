@@ -230,9 +230,8 @@ if (isset($_POST['confirm'])) {
                         </thead>
                         <tbody>
                             <?php 
-print_r($mysubject);
-                                    print_r($row);
-print_r($mygrade);
+// print_r($mysubject);
+//                                     print_r($row);
                                 foreach ($mysubject as $row): ?>
                                     
                                 <tr>
@@ -243,7 +242,9 @@ print_r($mygrade);
                                         <?php echo $row['description']; ?>
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
-                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); 
+print_r($mygrade);
+                                    ?>
                                     <td class="text-center">
                                         <?php if (isset($mygrade['prelim'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
