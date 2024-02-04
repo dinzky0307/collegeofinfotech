@@ -253,8 +253,8 @@ if (isset($_POST['confirm'])) {
 
                                     <td class="text-center">
                                         <?php
-                                        if (isset($mygrade['eqprelim'])) {
-                                            if ($mygrade['eqprelim'] > 3) {
+                                        if (isset($mygrade['prelim_grade'])) {
+                                            if ($mygrade['prelim_grade'] > 3) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($mygrade['eqprelim'] == 0) {
                                                 echo "<font color='black'>NG</font>";
