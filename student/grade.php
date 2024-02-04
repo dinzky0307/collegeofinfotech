@@ -27,7 +27,29 @@ class Datagrade
           $id = $row['id'];
           return $id;
      }
+     
+function getallsubjects()
+    {
+        $id = $this->getid();
+        $q = "SELECT * FROM studentsubject WHERE studid=$id";
 
+        $r = mysql_query($q);
+        $data = array();
+
+        while ($row = mysql_fetch_array($r)) {
+            $subjectid = $row['subjectid'];
+
+            $q2 = "SELECT * FROM subject WHERE id=$subjectid";
+            $r2 = mysql_query($q2);
+
+            while ($srow = mysql_fetch_array($r2)) {
+                $data[] = $srow;
+            }
+        }
+
+        return $data;
+    }
+}
 
      function getsubject()
      {
