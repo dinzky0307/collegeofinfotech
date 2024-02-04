@@ -14,6 +14,20 @@ use Database\DatabaseService;
 
 $dbService = new DatabaseService;
 
+$id = $_SESSION['id']; // Assuming user_id is the correct session variable to fetch student ID
+$stud = $dbService->fetchRow("SELECT * FROM student WHERE studid = '$id'");
+
+// Fetch all subjects based on the student's enrolled year, semester, and section
+$enrolledSubjects = $dbService->fetch(
+    "SELECT subject.code, subject.title FROM subject 
+    INNER JOIN studentsubject ON studentsubject.subjectid = subject.id 
+    WHERE studentsubject.studid = '$id' 
+    AND studentsubject.year = '{$stud['year']}' 
+    AND studentsubject.semester = '{$stud['semester']}' 
+    AND studentsubject.section = '{$stud['section']}' 
+    AND studentsubject.SY = '{$stud['ay']}'"
+);
+
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
 if (isset($_SESSION['level']) == "student") {
@@ -217,6 +231,7 @@ if (isset($_POST['confirm'])) {
                     <table class="table table-bordered">
                         <thead>
                             <tr class="warning warning-info">
+                                <th class="text-center">#</th>
                                 <th class="text-center">Subject Code</th>
                                 <th class="text-center">Subject Description</th>
                                 <th class="text-center">Prelim</th>
@@ -231,15 +246,14 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-
-                            <?php foreach ($mysubject as $row): ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $row['subject']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row['description']; ?>
-                                    </td>
+                        <?php
+                            if (!empty($enrolledSubjects)) {
+                                $number = 1;
+                                foreach ($enrolledSubjects as $subject) {
+                                    echo '<tr>';
+                                    echo '<td>' . $number++ . '</td>';
+                                    echo '<td>' . $subject['code'] . '</td>';
+                                    echo '<td>' . $subject['title'] . '</td>';
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
