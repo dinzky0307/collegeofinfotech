@@ -256,23 +256,101 @@ function displayStatus($eqGrade)
 <!--                                 <th class="text-center">Units</th> -->
                             </tr>
                         </thead>
-                        <tbody>
-                            
+                        
+                        <tbody>                          
 <?php foreach ($mysubject as $row): ?>
     <tr>
         <td><?php echo $row['subject_code']; ?></td>
         <td><?php echo $row['subject_description']; ?></td>
-        <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-        <?php displayGrade($mygrade['prelim']); ?>
-        <?php displayStatus($mygrade['eqprelim']); ?>
-        <?php displayGrade($mygrade['midterm']); ?>
-        <?php displayStatus($mygrade['eqmidterm']); ?>
-        <?php displayGrade($mygrade['final']); ?>
-        <?php displayStatus($mygrade['eqfinal']); ?>
-        <?php displayGrade($mygrade['total']); ?>
-        <?php displayStatus($mygrade['eqtotal']); ?>
-    </tr>
-<?php endforeach; ?>
+                                    <?php $title = $grade->getsubjectitle($row['subject']); ?>
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['prelim'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <?php
+                                        if (isset($mygrade['eqprelim'])) {
+                                            if ($mygrade['eqprelim'] > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($mygrade['eqprelim'] == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                        } else {
+                                            echo "<font color='black'>NG</font>";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['midterm'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['midterm']); ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php
+                                        if (isset($mygrade['eqmidterm'])) {
+                                            if ($mygrade['eqmidterm'] > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($mygrade['eqmidterm'] == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                        } else {
+                                            echo "<font color='black'>NG</font>";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['final'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['final']); ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php
+                                        if (isset($mygrade['eqfinal'])) {
+                                            if ($mygrade['eqfinal'] > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($mygrade['eqfinal'] == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                        } else {
+                                            echo "<font color='black'>NG</font>";
+                                        }
+                                        ?>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['total'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['total']); ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php
+                                        if (isset($mygrade['eqtotal'])) {
+                                            if ($mygrade['eqtotal'] > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($mygrade['eqtotal'] == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                        } else {
+                                            echo "<font color='black'>NG</font>";
+                                        }
+                                        ?>
+                                    </td>
+                                    <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                </tr>
+                                <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                </tr>
+                            <?php endforeach; ?>
 
                         </tbody>
                     </table>
