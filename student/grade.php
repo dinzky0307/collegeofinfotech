@@ -31,8 +31,10 @@ class Datagrade
      function getsubject()
      {
           $id = $this->getid();
-          $q = "select * from studentsubject where studid=$id";
-
+          $q = "SELECT subject.id, subject.code, subject.description FROM subject
+          LEFT JOIN studentsubject ON subject.id = studentsubject.subjectid
+          WHERE studentsubject.studid = $id";
+          
           if (isset($_GET['year_semester'])) {
                $year = $_GET['year'];
                $sem = $_GET['semester'];
