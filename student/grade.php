@@ -29,29 +29,41 @@ class Datagrade
      }
 
 
-function getsubject()
-{
-    $id = $this->getid();
-    $q = "SELECT subject.*, studentsubject.* FROM studentsubject 
-          JOIN subject ON studentsubject.subjectid = subject.id
-          WHERE studentsubject.studid = $id";
+     function getsubject()
+     {
+          $id = $this->getid();
+          $q = "select * from studentsubject where studid=$id";
 
-    if (isset($_GET['year_semester'])) {
-        $year = $_GET['year'];
-        $sem = $_GET['semester'];
-        $q .= " AND studentsubject.year = '$year' AND studentsubject.semester = '$sem'";
-    } else {
-        $q .= " AND studentsubject.year = '1' AND studentsubject.semester = 'First Semester'";
-    }
+          if (isset($_GET['year_semester'])) {
+               $year = $_GET['year'];
+               $sem = $_GET['semester'];
+               $q .= " AND year = '$year' AND semester = '$sem'";
+          } else {
+               $q .= " AND year = '1' AND semester = 'First Semester'";
+          }
 
-    $r = mysql_query($q);
-    $data = array();
-    while ($row = mysql_fetch_array($r)) {
-        $data[] = $row;
-    }
-    return $data;
-}
+          $r = mysql_query($q);
+          $data = array();
+          while ($row = mysql_fetch_array($r)) {
+               $classid = $row['classid'];
+               $year = $row['year'];
+               $section = $row['section'];
+               $sem = $row['semester'];
+               $SY = $row['SY'];
+               $subjectid = $row['subjectid'];
 
+               $q3 = "select * from subject where id=$subjectid";
+               $r3 = mysql_query($q3);
+               while ($srow = mysql_fetch_array($r3)) {
+                    $subjectcode = $srow['code'];
+
+                    $q2 = "select * from class where year=$year AND section='$section' AND sem='$sem' AND SY='$SY' AND subject='$subjectcode'";
+                    $r2 = mysql_query($q2);
+                    $data[] = mysql_fetch_array($r2);
+               }
+          }
+          return $data;
+     }
 
 
 
