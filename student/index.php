@@ -171,8 +171,10 @@ if (isset($_POST['confirm'])) {
     <?php
     include('connection.php');
     include('grade.php');
-    $mysubject = $grade->getsubject();
+    // $mysubject = $grade->getsubject();
+$grade = new Datagrade($mysqli);
 
+$subjects = $grade->getallsubjects();
     // $stud = $dbService->fetchRow("SELECT * from student");
     // $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
     // $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
@@ -232,14 +234,10 @@ if (isset($_POST['confirm'])) {
                         </thead>
                         <tbody>
 
-                            <?php foreach ($mysubject as $row): ?>
+                            <?php foreach ($subjects as $subject): ?>
                                 <tr>
-                                    <td>
-                                        <?php echo $row['subject']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row['description']; ?>
-                                    </td>
+                                    <td><?php echo $subject['code']; ?></td>
+                                    <td><?php echo $subject['description']; ?></td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
