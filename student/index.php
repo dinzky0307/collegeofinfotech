@@ -234,7 +234,7 @@ print_r($mysubject);
                                 foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
-                                        <?php echo $row['subject']; ?>
+                                        <?php echo $row['code']; ?>
                                     </td>
                                     <td>
                                         <?php echo $row['description']; ?>
