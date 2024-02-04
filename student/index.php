@@ -243,7 +243,7 @@ if (isset($_POST['confirm'])) {
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); 
-print_r($mygrade);
+// print_r($mygrade);
                                     ?>
                                     <td class="text-center">
                                         <?php if (isset($mygrade['prelim'])): ?>
