@@ -21,7 +21,7 @@ if (isset($_SESSION['level']) == "student") {
         "SELECT {$selects} from userdata {$joins} WHERE student_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
     );
 }
-
+$studId = $_SESSION['user_id'];
 if (isset($_POST['confirm'])) {
 
     $sql = mysql_query("SELECT * FROM userdata WHERE id = '" . $_SESSION['user_id'] . "' ");
@@ -170,7 +170,9 @@ if (isset($_POST['confirm'])) {
     <?php
     include('connection.php');
     include('grade.php');
-    $mysubject = $grade->getsubject();
+    // $mysubject = $grade->getsubject();
+    $grade = new Datagrade();
+    $mysubject = $grade->getSubjectsAndGrades($studId);
 
     // $stud = $dbService->fetchRow("SELECT * from student");
     // $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
@@ -241,11 +243,12 @@ if (isset($_POST['confirm'])) {
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-                                    <td class="text-center">
-                                        <?php if (isset($mygrade['prelim'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
-                                        <?php endif; ?>
-                                    </td>
+                            <td class="text-center">
+                                <?php echo $row['prelim']; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $grade->getGradeRemark($row['prelim']); ?>
+                            </td>
 
                                     <td class="text-center">
                                         <?php
