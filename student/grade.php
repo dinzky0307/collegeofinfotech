@@ -108,15 +108,16 @@ function getgrade($year, $section, $sem, $sy, $subject)
 
         if ($r) {
             if ($row = mysql_fetch_array($r)) {
-                $prelim_grade = ($row['prelim_grade']);
-                $midterm_grade = ($row['midterm_grade']);
-                $finals_grade = ($row['final_grade']);
+                $prelim_grade = $row['prelim_grade'];
+                $midterm_grade = $row['midterm_grade'];
+                $finals_grade = $row['final_grade'];
 
-                $prelim = $prelim_grade;
-                $midterm = $midterm_grade;
-                $final = $finals_grade;
+                $prelim = round($prelim_grade);
+                $midterm = round($midterm_grade);
+                $final = round($finals_grade);
 
-                $total = (($prelim + $midterm) / 2) * 0.30 + $final * 0.70;
+                // Handle potential division by zero error
+                $total = ($prelim + $midterm) / 2 * 0.30 + ($final > 0 ? $final : 0) * 0.70;
 
                 $data = array(
                     'prelim_grade' => $prelim_grade,
