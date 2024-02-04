@@ -28,35 +28,26 @@ class Datagrade
           return $id;
      }
      
-function getallsubjects()
-    {
-        $id = $this->getid();
-        $stmt = $this->conn->prepare("SELECT * FROM studentsubject WHERE studid = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
+function getSubjectsAndGrades($studId)
+{
+    $data = [];
+    $subjectsQuery = $this->fetchSubjects($studId);
 
-        $result = $stmt->get_result();
-        $data = array();
-
-        while ($row = $result->fetch_assoc()) {
-            $subjectid = $row['subjectid'];
-
-            $stmt2 = $this->conn->prepare("SELECT * FROM subject WHERE id = ?");
-            $stmt2->bind_param("i", $subjectid);
-            $stmt2->execute();
-
-            $result2 = $stmt2->get_result();
-
-            while ($srow = $result2->fetch_assoc()) {
-                $data[] = $srow;
-            }
-
-            $stmt2->close();
-        }
-
-        $stmt->close();
-        return $data;
+    foreach ($subjectsQuery as $row) {
+        $subjectCode = $row['code'];
+        $grades = $this->getGrade($studId, $row['year'], $row['section'], $row['sem'], $row['SY'], $subjectCode);
+        
+        $data[] = [
+            'subjectCode' => $subjectCode,
+            'subjectDesc' => $row['description'],
+            'prelim' => $grades['prelim'],
+            // ... (add other grades here) ...
+        ];
     }
+
+    return $data;
+}
+
 
 
      function getsubject()
