@@ -251,21 +251,23 @@ if (isset($_POST['confirm'])) {
                                         <?php endif; ?>
                                     </td>
 
-                                    <td class="text-center">
-                                        <?php
-                                        if (isset($mygrade['prelim_grade'])) {
-                                            if ($mygrade['prelim_grade'] > 3) {
-                                                echo "<font color='red'>Failed</font>";
-                                            } else if ($mygrade['eqprelim'] == 0) {
-                                                echo "<font color='black'>NG</font>";
-                                            } else {
-                                                echo "<font color='green'>Passed</font>";
-                                            }
-                                        } else {
-                                            echo "<font color='black'>NG</font>";
-                                        }
-                                        ?>
-                                    </td>
+<td class="text-center">
+    <?php if (isset($mygrade['prelim_grade'])): ?>
+        <?php
+        $prelimGrade = $mygrade['prelim_grade'];
+        if ($prelimGrade > 3) {
+            echo "<font color='red'>Failed</font>";
+        } else if ($prelimGrade == 0) {
+            echo "<font color='black'>NG</font>";
+        } else {
+            echo "<font color='green'>Passed</font>";
+        }
+        ?>
+    <?php else: ?>
+        echo "<font color='black'>NG</font>";
+    <?php endif; ?>
+</td>
+
                                     <td class="text-center">
                                         <?php if (isset($mygrade['midterm_grade'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['midterm_grade']); ?>
