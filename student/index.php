@@ -264,6 +264,16 @@ function displayStatus($eqGrade)
         <td><?php echo $row['subject_description']; ?></td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+<?php
+echo "Year: " . $row['year'] . "<br>";
+echo "Section: " . $row['section'] . "<br>";
+echo "Semester: " . $row['sem'] . "<br>";
+echo "School Year: " . $row['SY'] . "<br>";
+echo "Subject: " . $row['subject'] . "<br>";
+?>
+<?php echo $grade->getgradeQuery($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
+
+        
                                     <td class="text-center">
                                         <?php if (isset($mygrade['prelim'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
