@@ -89,60 +89,54 @@ class Datagrade
           return $data;
      }
 
- function getgrade($year, $section, $sem, $sy, $subject)
-     {
-          $studid = $this->getid();
-          $data = array();
+function getgrade($year, $section, $sem, $sy, $subject)
+{
+    $studid = $this->getid();
+    $data = array();
 
-          $q3 = "SELECT * FROM subject WHERE code='$subject'";
-          $r3 = mysql_query($q3);
+    $q3 = "SELECT * FROM subject WHERE code='$subject'";
+    $r3 = mysql_query($q3);
 
-          if ($r3) {
-               $subjectcode = '';
-               while ($srow = mysql_fetch_array($r3)) {
-                    $subjectcode = $srow['id'];
-               }
+    if ($r3) {
+        $subjectcode = '';
+        while ($srow = mysql_fetch_array($r3)) {
+            $subjectcode = $srow['id'];
+        }
 
-               $q = "SELECT * FROM studentsubject WHERE studid='$studid' AND year='$year' AND section='$section' AND semester='$sem' AND SY='$sy' AND subjectid='$subjectcode'";
-               $r = mysql_query($q);
+        $q = "SELECT * FROM studentsubject WHERE studid='$studid' AND year='$year' AND section='$section' AND semester='$sem' AND SY='$sy' AND subjectid='$subjectcode'";
+        $r = mysql_query($q);
 
-               if ($r) {
-                    if ($row = mysql_fetch_array($r)) {
-                         $prelim_grade = ($row['prelim_grade']);
-                         $midterm_grade = ($row['midterm_grade']);
-                         $finals_grade = ($row['final_grade']);
+        if ($r) {
+            if ($row = mysql_fetch_array($r)) {
+                $prelim_grade = ($row['prelim_grade']);
+                $midterm_grade = ($row['midterm_grade']);
+                $finals_grade = ($row['final_grade']);
 
-                         $prelim = $prelim_grade;
-                         $midterm = $midterm_grade;
-                         $final = $finals_grade;
+                $prelim = $prelim_grade;
+                $midterm = $midterm_grade;
+                $final = $finals_grade;
 
-                         $total = (($prelim + $midterm)/2) * .30 + ($final) * .70;
+                $total = (($prelim + $midterm) / 2) * 0.30 + $final * 0.70;
 
-                         $data = array(
-                              'eqprelim' => $this->gradeconversion($prelim),
-                              'eqmidterm' => $this->gradeconversion($midterm),
-                              'eqfinal' => $this->gradeconversion($final),
-                              'eqtotal' => $this->gradeconversion($total),
-                              'prelim' => round($prelim),
-                              'midterm' => round($midterm),
-                              'final' => round($final),
-                              'total' => round($total),
-                              'prelim_grade' => $row['prelim_grade'],
-                              'midterm_grade' => $row['midterm_grade'],
-                              'finals_grade' => $row['final_grade'],
-                         );
-                    }
-               } else {
-                    // Handle query execution error
-                    echo "Query execution failed 1: " . mysql_error();
-               }
-          } else {
-               // Handle query execution error
-               echo "Query execution failed 2: " . mysql_error();
-          }
-print_r($row);
-          return $data;
-     }
+                $data = array(
+                    'prelim_grade' => $prelim_grade,
+                    'midterm_grade' => $midterm_grade,
+                    'finals_grade' => $finals_grade,
+                    'total' => $total,
+                );
+            }
+        } else {
+            // Handle query execution error
+            echo "Query execution failed: " . mysql_error();
+        }
+    } else {
+        // Handle query execution error
+        echo "Query execution failed: " . mysql_error();
+    }
+
+    return $data;
+}
+
 
 
      function gradeconversion($grade)
