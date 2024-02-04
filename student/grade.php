@@ -49,7 +49,7 @@ function getallsubjects()
 
         return $data;
     }
-}
+
 
      function getsubject()
      {
