@@ -267,8 +267,8 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['midterm'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['midterm']); ?>
+                                        <?php if (isset($mygrade['midterm_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['midterm_grade']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
@@ -287,8 +287,8 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['final'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['final']); ?>
+                                        <?php if (isset($mygrade['final_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['final_grade']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
