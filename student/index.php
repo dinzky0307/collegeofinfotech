@@ -229,7 +229,7 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-
+print_r($mysubject);
                             <?php foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
