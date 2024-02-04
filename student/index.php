@@ -246,8 +246,8 @@ if (isset($_POST['confirm'])) {
 // print_r($mygrade);
                                     ?>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['prelim'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
+                                        <?php if (isset($mygrade['prelim_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['prelim_grade']); ?>
                                         <?php endif; ?>
                                     </td>
 
