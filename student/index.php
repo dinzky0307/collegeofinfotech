@@ -231,15 +231,20 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $studentId = $_SESSION['id'];
+                            $enrolledSubjects = $dbService->fetch(
+                                "SELECT subject.code, subject.description
+                                FROM subject
+                                INNER JOIN studentsubject ON subject.id = studentsubject.subjectid
+                                WHERE studentsubject.studid = $studentId"
+                            );
 
-                            <?php foreach ($mysubject as $row): ?>
+                            foreach ($enrolledSubjects as $subject): ?>
                                 <tr>
-                                    <td>
-                                        <?php echo $row['subject']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row['description']; ?>
-                                    </td>
+                                    <td><?php echo $subject['code']; ?></td>
+                                    <td><?php echo $subject['description']; ?></td>
+                                    
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
