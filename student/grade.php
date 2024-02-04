@@ -31,22 +31,30 @@ class Datagrade
 function getallsubjects()
     {
         $id = $this->getid();
-        $q = "SELECT * FROM studentsubject WHERE studid=$id";
+        $stmt = $this->conn->prepare("SELECT * FROM studentsubject WHERE studid = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
 
-        $r = mysql_query($q);
+        $result = $stmt->get_result();
         $data = array();
 
-        while ($row = mysql_fetch_array($r)) {
+        while ($row = $result->fetch_assoc()) {
             $subjectid = $row['subjectid'];
 
-            $q2 = "SELECT * FROM subject WHERE id=$subjectid";
-            $r2 = mysql_query($q2);
+            $stmt2 = $this->conn->prepare("SELECT * FROM subject WHERE id = ?");
+            $stmt2->bind_param("i", $subjectid);
+            $stmt2->execute();
 
-            while ($srow = mysql_fetch_array($r2)) {
+            $result2 = $stmt2->get_result();
+
+            while ($srow = $result2->fetch_assoc()) {
                 $data[] = $srow;
             }
+
+            $stmt2->close();
         }
 
+        $stmt->close();
         return $data;
     }
 
