@@ -21,6 +21,7 @@ if (isset($_SESSION['level']) == "student") {
         "SELECT {$selects} from userdata {$joins} WHERE student_id = {$_SESSION['user_id']} ORDER BY created_at DESC"
     );
 }
+$studId = $_SESSION['user_id'];
 if (isset($_POST['confirm'])) {
 
     $sql = mysql_query("SELECT * FROM userdata WHERE id = '" . $_SESSION['user_id'] . "' ");
