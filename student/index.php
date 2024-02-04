@@ -57,32 +57,6 @@ if (isset($_POST['confirm'])) {
         }
     }
 }
-
-    function displayGrade($grade)
-{
-    echo '<td class="text-center">';
-    if (isset($grade)) {
-        echo $grade->gradeconversion($grade);
-    }
-    echo '</td>';
-}
-
-function displayStatus($eqGrade)
-{
-    echo '<td class="text-center">';
-    if (isset($eqGrade)) {
-        if ($eqGrade > 3.0) {
-            echo '<font color="red">Failed</font>';
-        } elseif ($eqGrade == 0) {
-            echo '<font color="black">NG</font>';
-        } else {
-            echo '<font color="green">Passed</font>';
-        }
-    } else {
-        echo '<font color="black">NG</font>';
-    }
-    echo '</td>';
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -253,32 +227,25 @@ function displayStatus($eqGrade)
                                 <th class="text-center">Remark</th>
                                 <th class="text-center">Final Ratings</th>
                                 <th class="text-center">Final Remarks</th>
-<!--                                 <th class="text-center">Units</th> -->
+                                <!-- <th class="text-center">Units</th>-->
                             </tr>
                         </thead>
-                        
-                        <tbody>                          
-<?php foreach ($mysubject as $row): ?>
-    <tr>
-        <td><?php echo $row['subject_code']; ?></td>
-        <td><?php echo $row['subject_description']; ?></td>
+                        <tbody>
+
+                            <?php foreach ($mysubject as $row): ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $row['subject']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['description']; ?>
+                                    </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-<?php
-echo "Year: " . $row['year'] . "<br>";
-echo "Section: " . $row['section'] . "<br>";
-echo "Semester: " . $row['sem'] . "<br>";
-echo "School Year: " . $row['SY'] . "<br>";
-echo "Subject: " . $row['subject'] . "<br>";
-?>
-<?php echo $grade->getgradeQuery($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
-
-        
                                     <td class="text-center">
                                         <?php if (isset($mygrade['prelim'])): ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim']); ?>
                                         <?php endif; ?>
-                                                            <?php print_r($mygrade); ?>
                                     </td>
 
                                     <td class="text-center">
@@ -362,7 +329,6 @@ echo "Subject: " . $row['subject'] . "<br>";
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                                 </tr>
                             <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 </div>
