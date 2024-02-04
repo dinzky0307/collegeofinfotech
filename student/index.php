@@ -13,6 +13,9 @@ use Carbon\Carbon;
 use Database\DatabaseService;
 
 $dbService = new DatabaseService;
+$grade = new Datagrade();
+
+$subjects = $grade->getallsubjects();
 
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
@@ -232,14 +235,11 @@ if (isset($_POST['confirm'])) {
                         </thead>
                         <tbody>
 
-                            <?php foreach ($mysubject as $row): ?>
+                            <?php foreach ($subjects as $subject): ?>
                                 <tr>
-                                    <td>
-                                        <?php echo $row['subject']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row['description']; ?>
-                                    </td>
+                                    <td><?php echo $subject['code']; ?></td>
+                                    <td><?php echo $subject['description']; ?></td>
+                                    
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); ?>
                                     <td class="text-center">
