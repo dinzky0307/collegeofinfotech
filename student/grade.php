@@ -134,7 +134,7 @@ function getgrade($year, $section, $sem, $sy, $subject)
         // Handle query execution error
         echo "Query execution failed: " . mysql_error();
     }
-
+print_r($prelim_grade);
     return $data;
 }
 
