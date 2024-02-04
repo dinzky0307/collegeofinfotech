@@ -229,8 +229,9 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
+                            <?php 
 print_r($mysubject);
-                            <?php foreach ($mysubject as $row): ?>
+                                foreach ($mysubject as $row): ?>
                                 <tr>
                                     <td>
                                         <?php echo $row['code']; ?>
