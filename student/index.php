@@ -231,7 +231,10 @@ if (isset($_POST['confirm'])) {
                         <tbody>
                             <?php 
 print_r($mysubject);
+                                    print_r($row);
+print_r($mygrade);
                                 foreach ($mysubject as $row): ?>
+                                    
                                 <tr>
                                     <td>
                                         <?php echo $row['subject']; ?>
