@@ -111,13 +111,22 @@ function getSubjectsAndGrades($studId)
           return $data;
      }
 
- function getgrade($year, $section, $sem, $sy, $subject)
+  function getgrade($year, $section, $sem, $sy, $subject)
      {
-    // Remove conditions related to a specific student
-    $data = array();
+          $studid = $this->getid();
+          $data = array();
 
-    $q = "SELECT * FROM studentsubject WHERE year='$year' AND section='$section' AND semester='$sem' AND SY='$sy' AND subjectid='$subject'";
-    $r = mysql_query($q);
+          $q3 = "SELECT * FROM subject WHERE code='$subject'";
+          $r3 = mysql_query($q3);
+
+          if ($r3) {
+               $subjectcode = '';
+               while ($srow = mysql_fetch_array($r3)) {
+                    $subjectcode = $srow['id'];
+               }
+
+               $q = "SELECT * FROM studentsubject WHERE studid='$studid' AND year='$year' AND section='$section' AND semester='$sem' AND SY='$sy' AND subjectid='$subjectcode'";
+               $r = mysql_query($q);
 
                if ($r) {
                     if ($row = mysql_fetch_array($r)) {
@@ -156,6 +165,7 @@ function getSubjectsAndGrades($studId)
 
           return $data;
      }
+
 
      function gradeconversion($grade)
      {
