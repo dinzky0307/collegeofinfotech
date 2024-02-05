@@ -180,7 +180,7 @@ function gradeconversion($grade)
             break;
     }
 
-    return sprintf("%.1f", $data);
+    return $grade;
 }
 
      
