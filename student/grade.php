@@ -112,9 +112,9 @@ function getgrade($year, $section, $sem, $sy, $subject)
                 $midterm_grade = $row['midterm_grade'];
                 $finals_grade = $row['final_grade'];
 
-                $prelim = round($prelim_grade);
-                $midterm = round($midterm_grade);
-                $final = round($finals_grade);
+                $prelim = $prelim_grade;
+                $midterm = $midterm_grade;
+                $final = $finals_grade;
 
                 // Handle potential division by zero error
                 $total = (($prelim + $midterm) / 2) * 0.30 + $final * 0.70;
