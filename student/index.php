@@ -318,10 +318,11 @@ if (isset($_POST['confirm'])) {
 </td>
 
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['total'])): ?>
-                                            <?php echo $grade->gradeconversion($mygrade['total']); ?>
-                                        <?php endif; ?>
-                                    </td>
+    <?php if (isset($mygrade['total'])): ?>
+        <?php echo $mygrade['total']; ?>
+    <?php endif; ?>
+</td>
+
 <td class="text-center">
     <?php if (isset($mygrade['total'])): ?>
         <?php
