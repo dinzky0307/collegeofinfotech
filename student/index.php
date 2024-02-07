@@ -44,12 +44,12 @@ if (isset($_POST['confirm'])) {
 
             unset($_SESSION['level']);
 
-?>
+            ?>
             <script>
                 alert("Password successfully changed")
                 window.location.href = "../index.php"
             </script>
-<?php
+        <?php
 
 
         }
@@ -62,7 +62,7 @@ if (isset($_POST['confirm'])) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../img/mcc.png">
@@ -70,8 +70,7 @@ if (isset($_POST['confirm'])) {
     <title>InfoTech</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/font-awesome.min.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="mystyle.css" />
@@ -143,7 +142,8 @@ if (isset($_POST['confirm'])) {
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -157,8 +157,10 @@ if (isset($_POST['confirm'])) {
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeEmailModal">
                         <i class="fa fa-envelope"></i> Change Email
                     </button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i class="fa fa-gear"></i> Change Password</button>
-                    <a href="../logout.php"><button type="button" class="btn btn-danger" name="submit">Logout</button></a>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i
+                            class="fa fa-gear"></i> Change Password</button>
+                    <a href="../logout.php"><button type="button" class="btn btn-danger"
+                            name="submit">Logout</button></a>
                 </div>
             </div><!--/.navbar-collapse -->
         </div>
@@ -172,7 +174,7 @@ if (isset($_POST['confirm'])) {
     // $stud = $dbService->fetchRow("SELECT * from student");
     // $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
     // $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
-
+    
     ?>
 
 
@@ -204,147 +206,146 @@ if (isset($_POST['confirm'])) {
                         <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
                         <option value="Summer" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                     </select>
-                    <button type="search" name="year_semester" class="btn btn-outline-light"><i class="fa fa-search"></i>
+                    <button type="search" name="year_semester" class="btn btn-outline-light"><i
+                            class="fa fa-search"></i>
                         Search
                     </button>
                 </form>
                 <div class="">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col" class="text-center">Subject Code</th>
-                                <th scope="col" class="text-center">Subject Description</th>
-                                <th scope="col" class="text-center">Prelim</th>
-                                <th scope="col" class="text-center">Remark</th>
-                                <th scope="col" class="text-center">Midterm</th>
-                                <th scope="col" class="text-center">Remark</th>
-                                <th scope="col" class="text-center">Final</th>
-                                <th scope="col" class="text-center">Remark</th>
-                                <th scope="col" class="text-center">Final Ratings</th>
-                                <th scope="col" class="text-center">Final Remarks</th>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="warning warning-info">
+                                <th class="text-center">Subject Code</th>
+                                <th class="text-center">Subject Description</th>
+                                <th class="text-center">Prelim</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Midterm</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Final</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Final Ratings</th>
+                                <th class="text-center">Final Remarks</th>
                                 <!-- <th class="text-center">Units</th>-->
                             </tr>
                         </thead>
                         <tbody>
-                            <th scope="row">
-                                <?php
-                                // print_r($mysubject);
-                                // print_r($row);
-                                foreach ($mysubject as $row) : ?>
+                            <?php 
+// print_r($mysubject);
+// print_r($row);
+                                foreach ($mysubject as $row): ?> 
+                                    
+                                <tr>
+                                    <td>
+                                        <?php echo $row['subject']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['description']; ?>
+                                    </td>
+                                    <?php $title = $grade->getsubjectitle($row['subject']); ?>
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); 
+// print_r($mygrade);
+                                    ?>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['prelim_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['prelim_grade']); ?>
+                                        <?php endif; ?>
+                                    </td>
 
-                                    <tr>
-                                        <td>
-                                            <?php echo $row['subject']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $row['description']; ?>
-                                        </td>
-                                        <?php $title = $grade->getsubjectitle($row['subject']); ?>
-                                        <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']);
-                                        // print_r($mygrade);
+<td class="text-center">
+    <?php if (isset($mygrade['prelim_grade'])): ?>
+        <?php
+        $prelimGrade = $mygrade['prelim_grade'];
+        if ($prelimGrade > 3) {
+            echo "<font color='red'>Failed</font>";
+        } else if ($prelimGrade == 0) {
+            echo "<font color='black'>NG</font>";
+        } else {
+            echo "<font color='green'>Passed</font>";
+        }
+        ?>
+    <?php else: 
+        echo "<font color='black'>NG</font>";
+                                        
                                         ?>
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['prelim_grade'])) : ?>
-                                                <?php echo $grade->gradeconversion($mygrade['prelim_grade']); ?>
-                                            <?php endif; ?>
-                                        </td>
+    <?php endif; ?>
+</td>
 
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['prelim_grade'])) : ?>
-                                                <?php
-                                                $prelimGrade = $mygrade['prelim_grade'];
-                                                if ($prelimGrade > 3) {
-                                                    echo "<font color='red'>Failed</font>";
-                                                } else if ($prelimGrade == 0) {
-                                                    echo "<font color='black'>NG</font>";
-                                                } else {
-                                                    echo "<font color='green'>Passed</font>";
-                                                }
-                                                ?>
-                                            <?php else :
-                                                echo "<font color='black'>NG</font>";
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['midterm_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['midterm_grade']); ?>
+                                        <?php endif; ?>
+                                    </td>
+<td class="text-center">
+    <?php if (isset($mygrade['midterm_grade'])): ?>
+        <?php
+        $prelimGrade = $mygrade['midterm_grade'];
+        if ($prelimGrade > 3) {
+            echo "<font color='red'>Failed</font>";
+        } else if ($prelimGrade == 0) {
+            echo "<font color='black'>NG</font>";
+        } else {
+            echo "<font color='green'>Passed</font>";
+        }
+        ?>
+    <?php else: 
+        echo "<font color='black'>NG</font>";
+                                        
+                                        ?>
+    <?php endif; ?>
+</td>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['finals_grade'])): ?>
+                                            <?php echo $grade->gradeconversion($mygrade['finals_grade']); ?>
+                                        <?php endif; ?>
+                                    </td>
+<td class="text-center">
+    <?php if (isset($mygrade['finals_grade'])): ?>
+        <?php
+        $prelimGrade = $mygrade['finals_grade'];
+        if ($prelimGrade > 3) {
+            echo "<font color='red'>Failed</font>";
+        } else if ($prelimGrade == 0) {
+            echo "<font color='black'>NG</font>";
+        } else {
+            echo "<font color='green'>Passed</font>";
+        }
+        ?>
+    <?php else: 
+        echo "<font color='black'>NG</font>";
+                                        
+                                        ?>
+    <?php endif; ?>
+</td>
 
-                                            ?>
-                                            <?php endif; ?>
-                                        </td>
+                                    <td class="text-center">
+    <?php if (isset($mygrade['total'])): ?>
+        <?php echo $mygrade['total']; ?>
+    <?php endif; ?>
+</td>
 
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['midterm_grade'])) : ?>
-                                                <?php echo $grade->gradeconversion($mygrade['midterm_grade']); ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['midterm_grade'])) : ?>
-                                                <?php
-                                                $prelimGrade = $mygrade['midterm_grade'];
-                                                if ($prelimGrade > 3) {
-                                                    echo "<font color='red'>Failed</font>";
-                                                } else if ($prelimGrade == 0) {
-                                                    echo "<font color='black'>NG</font>";
-                                                } else {
-                                                    echo "<font color='green'>Passed</font>";
-                                                }
-                                                ?>
-                                            <?php else :
-                                                echo "<font color='black'>NG</font>";
-
-                                            ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['finals_grade'])) : ?>
-                                                <?php echo $grade->gradeconversion($mygrade['finals_grade']); ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['finals_grade'])) : ?>
-                                                <?php
-                                                $prelimGrade = $mygrade['finals_grade'];
-                                                if ($prelimGrade > 3) {
-                                                    echo "<font color='red'>Failed</font>";
-                                                } else if ($prelimGrade == 0) {
-                                                    echo "<font color='black'>NG</font>";
-                                                } else {
-                                                    echo "<font color='green'>Passed</font>";
-                                                }
-                                                ?>
-                                            <?php else :
-                                                echo "<font color='black'>NG</font>";
-
-                                            ?>
-                                            <?php endif; ?>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['total'])) : ?>
-                                                <?php echo $mygrade['total']; ?>
-                                            <?php endif; ?>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <?php if (isset($mygrade['total'])) : ?>
-                                                <?php
-                                                $prelimGrade = $mygrade['total'];
-                                                if ($prelimGrade > 3) {
-                                                    echo "<font color='red'>Failed</font>";
-                                                } else if ($prelimGrade == 0) {
-                                                    echo "<font color='black'>NG</font>";
-                                                } else {
-                                                    echo "<font color='green'>Passed</font>";
-                                                }
-                                                ?>
-                                            <?php else :
-                                                echo "<font color='black'>NG</font>";
-
-                                            ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
-                                    </tr>
+<td class="text-center">
+    <?php if (isset($mygrade['total'])): ?>
+        <?php
+        $prelimGrade = $mygrade['total'];
+        if ($prelimGrade > 3) {
+            echo "<font color='red'>Failed</font>";
+        } else if ($prelimGrade == 0) {
+            echo "<font color='black'>NG</font>";
+        } else {
+            echo "<font color='green'>Passed</font>";
+        }
+        ?>
+    <?php else: 
+        echo "<font color='black'>NG</font>";
+                                        
+                                        ?>
+    <?php endif; ?>
+</td>
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
-                                    </tr>
-                                <?php endforeach; ?>
-                            </th>
+                                </tr>
+                                <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -373,48 +374,47 @@ if (isset($_POST['confirm'])) {
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="text-center">Consultation</h2>
-                    <a href="form.php"><button type="button" class="btn btn-success" name="submit" style=" margin-bottom: 10px;">Consultation Form</button></a>
+                    <a href="form.php"><button type="button" class="btn btn-success" name="submit"
+                            style=" margin-bottom: 10px;">Consultation Form</button></a>
                     <div class="">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col" class="text-center">Type</th>
-                                    <th scope="col" class="text-center">Consulted to:</th>
-                                    <th scope="col" class="text-center">Concern</th>
-                                    <th scope="col" class="text-center">Date</th>
-                                    <th scope="col" class="text-center">View</th>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="warning warning-info">
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Consulted to:</th>
+                                    <th class="text-center">Concern</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">View</th>
                                     <!--                             <th class="text-center">Delete</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <th scope="row">
-                                    <?php foreach ($consultations as $consultation) : ?>
-                                        <tr>
-                                            <td class="text-center">
-                                                <?php echo $consultation['level']; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php echo $consultation['name']; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php echo $consultation['areas_concern']; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php
-                                                echo Carbon::parse($consultation['created_at'])->format('F d, Y');
-                                                ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
-                                            </td>
-                                            <!--                                 <td class="text-center">
+                                <?php foreach ($consultations as $consultation): ?>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?php echo $consultation['level']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $consultation['name']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $consultation['areas_concern']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            echo Carbon::parse($consultation['created_at'])->format('F d, Y');
+                                            ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
+                                        </td>
+                                        <!--                                 <td class="text-center">
                             <form action="" method="POST">
                             <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
                             <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
                             </form></td> -->
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </th>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -422,7 +422,8 @@ if (isset($_POST['confirm'])) {
             </div>
 
             <!-- Modal for changing email -->
-            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -431,7 +432,8 @@ if (isset($_POST['confirm'])) {
                         <div class="modal-body">
                             <form action="change_email.php" method="post">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="new_email" placeholder="New Email Address" required />
+                                    <input type="email" class="form-control" name="new_email"
+                                        placeholder="New Email Address" required />
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -444,7 +446,8 @@ if (isset($_POST['confirm'])) {
             </div>
 
             <!-- add modal for subject -->
-            <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -453,13 +456,16 @@ if (isset($_POST['confirm'])) {
                         <div class="modal-body">
                             <form action="" method="post" x-ref="passwordForm">
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="current" placeholder="Current Password" x-ref="current" />
+                                    <input type="password" class="form-control" name="current"
+                                        placeholder="Current Password" x-ref="current" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="new" placeholder="New Password" x-ref="new" />
+                                    <input type="password" class="form-control" name="new" placeholder="New Password"
+                                        x-ref="new" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" x-ref="confirm" />
+                                    <input type="password" class="form-control" name="confirm"
+                                        placeholder="Confirm Password" x-ref="confirm" />
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -542,10 +548,12 @@ if (isset($_POST['confirm'])) {
 </script>
 </body>
 <script type="text/javascript">
-    $(".remove").click(function() {
+    $(".remove").click(function () {
         var id = $(this).parents("tr").attr("id");
         alert("Record deleted successfully");
     });
+
+
 </script>
 
 </html>
