@@ -209,7 +209,7 @@ if (isset($_POST['confirm'])) {
                     </button>
                 </form>
                 <div class="">
-                    <table class="table">
+                    <table class="table" table-bordered>
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col" class="text-center">Subject Code</th>
