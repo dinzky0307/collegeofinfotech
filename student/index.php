@@ -226,14 +226,13 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
                             <th scope="row">
                             <?php
                             // print_r($mysubject);
                             // print_r($row);
                             foreach ($mysubject as $row) : ?>
-                            </th>
 
+                                <tr>
                                     <td>
                                         <?php echo $row['subject']; ?>
                                     </td>
@@ -343,8 +342,9 @@ if (isset($_POST['confirm'])) {
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                                 </tr>
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
+                                </tr>
                             <?php endforeach; ?>
-                            </tr>
+                            </th>
                         </tbody>
                     </table>
                 </div>
