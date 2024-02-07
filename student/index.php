@@ -232,7 +232,7 @@ if (isset($_POST['confirm'])) {
                             // print_r($mysubject);
                             // print_r($row);
                             foreach ($mysubject as $row) : ?>
-
+                            </th>
 
                                     <td>
                                         <?php echo $row['subject']; ?>
@@ -344,7 +344,6 @@ if (isset($_POST['confirm'])) {
                                 </tr>
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                             <?php endforeach; ?>
-                            </th>
                             </tr>
                         </tbody>
                     </table>
