@@ -44,12 +44,12 @@ if (isset($_POST['confirm'])) {
 
             unset($_SESSION['level']);
 
-            ?>
+?>
             <script>
                 alert("Password successfully changed")
                 window.location.href = "../index.php"
             </script>
-        <?php
+<?php
 
 
         }
@@ -142,8 +142,7 @@ if (isset($_POST['confirm'])) {
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -157,10 +156,8 @@ if (isset($_POST['confirm'])) {
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeEmailModal">
                         <i class="fa fa-envelope"></i> Change Email
                     </button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i
-                            class="fa fa-gear"></i> Change Password</button>
-                    <a href="../logout.php"><button type="button" class="btn btn-danger"
-                            name="submit">Logout</button></a>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i class="fa fa-gear"></i> Change Password</button>
+                    <a href="../logout.php"><button type="button" class="btn btn-danger" name="submit">Logout</button></a>
                 </div>
             </div><!--/.navbar-collapse -->
         </div>
@@ -174,7 +171,7 @@ if (isset($_POST['confirm'])) {
     // $stud = $dbService->fetchRow("SELECT * from student");
     // $studsub = $dbService->fetchRow("SELECT * from studentsubject ");
     // $sub = $dbService->fetchRow("SELECT * FROM studentsubject JOIN class WHERE studentsubject.classid = class.id");
-    
+
     ?>
 
 
@@ -206,8 +203,7 @@ if (isset($_POST['confirm'])) {
                         <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
                         <option value="Summer" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                     </select>
-                    <button type="search" name="year_semester" class="btn btn-outline-light"><i
-                            class="fa fa-search"></i>
+                    <button type="search" name="year_semester" class="btn btn-outline-light"><i class="fa fa-search"></i>
                         Search
                     </button>
                 </form>
@@ -229,11 +225,11 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-// print_r($mysubject);
-// print_r($row);
-                                foreach ($mysubject as $row): ?> 
-                                    
+                            <?php
+                            // print_r($mysubject);
+                            // print_r($row);
+                            foreach ($mysubject as $row) : ?>
+
                                 <tr>
                                     <td>
                                         <?php echo $row['subject']; ?>
@@ -242,105 +238,105 @@ if (isset($_POST['confirm'])) {
                                         <?php echo $row['description']; ?>
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
-                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']); 
-// print_r($mygrade);
+                                    <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']);
+                                    // print_r($mygrade);
                                     ?>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['prelim_grade'])): ?>
+                                        <?php if (isset($mygrade['prelim_grade'])) : ?>
                                             <?php echo $grade->gradeconversion($mygrade['prelim_grade']); ?>
                                         <?php endif; ?>
                                     </td>
 
-<td class="text-center">
-    <?php if (isset($mygrade['prelim_grade'])): ?>
-        <?php
-        $prelimGrade = $mygrade['prelim_grade'];
-        if ($prelimGrade > 3) {
-            echo "<font color='red'>Failed</font>";
-        } else if ($prelimGrade == 0) {
-            echo "<font color='black'>NG</font>";
-        } else {
-            echo "<font color='green'>Passed</font>";
-        }
-        ?>
-    <?php else: 
-        echo "<font color='black'>NG</font>";
-                                        
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['prelim_grade'])) : ?>
+                                            <?php
+                                            $prelimGrade = $mygrade['prelim_grade'];
+                                            if ($prelimGrade > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($prelimGrade == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                            ?>
+                                        <?php else :
+                                            echo "<font color='black'>NG</font>";
+
                                         ?>
-    <?php endif; ?>
-</td>
+                                        <?php endif; ?>
+                                    </td>
 
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['midterm_grade'])): ?>
+                                        <?php if (isset($mygrade['midterm_grade'])) : ?>
                                             <?php echo $grade->gradeconversion($mygrade['midterm_grade']); ?>
                                         <?php endif; ?>
                                     </td>
-<td class="text-center">
-    <?php if (isset($mygrade['midterm_grade'])): ?>
-        <?php
-        $prelimGrade = $mygrade['midterm_grade'];
-        if ($prelimGrade > 3) {
-            echo "<font color='red'>Failed</font>";
-        } else if ($prelimGrade == 0) {
-            echo "<font color='black'>NG</font>";
-        } else {
-            echo "<font color='green'>Passed</font>";
-        }
-        ?>
-    <?php else: 
-        echo "<font color='black'>NG</font>";
-                                        
-                                        ?>
-    <?php endif; ?>
-</td>
                                     <td class="text-center">
-                                        <?php if (isset($mygrade['finals_grade'])): ?>
+                                        <?php if (isset($mygrade['midterm_grade'])) : ?>
+                                            <?php
+                                            $prelimGrade = $mygrade['midterm_grade'];
+                                            if ($prelimGrade > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($prelimGrade == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                            ?>
+                                        <?php else :
+                                            echo "<font color='black'>NG</font>";
+
+                                        ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['finals_grade'])) : ?>
                                             <?php echo $grade->gradeconversion($mygrade['finals_grade']); ?>
                                         <?php endif; ?>
                                     </td>
-<td class="text-center">
-    <?php if (isset($mygrade['finals_grade'])): ?>
-        <?php
-        $prelimGrade = $mygrade['finals_grade'];
-        if ($prelimGrade > 3) {
-            echo "<font color='red'>Failed</font>";
-        } else if ($prelimGrade == 0) {
-            echo "<font color='black'>NG</font>";
-        } else {
-            echo "<font color='green'>Passed</font>";
-        }
-        ?>
-    <?php else: 
-        echo "<font color='black'>NG</font>";
-                                        
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['finals_grade'])) : ?>
+                                            <?php
+                                            $prelimGrade = $mygrade['finals_grade'];
+                                            if ($prelimGrade > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($prelimGrade == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                            ?>
+                                        <?php else :
+                                            echo "<font color='black'>NG</font>";
+
                                         ?>
-    <?php endif; ?>
-</td>
+                                        <?php endif; ?>
+                                    </td>
 
                                     <td class="text-center">
-    <?php if (isset($mygrade['total'])): ?>
-        <?php echo $mygrade['total']; ?>
-    <?php endif; ?>
-</td>
+                                        <?php if (isset($mygrade['total'])) : ?>
+                                            <?php echo $mygrade['total']; ?>
+                                        <?php endif; ?>
+                                    </td>
 
-<td class="text-center">
-    <?php if (isset($mygrade['total'])): ?>
-        <?php
-        $prelimGrade = $mygrade['total'];
-        if ($prelimGrade > 3) {
-            echo "<font color='red'>Failed</font>";
-        } else if ($prelimGrade == 0) {
-            echo "<font color='black'>NG</font>";
-        } else {
-            echo "<font color='green'>Passed</font>";
-        }
-        ?>
-    <?php else: 
-        echo "<font color='black'>NG</font>";
-                                        
+                                    <td class="text-center">
+                                        <?php if (isset($mygrade['total'])) : ?>
+                                            <?php
+                                            $prelimGrade = $mygrade['total'];
+                                            if ($prelimGrade > 3) {
+                                                echo "<font color='red'>Failed</font>";
+                                            } else if ($prelimGrade == 0) {
+                                                echo "<font color='black'>NG</font>";
+                                            } else {
+                                                echo "<font color='green'>Passed</font>";
+                                            }
+                                            ?>
+                                        <?php else :
+                                            echo "<font color='black'>NG</font>";
+
                                         ?>
-    <?php endif; ?>
-</td>
+                                        <?php endif; ?>
+                                    </td>
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                                 </tr>
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
@@ -374,8 +370,7 @@ if (isset($_POST['confirm'])) {
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="text-center">Consultation</h2>
-                    <a href="form.php"><button type="button" class="btn btn-success" name="submit"
-                            style=" margin-bottom: 10px;">Consultation Form</button></a>
+                    <a href="form.php"><button type="button" class="btn btn-success" name="submit" style=" margin-bottom: 10px;">Consultation Form</button></a>
                     <div class="">
                         <table class="table table-bordered">
                             <thead>
@@ -389,7 +384,7 @@ if (isset($_POST['confirm'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($consultations as $consultation): ?>
+                                <?php foreach ($consultations as $consultation) : ?>
                                     <tr>
                                         <td class="text-center">
                                             <?php echo $consultation['level']; ?>
@@ -422,8 +417,7 @@ if (isset($_POST['confirm'])) {
             </div>
 
             <!-- Modal for changing email -->
-            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -432,8 +426,7 @@ if (isset($_POST['confirm'])) {
                         <div class="modal-body">
                             <form action="change_email.php" method="post">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="new_email"
-                                        placeholder="New Email Address" required />
+                                    <input type="email" class="form-control" name="new_email" placeholder="New Email Address" required />
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -446,8 +439,7 @@ if (isset($_POST['confirm'])) {
             </div>
 
             <!-- add modal for subject -->
-            <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -456,16 +448,13 @@ if (isset($_POST['confirm'])) {
                         <div class="modal-body">
                             <form action="" method="post" x-ref="passwordForm">
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="current"
-                                        placeholder="Current Password" x-ref="current" />
+                                    <input type="password" class="form-control" name="current" placeholder="Current Password" x-ref="current" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="new" placeholder="New Password"
-                                        x-ref="new" />
+                                    <input type="password" class="form-control" name="new" placeholder="New Password" x-ref="new" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="confirm"
-                                        placeholder="Confirm Password" x-ref="confirm" />
+                                    <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" x-ref="confirm" />
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -548,12 +537,10 @@ if (isset($_POST['confirm'])) {
 </script>
 </body>
 <script type="text/javascript">
-    $(".remove").click(function () {
+    $(".remove").click(function() {
         var id = $(this).parents("tr").attr("id");
         alert("Record deleted successfully");
     });
-
-
 </script>
 
 </html>
