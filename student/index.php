@@ -62,7 +62,7 @@ if (isset($_POST['confirm'])) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../img/mcc.png">
@@ -70,7 +70,8 @@ if (isset($_POST['confirm'])) {
     <title>InfoTech</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="mystyle.css" />
@@ -208,19 +209,19 @@ if (isset($_POST['confirm'])) {
                     </button>
                 </form>
                 <div class="">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="warning warning-info">
-                                <th class="text-center">Subject Code</th>
-                                <th class="text-center">Subject Description</th>
-                                <th class="text-center">Prelim</th>
-                                <th class="text-center">Remark</th>
-                                <th class="text-center">Midterm</th>
-                                <th class="text-center">Remark</th>
-                                <th class="text-center">Final</th>
-                                <th class="text-center">Remark</th>
-                                <th class="text-center">Final Ratings</th>
-                                <th class="text-center">Final Remarks</th>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="text-center">Subject Code</th>
+                                <th scope="col" class="text-center">Subject Description</th>
+                                <th scope="col" class="text-center">Prelim</th>
+                                <th scope="col" class="text-center">Remark</th>
+                                <th scope="col" class="text-center">Midterm</th>
+                                <th scope="col" class="text-center">Remark</th>
+                                <th scope="col" class="text-center">Final</th>
+                                <th scope="col" class="text-center">Remark</th>
+                                <th scope="col" class="text-center">Final Ratings</th>
+                                <th scope="col" class="text-center">Final Remarks</th>
                                 <!-- <th class="text-center">Units</th>-->
                             </tr>
                         </thead>
@@ -231,6 +232,7 @@ if (isset($_POST['confirm'])) {
                             foreach ($mysubject as $row) : ?>
 
                                 <tr>
+                                    <th scope="row">
                                     <td>
                                         <?php echo $row['subject']; ?>
                                     </td>
@@ -337,6 +339,7 @@ if (isset($_POST['confirm'])) {
                                         ?>
                                         <?php endif; ?>
                                     </td>
+                                    </th>
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                                 </tr>
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
