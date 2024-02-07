@@ -209,7 +209,7 @@ if (isset($_POST['confirm'])) {
                     </button>
                 </form>
                 <div class="">
-                    <table class="table" table-bordered>
+                    <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col" class="text-center">Subject Code</th>
@@ -375,44 +375,46 @@ if (isset($_POST['confirm'])) {
                     <h2 class="text-center">Consultation</h2>
                     <a href="form.php"><button type="button" class="btn btn-success" name="submit" style=" margin-bottom: 10px;">Consultation Form</button></a>
                     <div class="">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="warning warning-info">
-                                    <th class="text-center">Type</th>
-                                    <th class="text-center">Consulted to:</th>
-                                    <th class="text-center">Concern</th>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-center">View</th>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="text-center">Type</th>
+                                    <th scope="col" class="text-center">Consulted to:</th>
+                                    <th scope="col" class="text-center">Concern</th>
+                                    <th scope="col" class="text-center">Date</th>
+                                    <th scope="col" class="text-center">View</th>
                                     <!--                             <th class="text-center">Delete</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($consultations as $consultation) : ?>
-                                    <tr>
-                                        <td class="text-center">
-                                            <?php echo $consultation['level']; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo $consultation['name']; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo $consultation['areas_concern']; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php
-                                            echo Carbon::parse($consultation['created_at'])->format('F d, Y');
-                                            ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
-                                        </td>
-                                        <!--                                 <td class="text-center">
+                                <th scope="row">
+                                    <?php foreach ($consultations as $consultation) : ?>
+                                        <tr>
+                                            <td class="text-center">
+                                                <?php echo $consultation['level']; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $consultation['name']; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $consultation['areas_concern']; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php
+                                                echo Carbon::parse($consultation['created_at'])->format('F d, Y');
+                                                ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
+                                            </td>
+                                            <!--                                 <td class="text-center">
                             <form action="" method="POST">
                             <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
                             <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
                             </form></td> -->
-                                    </tr>
-                                <?php endforeach; ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </th>
                             </tbody>
                         </table>
                     </div>
