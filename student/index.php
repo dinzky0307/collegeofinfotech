@@ -315,9 +315,10 @@ if (isset($_POST['confirm'])) {
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
-                                            <?php echo $mygrade['total']; ?>
+                                            <?php echo sprintf("%.1f", $mygrade['total']); ?>
                                         <?php endif; ?>
                                     </td>
+
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
