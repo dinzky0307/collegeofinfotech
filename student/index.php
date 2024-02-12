@@ -315,14 +315,14 @@ if (isset($_POST['confirm'])) {
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
-                                            <?php echo gradeconversion($mygrade['total']); ?>
+                                            <?php echo $mygrade['total']; ?>
                                         <?php endif; ?>
                                     </td>
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
                                             <?php
-                                            $prelimGrade = gradeconversion($mygrade['total']);
+                                            $prelimGrade = $mygrade['total'];
                                             if ($prelimGrade > 3) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($prelimGrade == 0) {
