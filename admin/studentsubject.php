@@ -197,13 +197,13 @@ function gradeconversion($grade){
             <td class="text-center"><?php echo $grade['code']; ?></td>
             <td class="text-center"><?php echo $grade['title']; ?></td>
             <td class="text-center">
-                <?php echo isset($grade['prelim_grade']) ? ['prelim_grade'] : ''; ?>
+                <?php echo isset($grade['prelim_grade']) ? $grade['prelim_grade'] : ''; ?>
             </td>
             <td class="text-center">
-                <?php echo isset($grade['midterm_grade']) ? ['midterm_grade'] : ''; ?>
+                <?php echo isset($grade['midterm_grade']) ? $grade['midterm_grade'] : ''; ?>
             </td>
             <td class="text-center">
-                <?php echo isset($grade['final_grade']) ? ['final_grade'] : ''; ?>
+                <?php echo isset($grade['final_grade']) ? $grade['final_grade'] : ''; ?>
             </td>
             <td class="text-center">
                 <?php
@@ -217,7 +217,6 @@ function gradeconversion($grade){
                 } else {
                     echo '';
                 }
-                print_r($grade);
                 ?>
             </td>
             <td class="text-center">
