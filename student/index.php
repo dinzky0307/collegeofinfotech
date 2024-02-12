@@ -14,13 +14,6 @@ use Database\DatabaseService;
 
 $dbService = new DatabaseService;
 
-$id = $_GET['id'];
-$stud = $dbService->fetchRow("SELECT * from student where id = {$id}");
-$studsem = $stud['semester'];
-$mysubject = $dbService->fetch(
-    "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id' AND studentsubject.semester = '$studsem'"
-);
-
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
 if (isset($_SESSION['level']) == "student") {
@@ -62,6 +55,15 @@ if (isset($_POST['confirm'])) {
         }
     }
 }
+?>
+
+<?php
+$id = $_GET['id'];
+$stud = $dbService->fetchRow("SELECT * from student where id = {$id}");
+$studsem = $stud['semester'];
+$mysubject = $dbService->fetch(
+    "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id' AND studentsubject.semester = '$studsem'"
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
