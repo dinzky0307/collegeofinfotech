@@ -56,15 +56,6 @@ if (isset($_POST['confirm'])) {
     }
 }
 ?>
-
-<?php
-$id = $_GET['id'];
-$stud = $dbService->fetchRow("SELECT * from student where id = {$id}");
-$studsem = $stud['semester'];
-$mysubject = $dbService->fetch(
-    "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id' AND studentsubject.semester = '$studsem'"
-);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -234,14 +225,17 @@ $mysubject = $dbService->fetch(
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($mysubject as $row) : ?>
+                            <?php
+                            // print_r($mysubject);
+                            // print_r($row);
+                            foreach ($mysubject as $row) : ?>
 
                                 <tr>
-                                    <td class="text-center">
-                                        <?php echo $row['code']; ?>
+                                    <td>
+                                        <?php echo $row['subject']; ?>
                                     </td>
-                                    <td class="text-center">
-                                        <?php echo $row['title']; ?>
+                                    <td>
+                                        <?php echo $row['description']; ?>
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']);
