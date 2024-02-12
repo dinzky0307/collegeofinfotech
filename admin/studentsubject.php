@@ -110,10 +110,6 @@ function gradeconversion($grade){
         return '<font color="green">Passed</font>';
     }
 
-    echo "Prelim Grade: " . $grade['prelim_grade'] . "<br>";
-    echo "Midterm Grade: " . $grade['midterm_grade'] . "<br>";
-    echo "Final Grade: " . $grade['final_grade'] . "<br>";
-
 ?>
         
                 
