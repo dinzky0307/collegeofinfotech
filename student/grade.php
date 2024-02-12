@@ -117,7 +117,10 @@ function getgrade($year, $section, $sem, $sy, $subject)
                 $final = $finals_grade;
 
                 // Handle potential division by zero error
-                $total = (($prelim + $midterm) / 2) * 0.30 + $final * 0.70;
+                $total = ((($prelim + $midterm) / 2) * 0.30) + $final * 0.70;
+                
+                // Round off the total using the gradeconversion function
+                $total = $this->gradeconversion($total);
 
                 $data = array(
                     'prelim_grade' => $prelim_grade,
