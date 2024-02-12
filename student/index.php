@@ -315,7 +315,7 @@ if (isset($_POST['confirm'])) {
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
-                                            <?php echo $mygrade['total']; ?>
+                                            <?php echo gradeconversion($mygrade['total']); ?>
                                         <?php endif; ?>
                                     </td>
 

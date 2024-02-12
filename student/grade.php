@@ -119,9 +119,6 @@ function getgrade($year, $section, $sem, $sy, $subject)
                 // Handle potential division by zero error
                 $total = ((($prelim + $midterm) / 2) * 0.30) + $final * 0.70;
 
-                // Round the total if it has .50 decimal or above
-                $total = round($total * 2) / 2;
-
                 $data = array(
                     'prelim_grade' => $prelim_grade,
                     'midterm_grade' => $midterm_grade,
