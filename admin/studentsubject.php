@@ -211,7 +211,7 @@ function gradeconversion($grade){
                     $finalRatings = array_sum([
                         ((($grade['prelim_grade'] + $grade['midterm_grade']) /2) * 0.3) + (($grade['final_grade']) * 0.7)
                     ]);
-                    echo $finalRatings;
+                    echo sprintf("%.1f", $finalRatings);
                 } else {
                     echo '';
                 }
