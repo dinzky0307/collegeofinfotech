@@ -583,8 +583,7 @@
                                             <td class="text-center"><?php echo $subject['totalunit'];?></td>
                                             <td class="text-center"><?php echo $subject['pre'];?></td>
                                             <td class="text-center"><?php echo gradeconversion(array_sum([
-                                                $subject['midterm_grade'] * 0.3,
-                                                $subject['final_grade'] * 0.7
+                                                ((($subject['prelim_grade'] + $subject['midterm_grade']) / 2) * 0.3) + (($subject['final_grade']) * 0.7)
                                             ])); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
