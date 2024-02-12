@@ -551,7 +551,7 @@
                                         <tr>
                                             <td><?php echo $number + 1;?></td>
                                             <td class="text-center"><?php echo $student['studid'];?></a></td>
-                                            <td><?php echo $student['fname'];?>, <?php echo $student['lname'];?> <?php echo $student['mname'];?></td>
+                                            <td><?php echo $student['lname'];?>, <?php echo $student['fname'];?> <?php echo $student['mname'];?></td>
                                             <td class="text-center"><?php echo $student['year'];?> -<?php echo $student['section'];?></td>
                                             <td class="text-center"><?php echo $student['semester'];?></td>
                                             <td class="text-center">                                       
