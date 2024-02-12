@@ -315,7 +315,10 @@ if (isset($_POST['confirm'])) {
 
                                     <td class="text-center">
                                         <?php if (isset($mygrade['total'])) : ?>
-                                            <?php echo gradeconversion($mygrade['total']); ?>
+                                            <?php $totalGrade = $mygrade['total'];
+                                            // Round off the total grade to the nearest 0.5
+                                            $roundedTotal = round($totalGrade * 2) / 2;
+                                            echo number_format($roundedTotal, 2); ?>
                                         <?php endif; ?>
                                     </td>
 
