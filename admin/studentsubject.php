@@ -217,6 +217,7 @@ function gradeconversion($grade){
                 } else {
                     echo '';
                 }
+                print_r($grade);
                 ?>
             </td>
             <td class="text-center">
