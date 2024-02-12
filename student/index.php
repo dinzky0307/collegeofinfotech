@@ -14,6 +14,13 @@ use Database\DatabaseService;
 
 $dbService = new DatabaseService;
 
+$id = $_GET['id'];
+$stud = $dbService->fetchRow("SELECT * from student where id = {$id}");
+$studsem = $stud['semester'];
+$mysubject = $dbService->fetch(
+    "SELECT subject.code, subject.title, subject.title, studentsubject.prelim_grade, studentsubject.midterm_grade, studentsubject.final_grade from studentsubject INNER JOIN subject ON studentsubject.subjectid = subject.id WHERE studid = '$id' AND studentsubject.semester = '$studsem'"
+);
+
 $selects = 'userdata.level, consultations.id, CONCAT(userdata.fname, " ", userdata.lname) AS name, consultations.areas_concern, consultations.created_at';
 $joins = 'LEFT JOIN consultations ON userdata.id  = consultations.consultant_id';
 if (isset($_SESSION['level']) == "student") {
@@ -225,17 +232,14 @@ if (isset($_POST['confirm'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            // print_r($mysubject);
-                            // print_r($row);
-                            foreach ($mysubject as $row) : ?>
+                            <?php foreach ($mysubject as $row) : ?>
 
                                 <tr>
-                                    <td>
-                                        <?php echo $row['subject']; ?>
+                                    <td class="text-center">
+                                        <?php echo $row['code']; ?>
                                     </td>
-                                    <td>
-                                        <?php echo $row['description']; ?>
+                                    <td class="text-center">
+                                        <?php echo $row['title']; ?>
                                     </td>
                                     <?php $title = $grade->getsubjectitle($row['subject']); ?>
                                     <?php $mygrade = $grade->getgrade($row['year'], $row['section'], $row['sem'], $row['SY'], $row['subject']);
