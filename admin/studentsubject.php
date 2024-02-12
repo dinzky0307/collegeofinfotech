@@ -26,7 +26,7 @@ function gradeconversion($grade){
                  $data = 0;
             }else{
                 switch ($grade) {
-                     case 1.0: 
+                     case 1.0:
                          $data = 1.0;
                          break;
                      case 1.1:
@@ -109,6 +109,11 @@ function gradeconversion($grade){
 
         return '<font color="green">Passed</font>';
     }
+
+    echo "Prelim Grade: " . $grade['prelim_grade'] . "<br>";
+    echo "Midterm Grade: " . $grade['midterm_grade'] . "<br>";
+    echo "Final Grade: " . $grade['final_grade'] . "<br>";
+
 ?>
         
                 
@@ -219,6 +224,7 @@ function gradeconversion($grade){
                 }
                 ?>
             </td>
+            
             <td class="text-center">
                 <?php
                 if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
