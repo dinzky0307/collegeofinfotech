@@ -314,20 +314,15 @@ if (isset($_POST['confirm'])) {
                                     </td>
 
                                     <td class="text-center">
-                                        <?php
-                                        if (isset($mygrade['total'])) {
-                                            // Round off the total grade using the gradeconversion function
-                                            $roundedTotal = $grade->gradeconversion($mygrade['total']);
-                                            echo $roundedTotal;
-                                        }
-                                        ?>
+                                        <?php if (isset($mygrade['total'])) : ?>
+                                            <?php echo $mygrade['total']; ?>
+                                        <?php endif; ?>
                                     </td>
 
                                     <td class="text-center">
-                                        <?php
-                                        if (isset($mygrade['total'])) {
-                                            // Use the rounded total for determining remarks
-                                            $prelimGrade = $grade->gradeconversion($mygrade['total']);
+                                        <?php if (isset($mygrade['total'])) : ?>
+                                            <?php
+                                            $prelimGrade = $mygrade['total'];
                                             if ($prelimGrade > 3) {
                                                 echo "<font color='red'>Failed</font>";
                                             } else if ($prelimGrade == 0) {
@@ -335,12 +330,13 @@ if (isset($_POST['confirm'])) {
                                             } else {
                                                 echo "<font color='green'>Passed</font>";
                                             }
-                                        } else {
+                                            ?>
+                                        <?php else :
                                             echo "<font color='black'>NG</font>";
-                                        }
-                                        ?>
-                                    </td>
 
+                                        ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
                                 </tr>
                                 <!-- <td class="text-center"><?php echo $title[0]['unit']; ?></td>-->
