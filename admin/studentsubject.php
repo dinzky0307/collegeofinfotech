@@ -198,18 +198,18 @@ function gradeconversion($grade){
             <td class="text-center"><?php echo $grade['code']; ?></td>
             <td class="text-center"><?php echo $grade['title']; ?></td>
             <td class="text-center">
-                <?php echo isset($grade['prelim_grade']) ? $student->gradeconversion($grade['prelim_grade']) : ''; ?>
+                <?php echo isset($grade['prelim_grade']) ? gradeconversion($grade['prelim_grade']) : ''; ?>
             </td>
             <td class="text-center">
-                <?php echo isset($grade['midterm_grade']) ? $student->gradeconversion($grade['midterm_grade']) : ''; ?>
+                <?php echo isset($grade['midterm_grade']) ? gradeconversion($grade['midterm_grade']) : ''; ?>
             </td>
             <td class="text-center">
-                <?php echo isset($grade['final_grade']) ? $student->gradeconversion($grade['final_grade']) : ''; ?>
+                <?php echo isset($grade['final_grade']) ? gradeconversion($grade['final_grade']) : ''; ?>
             </td>
             <td class="text-center">
                 <?php
                 if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
-                    $finalRatings = $student->gradeconversion(array_sum([
+                    $finalRatings = gradeconversion(array_sum([
                         $grade['prelim_grade'] * 0.3,
                         $grade['midterm_grade'] * 0.3,
                         $grade['final_grade'] * 0.7
@@ -224,7 +224,7 @@ function gradeconversion($grade){
             <td class="text-center">
                 <?php
                 if (isset($grade['prelim_grade']) && isset($grade['midterm_grade']) && isset($grade['final_grade'])) {
-                    $average = $student->gradeconversion(array_sum([
+                    $average = gradeconversion(array_sum([
                         $grade['prelim_grade'] * 0.3,
                         $grade['midterm_grade'] * 0.3,
                         $grade['final_grade'] * 0.7
