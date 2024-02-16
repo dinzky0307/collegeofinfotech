@@ -378,7 +378,7 @@ if (isset($_POST['submit'])) {
     if ($irregular != 1) {
         echo "<script>$('." . $subjectid . "').prop('disabled', true);</script>";
     } else {
-        echo "<script>$('." . $subjectid . "').prop('disabled', false);</script>";
+        echo "<script>$('." . $subjectid . "').prop('enabled', false);</script>";
     }
 }
 
