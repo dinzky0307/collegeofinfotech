@@ -93,7 +93,7 @@ if (isset($_POST['deleteSubject'])) {
                                         <?php echo $row['subject'] ?> -
                                         <?php echo $row['description'] ?>
                                     </td>
-                                    <td class="text-center"><a href="student.php?classid=<?php echo $row['id']; ?>&y=<?php echo $row['year']; ?>&sem=<?php echo $row['sem']; ?>&sec=<?php echo $row['section']; ?>&ay=<?php echo $row['SY']; ?>&code=<?php echo $row['subject']; ?>" target="_blank">View</a></td>
+                                    <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id'] ?>" target="_blank">View</a></td>
                                     <td class="text-center">
                                         <?php echo $row['year'] ?> -
                                         <?php echo $row['section'] ?>
