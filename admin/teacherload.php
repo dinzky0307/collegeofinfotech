@@ -16,12 +16,12 @@ if (isset($_POST['deleteSubject'])) {
     $deleted = removeSubject($classId, $teachId, $connection);
 
     if ($deleted) {
-        ?>
+?>
         <script type="text/javascript">
             alert("Subject successfully deleted");
             window.location.href = "teacherload.php?id=<?php echo $teachId; ?>";
         </script>
-        <?php
+<?php
         exit(); // Exit to prevent further code execution
     }
 }
@@ -30,11 +30,11 @@ if (isset($_POST['deleteSubject'])) {
 
 <style>
     .no-border {
-    border: none;
-    background: none; /* Optional: Remove background if necessary */
-    /* Any additional styles you want to apply */
-}
-
+        border: none;
+        background: none;
+        /* Optional: Remove background if necessary */
+        /* Any additional styles you want to apply */
+    }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 
@@ -64,7 +64,7 @@ if (isset($_POST['deleteSubject'])) {
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
-                <?php while ($row = mysql_fetch_array($teacher)): ?>
+                <?php while ($row = mysql_fetch_array($teacher)) : ?>
                     <h4>Instructor ID :
                         <?php echo $row['teachid']; ?>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -87,14 +87,13 @@ if (isset($_POST['deleteSubject'])) {
                         <tbody>
                             <?php
                             $r1 = mysql_query("select * from class where teacher=$id");
-                            while ($row = mysql_fetch_array($r1)): ?>
+                            while ($row = mysql_fetch_array($r1)) : ?>
                                 <tr>
                                     <td class="text-center">
                                         <?php echo $row['subject'] ?> -
                                         <?php echo $row['description'] ?>
                                     </td>
-                                    <td class="text-center"><a href="classstudent.php?classid=<?php echo $row['id'] ?>"
-                                            target="_blank">View</a></td>
+                                    <td class="text-center"><a href="student.php?classid=<?php echo $row['id']; ?>&y=<?php echo $row['year']; ?>&sem=<?php echo $row['sem']; ?>&sec=<?php echo $row['section']; ?>&ay=<?php echo $row['SY']; ?>&code=<?php echo $row['subject']; ?>" target="_blank">View</a></td>
                                     <td class="text-center">
                                         <?php echo $row['year'] ?> -
                                         <?php echo $row['section'] ?>
@@ -107,7 +106,7 @@ if (isset($_POST['deleteSubject'])) {
                                             <input type="hidden" name="classId" value="<?php echo $row['id']; ?>">
                                             <input type="hidden" name="teachId" value="<?php echo $id; ?>">
                                             <button type="submit" name="deleteSubject" class="delete-button no-border" title="Remove">
-<!--                                                 onclick="return confirm('Are you sure you want to delete this subject?');"> -->
+                                                <!--                                                 onclick="return confirm('Are you sure you want to delete this subject?');"> -->
                                                 <i class="fa fa-times-circle text-danger fa-2x confirmation"></i>
                                             </button>
                                         </form>
@@ -129,7 +128,7 @@ if (isset($_POST['deleteSubject'])) {
 
 </div>
 <script>
-    $('#load thead th').each(function () {
+    $('#load thead th').each(function() {
         //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
         //     if(title!=""){
         //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
@@ -139,9 +138,10 @@ if (isset($_POST['deleteSubject'])) {
     // DataTable
     var table = $('#load').DataTable({
         searching: true,
-        "columnDefs": [
-            { "searchable": true, "targets": '_all' }
-        ],
+        "columnDefs": [{
+            "searchable": true,
+            "targets": '_all'
+        }],
     });
 
     // // Apply the search
@@ -156,13 +156,13 @@ if (isset($_POST['deleteSubject'])) {
     //             .draw();
     //     } );
     // } );
-
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.noConflict();
         $('#load').DataTable();
     });
+
     function handleSearchInput(event) {
         // Get the form element
         const form = document.getElementById('searchForm');
