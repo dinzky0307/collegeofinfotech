@@ -185,9 +185,9 @@ if (isset($_POST['confirm'])) {
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-center">Report of Grades</h2>
-                <form action="">
+                <form id="yearSemesterForm">
                     <label for="cars">Select Year:</label>
-                    <select name="year" id="year" class="dropbtn">
+                    <select name="year" id="year" class="dropbtn" onchange="submitYearSemester()">
                         <option value="1" <?php echo isset($_GET['year']) && $_GET['year'] === '1' ? 'selected' : ''; ?>>
                             1st Year</option>
                         <option value="2" <?php echo isset($_GET['year']) && $_GET['year'] === '2' ? 'selected' : ''; ?>>
@@ -198,14 +198,11 @@ if (isset($_POST['confirm'])) {
                             4th Year</option>
                     </select>
                     <label for="cars" style="margin-left: 20px;">Select Semester:</label>
-                    <select name="semester" id="semester" class="dropbtn">
+                    <select name="semester" id="semester" class="dropbtn" onchange="submitYearSemester()">
                         <option value="First Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'First Semester' ? 'selected' : ''; ?>>First Semester</option>
                         <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
                         <option value="Summer" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                     </select>
-                    <button type="search" name="year_semester" class="btn btn-outline-light"><i class="fa fa-search"></i>
-                        Search
-                    </button>
                 </form>
                 <div class="">
                     <table class="table table-bordered">
@@ -493,6 +490,11 @@ if (isset($_POST['confirm'])) {
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script>
+        function submitYearSemester() {
+            document.getElementById("yearSemesterForm").submit();
+        }
+    </script>
 
     <script>
         // window.PasswordHandler = () => {
