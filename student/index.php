@@ -185,20 +185,27 @@ if (isset($_POST['confirm'])) {
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-center">Report of Grades</h2>
-                <form id="year_semester_form">
-                    <label for="year">Select Year:</label>
+                <form action="">
+                    <label for="cars">Select Year:</label>
                     <select name="year" id="year" class="dropbtn">
-                        <option value="1">1st Year</option>
-                        <option value="2">2nd Year</option>
-                        <option value="3">3rd Year</option>
-                        <option value="4">4th Year</option>
+                        <option value="1" <?php echo isset($_GET['year']) && $_GET['year'] === '1' ? 'selected' : ''; ?>>
+                            1st Year</option>
+                        <option value="2" <?php echo isset($_GET['year']) && $_GET['year'] === '2' ? 'selected' : ''; ?>>
+                            2nd Year</option>
+                        <option value="3" <?php echo isset($_GET['year']) && $_GET['year'] === '3' ? 'selected' : ''; ?>>
+                            3rd Year</option>
+                        <option value="4" <?php echo isset($_GET['year']) && $_GET['year'] === '4' ? 'selected' : ''; ?>>
+                            4th Year</option>
                     </select>
-                    <label for="semester" style="margin-left: 20px;">Select Semester:</label>
+                    <label for="cars" style="margin-left: 20px;">Select Semester:</label>
                     <select name="semester" id="semester" class="dropbtn">
-                        <option value="First Semester">First Semester</option>
-                        <option value="Second Semester">Second Semester</option>
-                        <option value="Summer">Summer</option>
+                        <option value="First Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'First Semester' ? 'selected' : ''; ?>>First Semester</option>
+                        <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
+                        <option value="Summer" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                     </select>
+                    <button type="search" name="year_semester" class="btn btn-outline-light"><i class="fa fa-search"></i>
+                        Search
+                    </button>
                 </form>
                 <div class="">
                     <table class="table table-bordered">
@@ -486,35 +493,7 @@ if (isset($_POST['confirm'])) {
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to fetch and display subjects based on selected year and semester
-            function fetchSubjects() {
-                var year = document.getElementById('year').value;
-                var semester = document.getElementById('semester').value;
 
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            document.getElementById('subject_table').innerHTML = xhr.responseText;
-                        } else {
-                            console.error('Request failed:', xhr.statusText);
-                        }
-                    }
-                };
-                xhr.open('GET', 'fetch_subjects.php?year=' + year + '&semester=' + semester, true);
-                xhr.send();
-            }
-
-            // Add change event listeners to year and semester select elements
-            document.getElementById('year').addEventListener('change', fetchSubjects);
-            document.getElementById('semester').addEventListener('change', fetchSubjects);
-
-            // Fetch subjects initially on page load
-            fetchSubjects();
-        });
-    </script>
     <script>
         // window.PasswordHandler = () => {
         //     return {
