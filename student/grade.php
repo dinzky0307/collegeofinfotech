@@ -33,7 +33,7 @@ class Datagrade
           $id = $this->getid();
           $q = "select * from studentsubject where studid=$id";
 
-          if (isset($_GET['year']) && $_GET['semester']) {
+          if (isset($_GET['year']) && isset($_GET['semester'])) {
                $year = $_GET['year'];
                $sem = $_GET['semester'];
                $q .= " AND year = '$year' AND semester = '$sem'";
