@@ -31,38 +31,27 @@ class Datagrade
      function getsubject()
      {
           $id = $this->getid();
-          $q = "select * from studentsubject where studid=$id";
+          $q = "SELECT ss.subjectid, s.code, s.title, ss.prelim_grade, ss.midterm_grade, ss.final_grade, ss.total 
+                FROM studentsubject ss
+                INNER JOIN subject s ON ss.subjectid = s.id
+                WHERE ss.studid = $id";
 
           if (isset($_GET['year']) && isset($_GET['semester'])) {
                $year = $_GET['year'];
                $sem = $_GET['semester'];
-               $q .= " AND year = '$year' AND semester = '$sem'";
+               $q .= " AND ss.year = '$year' AND ss.semester = '$sem'";
           } else {
-               $q .= " AND year = '1' AND semester = 'First Semester'";
+               $q .= " AND ss.year = '1' AND ss.semester = 'First Semester'";
           }
 
           $r = mysql_query($q);
           $data = array();
           while ($row = mysql_fetch_array($r)) {
-               $classid = $row['classid'];
-               $year = $row['year'];
-               $section = $row['section'];
-               $sem = $row['semester'];
-               $SY = $row['SY'];
-               $subjectid = $row['subjectid'];
-
-               $q3 = "select * from subject where id=$subjectid";
-               $r3 = mysql_query($q3);
-               while ($srow = mysql_fetch_array($r3)) {
-                    $subjectcode = $srow['code'];
-
-                    $q2 = "select * from class where year=$year AND section='$section' AND sem='$sem' AND SY='$SY' AND subject='$subjectcode'";
-                    $r2 = mysql_query($q2);
-                    $data[] = mysql_fetch_array($r2);
-               }
+               $data[] = $row;
           }
           return $data;
      }
+
 
      function getsubjectitle($code)
      {
