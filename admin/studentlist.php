@@ -250,7 +250,6 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                 <th>#</th>
                                 <th class="text-center">ID number</th>
                                 <th class="text-center">Fullname</th>
-                                <th class="text-center">Reset</th>
                                 <th class="text-center">Year and Section</th>
                                 <th class="text-center">Semester</th>
                                 <th class="text-center">Subjects</th>
@@ -290,14 +289,6 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                         <?php echo $student['fname']; ?>
                                         <?php echo $student['mname']; ?>
                                     </td>
-                                    <td class="text-center">
-                                        <div style="display: inline-block;">
-                                            <a href="#" title="Reset Password">
-                                                <i class="fa fa-key fa-lg text-success reset-password" data-student-id="<?php echo $student['id']; ?>"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-
                                     <td class="text-center">
                                         <?php echo $student['year']; ?> -
                                         <?php echo $student['section']; ?>
@@ -341,7 +332,12 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     </div>
 </div>
 <script>
-    $('#studentInformation thead th').each(function() {});
+    $('#studentInformation thead th').each(function() {
+        //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
+        //     if(title!=""){
+        //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        //   }
+    });
 
     // DataTable
     var table = $('#studentInformation').DataTable({
@@ -379,43 +375,6 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     const searchInput = document.querySelector('input[name="search"]');
     searchInput.addEventListener('keyup', handleSearchInput);
 </script>
-
-<!-- reset password -->
-<script>
-    $(document).ready(function() {
-        $('.reset-password').hover(function() {
-            $(this).css('visibility', 'visible');
-        }, function() {
-            $(this).css('visibility', 'hidden');
-        });
-
-        $('.reset-password').click(function(e) {
-            e.preventDefault();
-            var studentId = $(this).data('student-id');
-            // Call a function to reset the password using AJAX
-            resetPassword(studentId);
-        });
-
-        function resetPassword(studentId) {
-            // AJAX request to reset the password
-            $.ajax({
-                url: 'reset_password.php',
-                type: 'POST',
-                data: {
-                    studentId: studentId
-                },
-                success: function(response) {
-                    // Handle success response, if any
-                    alert('Password reset successfully!');
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response, if any
-                    console.error(error);
-                }
-            });
-        }
-    });
-</script>
-
+<!-- /#page-wrapper -->
 <?php include('include/modal.php'); ?>
 <?php include('include/footer.php'); ?>
