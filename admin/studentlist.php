@@ -250,7 +250,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                 <th>#</th>
                                 <th class="text-center">ID number</th>
                                 <th class="text-center">Fullname</th>
-                                <th class="text-center">Reset Pass</th>
+                                <th class="text-center"></th>
                                 <th class="text-center">Year and Section</th>
                                 <th class="text-center">Semester</th>
                                 <th class="text-center">Subjects</th>
