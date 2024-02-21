@@ -10,6 +10,7 @@ if (isset($_GET['q'])) {
 }
 
 include '../DatabaseService.php';
+
 use Database\DatabaseService;
 
 $dbService = new DatabaseService;
@@ -58,12 +59,12 @@ if (isset($_POST['deleteStudent']) && isset($_POST['studentId'])) {
 
 
     // Redirect to the same page after the deletion
-    ?>
+?>
     <script type="text/javascript">
         alert("Student successfully deleted")
         window.location.href = "studentlist.php"
     </script>
-    <?php
+<?php
     exit(); // Make sure to exit after redirecting to prevent further code execution
 
 
@@ -127,32 +128,28 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
 
                     <div class="form-group d-flex align-items-center">
                         <label for="year" class="mr-2">Year:</label>
-                        <select name="year" id="year" class="form-control mr-4" style="max-width: 60px;"
-                            onchange="this.form.submit()">
+                        <select name="year" id="year" class="form-control mr-4" style="max-width: 60px;" onchange="this.form.submit()">
                             <option value="">All</option>
-                            <?php foreach ($years as $availableYear): ?>
+                            <?php foreach ($years as $availableYear) : ?>
                                 <option value="<?php echo $availableYear; ?>" <?php echo ($availableYear == $year) ? 'selected' : ''; ?>>
                                     <?php echo $availableYear; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                         <label for="section" class="mr-2">Section:</label>
-                        <select name="section" id="section" class="form-control mr-4" style="max-width: 100px;"
-                            onchange="this.form.submit()">
+                        <select name="section" id="section" class="form-control mr-4" style="max-width: 100px;" onchange="this.form.submit()">
                             <option value="">All</option>
-                            <?php foreach ($sections as $availableSection): ?>
+                            <?php foreach ($sections as $availableSection) : ?>
                                 <option value="<?php echo $availableSection; ?>" <?php echo ($availableSection == $section) ? 'selected' : ''; ?>>
                                     <?php echo $availableSection; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                         <div class="ml-auto">
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#importCSVModal"><i class="fa fa-upload"></i> Import CSV</button>
-<!--                               <a href="updatestudentsubject.php"><button type="button" class="btn btn-warning text-light"><i
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importCSVModal"><i class="fa fa-upload"></i> Import CSV</button>
+                            <!--                               <a href="updatestudentsubject.php"><button type="button" class="btn btn-warning text-light"><i
                                         class="fa fa-user-edit"></i> Update Student</button></a> -->
-                            <a href="addstudent.php"><button type="button" class="btn btn-success"><i
-                                        class="fa fa-user"></i> Add Student</button></a>
+                            <a href="addstudent.php"><button type="button" class="btn btn-success"><i class="fa fa-user"></i> Add Student</button></a>
                         </div>
                     </div>
                 </form>
@@ -168,8 +165,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
         <!--/.row -->
         <hr />
         <!-- Import CSV Modal -->
-        <div class="modal fade" id="importCSVModal" tabindex="-1" role="dialog" aria-labelledby="importCSVModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="importCSVModal" tabindex="-1" role="dialog" aria-labelledby="importCSVModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -183,8 +179,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                         <form action="importcsv.php" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="csvFile">Select CSV File:</label>
-                                <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv"
-                                    required>
+                                <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Import</button>
                         </form>
@@ -198,7 +193,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
 
         <div class="row">
             <div class="col-lg-12">
-                <?php if (isset($_GET['r'])): ?>
+                <?php if (isset($_GET['r'])) : ?>
                     <?php
                     $r = $_GET['r'];
                     if ($r == 'added') {
@@ -255,6 +250,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                 <th>#</th>
                                 <th class="text-center">ID number</th>
                                 <th class="text-center">Fullname</th>
+                                <th class="text-center">Reset Pass</th>
                                 <th class="text-center">Year and Section</th>
                                 <th class="text-center">Semester</th>
                                 <th class="text-center">Subjects</th>
@@ -275,7 +271,7 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
 
                             <?php
                             $number = 1;
-                            foreach ($lastNames as $index => $lastName): ?>
+                            foreach ($lastNames as $index => $lastName) : ?>
                                 <?php $student = $students[$index];
                                 $result = mysql_query("SELECT COUNT(*) AS enrolled_subjects FROM studentsubject WHERE semester='$student[semester]'AND year='$student[year]' AND studid='$student[id]' AND section='$student[section]'  AND SY='$student[ay]'");
                                 $d = mysql_fetch_assoc($result);
@@ -294,6 +290,14 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                         <?php echo $student['fname']; ?>
                                         <?php echo $student['mname']; ?>
                                     </td>
+                                    <td class="text-center">
+                                        <div style="display: inline-block;">
+                                            <a href="#" title="Reset Password">
+                                                <i class="fa fa-key fa-lg text-success reset-password" data-student-id="<?php echo $student['id']; ?>"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
                                     <td class="text-center">
                                         <?php echo $student['year']; ?> -
                                         <?php echo $student['section']; ?>
@@ -318,12 +322,11 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
                                                 <i class="fa fa-edit fa-lg text-primary"></i>
                                             </a>
                                         </div>
-                                       &nbsp; || &nbsp; 
+                                        &nbsp; || &nbsp;
                                         <!-- Form to handle subject deletion -->
                                         <form class="delete-form" method="post" style="display: inline-block;">
                                             <input type="hidden" name="studentId" value="<?php echo $student['id']; ?>">
-                                            <button type="submit" name="deleteStudent" class="delete-button" title="Remove"
-                                                onclick="return confirm('Are you sure you want to delete this student?');">
+                                            <button type="submit" name="deleteStudent" class="delete-button" title="Remove" onclick="return confirm('Are you sure you want to delete this student?');">
                                                 <i class="fa fa-trash-o fa-lg text-danger"></i>
                                             </button>
                                         </form>
@@ -338,34 +341,16 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     </div>
 </div>
 <script>
-    $('#studentInformation thead th').each(function () {
-        //     var title = $('#studentInformation thead th').eq( $(this).index() ).text();
-        //     if(title!=""){
-        //         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-        //   }
-    });
+    $('#studentInformation thead th').each(function() {});
 
     // DataTable
     var table = $('#studentInformation').DataTable({
         searching: true,
-        "columnDefs": [
-            { "searchable": true, "targets": '_all' }
-        ],
+        "columnDefs": [{
+            "searchable": true,
+            "targets": '_all'
+        }],
     });
-
-    // // Apply the search
-    // table.columns().eq( 0 ).each( function ( colIdx ) {
-    //     if( !table.settings()[0].aoColumns[colIdx].bSearchable ){
-    //     table.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-    // }
-    //     $( 'input', table.column( colIdx ).header() ).on( 'keyup change', function () {
-    //         table
-    //             .column( colIdx )
-    //             .search( this.value )
-    //             .draw();
-    //     } );
-    // } );
-
 </script>
 <script>
     function formToggle(ID) {
@@ -379,10 +364,11 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
 </script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.noConflict();
         $('#studentInformation').DataTable();
     });
+
     function handleSearchInput(event) {
         // Get the form element
         const form = document.getElementById('searchForm');
@@ -393,6 +379,43 @@ $filteredStudents = array_filter($students, function ($student) use ($year, $sec
     const searchInput = document.querySelector('input[name="search"]');
     searchInput.addEventListener('keyup', handleSearchInput);
 </script>
-<!-- /#page-wrapper -->
+
+<!-- reset password -->
+<script>
+    $(document).ready(function() {
+        $('.reset-password').hover(function() {
+            $(this).css('visibility', 'visible');
+        }, function() {
+            $(this).css('visibility', 'hidden');
+        });
+
+        $('.reset-password').click(function(e) {
+            e.preventDefault();
+            var studentId = $(this).data('student-id');
+            // Call a function to reset the password using AJAX
+            resetPassword(studentId);
+        });
+
+        function resetPassword(studentId) {
+            // AJAX request to reset the password
+            $.ajax({
+                url: 'reset_password.php',
+                type: 'POST',
+                data: {
+                    studentId: studentId
+                },
+                success: function(response) {
+                    // Handle success response, if any
+                    alert('Password reset successfully!');
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response, if any
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>
+
 <?php include('include/modal.php'); ?>
 <?php include('include/footer.php'); ?>
