@@ -24,7 +24,7 @@ if (isset($_POST['studentId'])) {
     // Send an email to the student with the new password
     $subject = 'Password Reset';
     $message = 'Your password has been reset. Your new password is: ' . $newPassword;
-    $headers = 'From: your@example.com'; // Change this to a valid sender email address
+    $headers = 'From: collegeofinfotech2023@gmail.com'; // Change this to a valid sender email address
     mail($studentEmail, $subject, $message, $headers);
 
     // Return a response
