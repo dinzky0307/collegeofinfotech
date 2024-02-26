@@ -10,12 +10,11 @@ require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
-    $user = $_POST['username'];
-    $email = $_POST['email'];
+    $user = $_POST['email'];
 
     // Check if the provided ID number exists in the userdata table
-    $query = "SELECT * FROM teacher WHERE email = '$email' OR username = '$user'";
-    $student = "SELECT * FROM student WHERE email = '$email' OR username = '$user'";
+    $query = "SELECT * FROM teacher WHERE email = '$user' ";
+    $student = "SELECT * FROM student WHERE email = '$user' ";
     $result = mysql_query($query);
 
     $result_student = mysql_query($student);
@@ -111,10 +110,6 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Username" name="username" required />
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
                         <input type="text" placeholder="Email" name="email" required />
                     </div>
                     <input type="submit" value="Submit" name="submit" class="btn solid" />
