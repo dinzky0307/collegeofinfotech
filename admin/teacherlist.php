@@ -19,6 +19,11 @@ function deleteTeacher($teacherId, $connection)
     $sql = "DELETE FROM teacher WHERE id = ?";
     $stmt = $connection->prepare($sql);
     $stmt->execute([$teacherId]);
+
+    // Delete from userdata table
+    $sql_userdata = "DELETE FROM userdata WHERE id = ?";
+    $stmt_userdata = $connection->prepare($sql_userdata);
+    $stmt_userdata->execute([$teacherId]);
 }
 
 // Check if the delete button is clicked
@@ -26,17 +31,17 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
     $teacherId = $_POST['teacherId'];
     $delete = deleteTeacher($teacherId, $connection);
 
-        // Redirect to the same page after the deletion
+    // Redirect to the same page after the deletion
 
-        ?>
-        <script type="text/javascript">
+?>
+    <script type="text/javascript">
         alert("Teacher successfully deleted")
         window.location.href = "teacherlist.php"
-         </script>
-        <?php 
+    </script>
+<?php
 
-         exit(); // Make sure to exit after redirecting to prevent further code execution
-    
+    exit(); // Make sure to exit after redirecting to prevent further code execution
+
 }
 
 ?>
@@ -74,43 +79,43 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
             </div>
         </div>
         <style>
-    .search-form {
-        width: 100%;
-    }
+            .search-form {
+                width: 100%;
+            }
 
-    #searchInput {
-        width: 32%;
-    }
+            #searchInput {
+                width: 32%;
+            }
 
-    .add-instructor-btn {
-        float: right;
-    }
-</style>
+            .add-instructor-btn {
+                float: right;
+            }
+        </style>
 
-<div class="row">
-    <div class="col-lg-6">
-        <!-- <form action="teacherlist.php" method="POST" class="search-form">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- <form action="teacherlist.php" method="POST" class="search-form">
             <div class="form-group d-flex align-items-center">
                 <label for="searchInput" class="mr-2">Search:</label>
                 <input type="text" class="form-control" id="searchInput" name="search"
                     placeholder="Teacher ID, Firstname, or Lastname" />
             </div>
         </form> -->
-    </div>
-    <div class="col-lg-6">
-        <div class="form-inline form-padding add-instructor-btn">
-            <a href="addteacher.php" class="btn btn-success"><i class="fa fa-user"></i> Add Instructor</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-inline form-padding add-instructor-btn">
+                    <a href="addteacher.php" class="btn btn-success"><i class="fa fa-user"></i> Add Instructor</a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div id="searchResults"></div>
+        <div id="searchResults"></div>
 
 
         <!--/.row -->
         <hr />
         <div class="row">
             <div class="col-lg-12">
-                <?php if (isset($_GET['r'])): ?>
+                <?php if (isset($_GET['r'])) : ?>
                     <?php
                     $r = $_GET['r'];
                     if ($r == 'added') {
@@ -151,8 +156,8 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (is_array($teachers)): ?>
-                                <?php foreach ($teachers as $number => $teacher): ?>
+                            <?php if (is_array($teachers)) : ?>
+                                <?php foreach ($teachers as $number => $teacher) : ?>
                                     <tr>
                                         <td>
                                             <?php echo $number; ?>
@@ -191,15 +196,14 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                                             <div style="display: inline-block; margin: 0 5px;">||</div>
                                             <form class="delete-form" method="post" style="display: inline-block;">
                                                 <input type="hidden" name="teacherId" value="<?php echo $teacher['id']; ?>">
-                                                <button type="submit" name="deleteTeacher" class="delete-button" title="Remove"
-                                                    onclick="return confirm('Are you sure you want to delete this teacher?');">
+                                                <button type="submit" name="deleteTeacher" class="delete-button" title="Remove" onclick="return confirm('Are you sure you want to delete this teacher?');">
                                                     <i class="fa fa-trash-o fa-lg text-danger"></i>
                                                 </button>
                                             </form>
                                             <!-- <a href="data/data_model.php?q=delete&table=teacher&id=<?php echo $teacher['id'] ?>" title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a></td> -->
                                     </tr>
                                 <?php endforeach; ?>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <tr>
                                     <td colspan="8">No teachers found.</td>
                                 </tr>
@@ -213,44 +217,46 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
     </div>
 </div>
 <script>
-    $('#instructorInformation thead th').each( function () {
-    } );
+    $('#instructorInformation thead th').each(function() {});
     // DataTable
     var table = $('#instructorInformation').DataTable({
-    searching: true,
-    "columnDefs": [
-        { "searchable": true, "targets": '_all' }
-    ],
+        searching: true,
+        "columnDefs": [{
+            "searchable": true,
+            "targets": '_all'
+        }],
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.noConflict();
         $('#instructorInformation').DataTable();
     });
-    
-        // Function to trigger AJAX call on input change
-        function triggerSearch() {
-            var searchValue = $('#searchInput').val();
-            $.ajax({
-                url: 'search.php', // Replace 'search.php' with the actual PHP script to handle the search on the server
-                type: 'POST',
-                data: { search: searchValue },
-                dataType: 'html',
-                success: function (data) {
-                    $('#searchResults').html(data); // Update the search results div with the response from the server
-                },
-                error: function (xhr, status, error) {
-                    // Handle any errors if necessary
-                }
-            });
-        }
 
-        // Detect changes in the search input field
-        $('#searchInput').on('input', function () {
-            // Trigger the search immediately on input change
-            triggerSearch();
+    // Function to trigger AJAX call on input change
+    function triggerSearch() {
+        var searchValue = $('#searchInput').val();
+        $.ajax({
+            url: 'search.php', // Replace 'search.php' with the actual PHP script to handle the search on the server
+            type: 'POST',
+            data: {
+                search: searchValue
+            },
+            dataType: 'html',
+            success: function(data) {
+                $('#searchResults').html(data); // Update the search results div with the response from the server
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors if necessary
+            }
         });
+    }
+
+    // Detect changes in the search input field
+    $('#searchInput').on('input', function() {
+        // Trigger the search immediately on input change
+        triggerSearch();
+    });
 </script>
 <!-- /#page-wrapper -->
 <?php include('include/modal.php'); ?>
