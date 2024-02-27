@@ -10,7 +10,7 @@ require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
-    $name = $_POST['username'];
+    $name = $_POST['name'];
     $user = $_POST['email'];
 
     // Check if the provided ID number exists in the userdata table
