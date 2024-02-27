@@ -10,39 +10,26 @@ require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
     $user = $_POST['email'];
 
-    // Check if the provided username exists in the userdata table
-    $user_query = "SELECT * FROM userdata WHERE username = '$username'";
-    $user_result = mysql_query($user_query);
-
-    // Check if the provided ID number exists in the teacher table
-    $query = "SELECT * FROM teacher WHERE email = '$user'";
+    // Check if the provided ID number exists in the userdata table
+    $query = "SELECT * FROM teacher WHERE email = '$user' ";
+    $student = "SELECT * FROM student WHERE email = '$user' ";
     $result = mysql_query($query);
 
-    // Check if the provided ID number exists in the student table if not found in the teacher table
-    if (!$result || mysql_num_rows($result) != 1) {
-        $student_query = "SELECT * FROM student WHERE email = '$user'";
-        $result_student = mysql_query($student_query);
-    }
+    $result_student = mysql_query($student);
 
-    if ($user_result && mysql_num_rows($user_result) == 1) {
-        if ($result && mysql_num_rows($result) == 1) {
-            $data = mysql_fetch_assoc($result);
-            $verification = uniqid(rand(2, 5));
-            $id = $data['teachid'];
-        } else if ($result_student && mysql_num_rows($result_student) == 1) {
-            $data = mysql_fetch_assoc($result_student);
-            $verification = uniqid(rand(2, 5));
-            $id = $data['studid'];
-        } else {
-            // User does not have an account, display an error message
-            $errorMessage = "No account found with the provided Email account.";
-        }
+    if ($result && mysql_num_rows($result) == 1) {
+        $data = mysql_fetch_assoc($result);
+        $verification = uniqid(rand(2, 5));
+        $id = $data['teachid'];
+    } else if ($result_student && mysql_num_rows($result_student) == 1) {
+        $data = mysql_fetch_assoc($result_student);
+        $verification = uniqid(rand(2, 5));
+        $id = $data['studid'];
     } else {
-        // Username does not exist in the userdata table
-        $errorMessage = "No account found with the provided Username.";
+        // User does not have an account, display an error message
+        $errorMessage = "No account found with the provided Email account.";
     }
     $email = $_POST['email'];
 
@@ -120,10 +107,6 @@ if (isset($_POST['submit'])) {
                         <?php if (isset($errorMessage)) : ?>
                             <p style="color: red;"><?php echo $errorMessage; ?></p>
                         <?php endif; ?>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="ID number" name="username" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
