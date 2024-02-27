@@ -10,25 +10,31 @@ require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
     $user = $_POST['email'];
 
     // Check if the provided ID number exists in the userdata table
-    $query = "SELECT * FROM userdata WHERE username = '$name' AND email = '$user' ";
+    $query = "SELECT * FROM teacher WHERE email = '$user' ";
+    $student = "SELECT * FROM student WHERE email = '$user' ";
     $result = mysql_query($query);
 
+    $result_student = mysql_query($student);
+
     if ($result && mysql_num_rows($result) == 1) {
-        // User exists, proceed with sending reset password email
         $data = mysql_fetch_assoc($result);
         $verification = uniqid(rand(2, 5));
-        $id = $data['id'];
+        $id = $data['teachid'];
+    } else if ($result_student && mysql_num_rows($result_student) == 1) {
+        $data = mysql_fetch_assoc($result_student);
+        $verification = uniqid(rand(2, 5));
+        $id = $data['studid'];
     } else {
         // User does not have an account, display an error message
-        $errorMessage = "No account found with the provided Username and Email.";
+        $errorMessage = "No account found with the provided Email account.";
     }
-    // $email = $_POST['email'];
+    $email = $_POST['email'];
 
     $mail = new PHPMailer(true);
+
     $mail->SMTPDebug = 0; // Enable verbose debug output
     $mail->isSMTP(); // Send using SMTP
     $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
@@ -67,6 +73,8 @@ if (isset($_POST['submit'])) {
     </script>
 <?php
 
+
+
 }
 ?>
 <style>
@@ -99,10 +107,6 @@ if (isset($_POST['submit'])) {
                         <?php if (isset($errorMessage)) : ?>
                             <p style="color: red;"><?php echo $errorMessage; ?></p>
                         <?php endif; ?>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="ID number" name="name" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
