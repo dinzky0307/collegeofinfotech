@@ -22,52 +22,51 @@ if (isset($_POST['submit'])) {
         $data = mysql_fetch_assoc($result);
         $verification = uniqid(rand(2, 5));
         $id = $data['id'];
-
-        // $email = $_POST['email'];
-
-        $mail = new PHPMailer(true);
-        $mail->SMTPDebug = 0; // Enable verbose debug output
-        $mail->isSMTP(); // Send using SMTP
-        $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
-        $mail->SMTPAuth = true; // Enable SMTP authentication
-        $mail->Username = 'enelyntribunalo@gmail.com'; // SMTP username
-        $mail->Password = 'tcuuujxrlvbxvdxn'; // SMTP password
-        $mail->SMTPSecure = 'tls'; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-        $mail->Port = 587; // TCP port to connect to
-
-        $mail->SMTPOptions = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            )
-        );
-
-        $mail->setFrom('enelyntribunalo@gmail.com', 'MCC Info Tech');
-        $mail->addAddress($email);
-
-
-        $session = $_SESSION['reset'] = $verification;
-
-        //Content
-        $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Reset Password';
-        $mail->Body    = "Click the link to reset password : <a href='https://infotechmcc.com/reset_pass.php?reset=$id&id=$session'>Click here</a>";
-
-
-        $mail->send();
-
-?>
-        <script>
-            alert("Please check your email account for confirmation")
-            window.location.href = "forgot_password.php"
-        </script>
-<?php
-
     } else {
         // User does not have an account, display an error message
         $errorMessage = "No account found with the provided Username and Email.";
     }
+    // $email = $_POST['email'];
+
+    $mail = new PHPMailer(true);
+    $mail->SMTPDebug = 0; // Enable verbose debug output
+    $mail->isSMTP(); // Send using SMTP
+    $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
+    $mail->SMTPAuth = true; // Enable SMTP authentication
+    $mail->Username = 'enelyntribunalo@gmail.com'; // SMTP username
+    $mail->Password = 'tcuuujxrlvbxvdxn'; // SMTP password
+    $mail->SMTPSecure = 'tls'; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    $mail->Port = 587; // TCP port to connect to
+
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
+
+    $mail->setFrom('enelyntribunalo@gmail.com', 'MCC Info Tech');
+    $mail->addAddress($email);
+
+
+    $session = $_SESSION['reset'] = $verification;
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Reset Password';
+    $mail->Body    = "Click the link to reset password : <a href='https://infotechmcc.com/reset_pass.php?reset=$id&id=$session'>Click here</a>";
+
+
+    $mail->send();
+
+?>
+    <script>
+        alert("Please check your email account for confirmation")
+        window.location.href = "forgot_password.php"
+    </script>
+<?php
+
 }
 ?>
 <style>
