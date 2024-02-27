@@ -4,7 +4,7 @@ include 'config.php';
 if (!isset($_SESSION['reset'])) {
 ?>
     <script>
-        window.location.href = "reset_pass.php"
+        window.location.href = "forgot_password.php"
     </script>
     <?php
 }
