@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 
     } else {
         // User does not have an account, display an error message
-        $errorMessage = "No account found with the provided Email account.";
+        $errorMessage = "No account found with the provided Username and Email.";
     }
 }
 ?>
