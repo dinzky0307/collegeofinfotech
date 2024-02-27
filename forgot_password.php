@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
         $id = $data['id'];
     } else {
         // User does not have an account, display an error message
-        $errorMessage = "No account found with the provided Email account.";
+        $errorMessage = "ID number or Email is incorrect.";
     }
 
     $email = $_POST['email'];
