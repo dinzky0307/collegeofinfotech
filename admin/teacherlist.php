@@ -19,11 +19,6 @@ function deleteTeacher($teacherId, $connection)
     $sql = "DELETE FROM teacher WHERE id = ?";
     $stmt = $connection->prepare($sql);
     $stmt->execute([$teacherId]);
-
-    // Delete from userdata table
-    $sql_userdata = "DELETE FROM userdata WHERE id = ?";
-    $stmt_userdata = $connection->prepare($sql_userdata);
-    $stmt_userdata->execute([$teacherId]);
 }
 
 // Check if the delete button is clicked

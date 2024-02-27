@@ -56,9 +56,9 @@ if (isset($_POST['addTeacher'])) {
         $username = $teachid;
         $password = password_hash($username, PASSWORD_DEFAULT);
 
-        $q_create_user_teacher = "INSERT INTO userdata (username, password, fname, lname, level) VALUES (?, ?, ?, ?, ?)";
+        $q_create_user_teacher = "INSERT INTO userdata (username, email, password, fname, lname, level) VALUES (?, ?, ?, ?, ?, ?)";
         $userInsertStatement = $connection->prepare($q_create_user_teacher);
-        $userInsertStatement->execute([$username, $password, $fname, $lname, $level]);
+        $userInsertStatement->execute([$username, $email, $password, $fname, $lname, $level]);
 
         echo "<script type='text/javascript'>";
         echo "Swal.fire({
@@ -74,6 +74,7 @@ if (isset($_POST['addTeacher'])) {
         height: 45px;
         font-size: 17px;
     }
+
     .modal-content {
         margin-top: 20% !important;
         position: absolute;
@@ -116,7 +117,7 @@ if (isset($_POST['addTeacher'])) {
         <hr />
         <div class="row">
             <div class="col-lg-12">
-                <?php if (isset($_GET['r'])): ?>
+                <?php if (isset($_GET['r'])) : ?>
                     <?php
                     $r = $_GET['r'];
                     if ($r == 'added') {
@@ -140,21 +141,20 @@ if (isset($_POST['addTeacher'])) {
                 <div class="modal-body">
                     <form action="" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="lname" placeholder="Lastname" required style="height:40px"/>
+                            <input type="text" class="form-control" name="lname" placeholder="Lastname" required style="height:40px" />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="fname" placeholder="Firstname" required style="height:40px"/>
+                            <input type="text" class="form-control" name="fname" placeholder="Firstname" required style="height:40px" />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="mname" placeholder="Middlename" required style="height:40px"/>
+                            <input type="text" class="form-control" name="mname" placeholder="Middlename" required style="height:40px" />
                         </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="teachid" id="teachid" placeholder="Teacher ID"
-                            required style="height:40px"/>
+                        <input type="text" class="form-control" name="teachid" id="teachid" placeholder="Teacher ID" required style="height:40px" />
                     </div>
 
                     <div class="form-group">
@@ -165,24 +165,24 @@ if (isset($_POST['addTeacher'])) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="email" placeholder="Email" required style="height:40px"/>
+                        <input type="text" class="form-control" name="email" placeholder="Email" required style="height:40px" />
                     </div>
 
                     <input type="hidden" class="form-control" name="addTeacher" value="addTeacher" />
                 </div>
                 <div class="modal-footer">
-                    <a href="teacherlist.php"><button type="button" class="btn btn-default"
-                            data-dismiss="modal" style="font-size: 12px">Close</button></a>
+                    <a href="teacherlist.php"><button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 12px">Close</button></a>
 
-                    <button type="submit" name="addTeacher" class="btn btn-success" style="font-size: 12px">  Save  <i class="fa fa-plu"></i>
+                    <button type="submit" name="addTeacher" class="btn btn-success" style="font-size: 12px"> Save <i class="fa fa-plu"></i>
                     </button></a>
                 </div>
-            </div></form>
-
-                </div>
             </div>
+            </form>
+
         </div>
     </div>
+</div>
+</div>
 </div>
 <!-- /.container-fluid -->
 
@@ -217,27 +217,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Attach an event listener to the input fields
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const lastNameInput = document.querySelector('input[name="lname"]');
         const firstNameInput = document.querySelector('input[name="fname"]');
         const middleNameInput = document.querySelector('input[name="mname"]');
 
         // Listen for input events
-        lastNameInput.addEventListener('input', function () {
+        lastNameInput.addEventListener('input', function() {
             this.value = capitalizeFirstLetter(this.value);
         });
 
-        firstNameInput.addEventListener('input', function () {
+        firstNameInput.addEventListener('input', function() {
             this.value = capitalizeFirstLetter(this.value);
         });
 
-        middleNameInput.addEventListener('input', function () {
+        middleNameInput.addEventListener('input', function() {
             this.value = capitalizeFirstLetter(this.value);
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.noConflict();
         $('#teacherInformation').DataTable();
     });
