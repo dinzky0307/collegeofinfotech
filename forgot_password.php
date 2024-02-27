@@ -10,31 +10,27 @@ require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
-    $user = $_POST['email'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
 
     // Check if the provided ID number exists in the userdata table
-    $query = "SELECT * FROM teacher WHERE email = '$user' ";
-    $student = "SELECT * FROM student WHERE email = '$user' ";
+    $query = "SELECT * FROM userdata WHERE username = '$username' AND email = '$email' ";
     $result = mysql_query($query);
 
-    $result_student = mysql_query($student);
+    // $result_student = mysql_query($student);
 
     if ($result && mysql_num_rows($result) == 1) {
         $data = mysql_fetch_assoc($result);
         $verification = uniqid(rand(2, 5));
-        $id = $data['teachid'];
-    } else if ($result_student && mysql_num_rows($result_student) == 1) {
-        $data = mysql_fetch_assoc($result_student);
-        $verification = uniqid(rand(2, 5));
-        $id = $data['studid'];
+        $id = $data['id'];
     } else {
         // User does not have an account, display an error message
         $errorMessage = "No account found with the provided Email account.";
     }
+
     $email = $_POST['email'];
 
     $mail = new PHPMailer(true);
-
     $mail->SMTPDebug = 0; // Enable verbose debug output
     $mail->isSMTP(); // Send using SMTP
     $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
@@ -107,6 +103,10 @@ if (isset($_POST['submit'])) {
                         <?php if (isset($errorMessage)) : ?>
                             <p style="color: red;"><?php echo $errorMessage; ?></p>
                         <?php endif; ?>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="ID number" name="username" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
