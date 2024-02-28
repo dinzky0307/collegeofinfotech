@@ -543,9 +543,9 @@ class Action
         $stmt1->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
 
         // Update userdata table
-        $q2 = "UPDATE userdata SET email=? WHERE username=?";
+        $q2 = "UPDATE userdata SET username=?, email=?, fname=?, lname=? WHERE username=?";
         $stmt2 = $this->db->prepare($q2);
-        $stmt2->execute([$email, $studid]);
+        $stmt2->execute([$studid, $email, $fname, $lname, $studid]);
 
         // Check if the update was successful
         if ($stmt1->rowCount() > 0 && $stmt2->rowCount() > 0) {
