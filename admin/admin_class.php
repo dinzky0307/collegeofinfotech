@@ -14,7 +14,7 @@ class Action
     }
     function __destruct()
     {
-        unset($this->db);
+        $this->db->close();
         ob_end_flush();
     }
 
@@ -538,19 +538,12 @@ class Action
         $section = $_POST['section'];
         $semester = $_POST['semester'];
 
-        //Update student table
-        $q_student = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
-        $stmt_student = $this->db->prepare($q_student);
-        $stmt_student->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
+        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
+        $stmt = $this->db->prepare($q);
+        $stmt->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
 
-        // Update userdata table
-        $q_userdata = "UPDATE userdata SET username=?, email=?, fname=?, lname=? WHERE id=?";
-        $stmt_userdata = $this->db->prepare($q_userdata);
-        $stmt_userdata->execute([$studid, $email, $fname, $lname, $id]);
-
-        // Check if the both updates were successful
-        if ($stmt_student->rowCount() > 0 && $stmt_userdata->rowCount() > 0) {
-
+        // Check if the update was successful
+        if ($stmt->rowCount() > 0) {
             // The update was successful
             // Redirect to studentlist.php with a success message
             header('Location: studentlist.php?r=updated');
