@@ -538,12 +538,17 @@ class Action
         $section = $_POST['section'];
         $semester = $_POST['semester'];
 
-        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
-        $stmt = $this->db->prepare($q);
-        $stmt->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
+        $q1 = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
+        $stmt1 = $this->db->prepare($q1);
+        $stmt1->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
+
+        // Update userdata table
+        $q2 = "UPDATE userdata SET email=? WHERE username=?";
+        $stmt2 = $this->db->prepare($q2);
+        $stmt2->execute([$email, $studid]);
 
         // Check if the update was successful
-        if ($stmt->rowCount() > 0) {
+        if ($stmt1->rowCount() > 0 && $stmt2->rowCount() > 0) {
             // The update was successful
             // Redirect to studentlist.php with a success message
             header('Location: studentlist.php?r=updated');
