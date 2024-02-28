@@ -394,29 +394,6 @@ class Edit
                     </div>
                 </form>
             <?php endwhile; ?>
-            <?php
-            if (isset($_POST['update_student'])) {
-                $id = $_GET['id'];
-                $email = $_POST['email'];
-
-                // Update student email in student table
-                $query_student = "UPDATE student SET email='$email' WHERE id='$id'";
-                $result_student = mysql_query($query_student);
-                if (!$result_student) {
-                    die("Student table update failed: " . mysql_error());
-                }
-
-                // Update student email in userdata table
-                $query_userdata = "UPDATE userdata SET email='$email' WHERE id='$id'";
-                $result_userdata = mysql_query($query_userdata);
-                if (!$result_userdata) {
-                    die("Userdata table update failed: " . mysql_error());
-                }
-
-                // Redirect or display success message
-                // You can add appropriate redirection or message here
-            }
-            ?>
         </div>
 
     <?php

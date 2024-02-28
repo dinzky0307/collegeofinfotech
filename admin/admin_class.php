@@ -164,7 +164,6 @@ class Action
                 $fname = strtotime(date('y-m-d H:i')) . '_' . $_FILES['img']['name'];
                 $move = move_uploaded_file($_FILES['img']['tmp_name'], 'assets/uploads/' . $fname);
                 $data .= ", avatar = '$fname' ";
-
             }
             $save_alumni = $this->db->query("INSERT INTO alumnus_bio set $data ");
             if ($data) {
@@ -203,7 +202,6 @@ class Action
                 $fname = strtotime(date('y-m-d H:i')) . '_' . $_FILES['img']['name'];
                 $move = move_uploaded_file($_FILES['img']['tmp_name'], 'assets/uploads/' . $fname);
                 $data .= ", avatar = '$fname' ";
-
             }
             $save_alumni = $this->db->query("UPDATE alumnus_bio set $data where id = '{$_SESSION['bio']['id']}' ");
             if ($data) {
@@ -228,7 +226,6 @@ class Action
             $fname = strtotime(date('y-m-d H:i')) . '_' . $_FILES['img']['name'];
             $move = move_uploaded_file($_FILES['img']['tmp_name'], 'assets/uploads/' . $fname);
             $data .= ", cover_img = '$fname' ";
-
         }
 
         // echo "INSERT INTO system_settings set ".$data;
@@ -442,7 +439,6 @@ class Action
             $fname = strtotime(date('y-m-d H:i')) . '_' . $_FILES['banner']['name'];
             $move = move_uploaded_file($_FILES['banner']['tmp_name'], 'assets/uploads/' . $fname);
             $data .= ", banner = '$fname' ";
-
         }
         if (empty($id)) {
 
@@ -470,7 +466,6 @@ class Action
         $commit = $this->db->query("INSERT INTO event_commits set $data ");
         if ($commit)
             return 1;
-
     }
 
     function updatesubject($id)
@@ -530,7 +525,7 @@ class Action
             // Handle the error here, or redirect with an error message if desired
         }
     }
-    
+
     function updatestudent($id)
     {
         // include('../../config.php');
@@ -542,13 +537,20 @@ class Action
         $year = $_POST['year'];
         $section = $_POST['section'];
         $semester = $_POST['semester'];
-    
-        $q = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
-        $stmt = $this->db->prepare($q);
-        $stmt->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
-    
-        // Check if the update was successful
-        if ($stmt->rowCount() > 0) {
+
+        //Update student table
+        $q_student = "UPDATE student SET studid=?, lname=?, fname=?, mname=?, email=?, year=?, section=?, semester=? WHERE id=?";
+        $stmt_student = $this->db->prepare($q_student);
+        $stmt_student->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
+
+        // Update userdata table
+        $q_userdata = "UPDATE userdata SET username=?, email=?, fname=?, lname=? WHERE id=?";
+        $stmt_userdata = $this->db->prepare($q_userdata);
+        $stmt_userdata->execute([$studid, $email, $fname, $lname, $id]);
+
+        // Check if the both updates were successful
+        if ($stmt_student->rowCount() > 0 && $stmt_userdata->rowCount() > 0) {
+
             // The update was successful
             // Redirect to studentlist.php with a success message
             header('Location: studentlist.php?r=updated');
@@ -557,7 +559,7 @@ class Action
             // The update failed
             // Handle the error here, or redirect with an error message if desired
         }
-    }    
+    }
 
     function updateteacher($id)
     {
@@ -568,11 +570,11 @@ class Action
         $mname = $_POST['mname'];
         $sex = $_POST['sex'];
         $email = $_POST['email'];
-    
+
         $q = "UPDATE teacher SET teachid=?, fname=?, lname=?, mname=?, sex=?, email=? WHERE id=?";
         $stmt = $this->db->prepare($q);
         $stmt->execute([$teachid, $fname, $lname, $mname, $sex, $email, $id]);
-    
+
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
             // The update was successful
@@ -584,5 +586,4 @@ class Action
             // Handle the error here, or redirect with an error message if desired
         }
     }
-
 }
