@@ -14,7 +14,7 @@ class Action
     }
     function __destruct()
     {
-        $this->db->close();
+        unset($this->db);
         ob_end_flush();
     }
 
