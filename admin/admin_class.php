@@ -530,6 +530,7 @@ class Action
     {
         // include('../../config.php');
         $studid = $_POST['studid'];
+        $user = $_POST['username'];
         $lname = $_POST['lname'];
         $fname = $_POST['fname'];
         $mname = $_POST['mname'];
@@ -543,9 +544,9 @@ class Action
         $stmt1->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
 
         // Update userdata table
-        $q2 = "UPDATE userdata SET email=?, fname=?, lname=? WHERE username=?";
+        $q2 = "UPDATE userdata SET username=?, email=?, fname=?, lname=? WHERE username=?";
         $stmt2 = $this->db->prepare($q2);
-        $stmt2->execute([$email, $fname, $lname, $studid]);
+        $stmt2->execute([$user, $email, $fname, $lname, $studid]);
 
         // Check if the update was successful
         if ($stmt1->rowCount() > 0 && $stmt2->rowCount() > 0) {
