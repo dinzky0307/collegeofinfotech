@@ -530,7 +530,6 @@ class Action
     {
         // include('../../config.php');
         $studid = $_POST['studid'];
-        $user = $_POST['username'];
         $lname = $_POST['lname'];
         $fname = $_POST['fname'];
         $mname = $_POST['mname'];
@@ -543,6 +542,7 @@ class Action
         $stmt1 = $this->db->prepare($q1);
         $stmt1->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $id]);
 
+        $user = $_POST['username'];
         // Update userdata table
         $q2 = "UPDATE userdata SET username=?, email=?, fname=?, lname=? WHERE username=?";
         $stmt2 = $this->db->prepare($q2);
