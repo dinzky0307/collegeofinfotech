@@ -1,32 +1,38 @@
 <?php
-
 include 'config.php';
 
 if (isset($_POST['submit'])) {
   $user = $_POST['user'];
   $pass = $_POST['pass'];
-  $query = "select * from userdata where username='$user' ";
-  $r = mysql_query($query);
-  if (mysql_num_rows($r) == 1) {
-    $row = mysql_fetch_assoc($r);
-    if (password_verify($pass, $row['password'])) {
+  $query = "SELECT * FROM userdata WHERE username='$user'";
+  $result = mysql_query($query);
 
-      $_SESSION['message'] = "You are now logged in.";
-      $_SESSION['level'] = $row['level'];
-      $_SESSION['id'] = $row['username'];
-      $_SESSION['user_id'] = $row['id'];
-      $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
-      header('location:' . $row['level'] . '');
+  if (mysql_num_rows($result) == 1) {
+    $row = mysql_fetch_assoc($result);
+    if (password_verify($pass, $row['password'])) {
+      if ($row['display'] == 0) {
+        // Redirect to new user alert page
+        header('location: new_user.php?user=' . urlencode($user));
+        exit();
+      } else {
+        // User is not new, proceed with login
+        $_SESSION['message'] = "You are now logged in.";
+        $_SESSION['level'] = $row['level'];
+        $_SESSION['id'] = $row['username'];
+        $_SESSION['user_id'] = $row['id'];
+        $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
+        header('location:' . $row['level'] . '');
+        exit();
+      }
     }
-  } else {
-    header('location:index.php?login=0');
   }
+
+  header('location:index.php?login=0');
 }
 
 if (isset($_SESSION['level'])) {
   header('location:' . $_SESSION['level'] . '');
 }
-
 ?>
 
 <!DOCTYPE html>
