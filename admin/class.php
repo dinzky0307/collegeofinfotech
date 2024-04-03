@@ -267,8 +267,8 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <select name="year" class="form-control" readonly required placeholder="Year Level"
+                        <!-- <div class="form-group">
+                            <select name="year" class="form-control" readonly disabled required placeholder="Year Level"
                                 style="font-size: 16px; height: 35px">
                                 <option value="">Select Year level...</option>
                                 <option value="1">1</option>
@@ -276,6 +276,10 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                             </select>
+                        </div> -->
+                        <div class="form-group">
+                            <input type="text" name="year" class="form-control" placeholder="Year Level" readonly
+                                style="font-size: 16px; height: 35px">
                         </div>
                         <div class="form-group">
                             <select name="section" class="form-control" required style="font-size: 16px; height: 35px">
@@ -366,6 +370,9 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
         $('select[name="subject"]').trigger('change');
     });
 
+
+
+    //update the year based on the selected subject
     $('select[name="subject"]').change(function ()
     {
         // Get the selected subject's semester
@@ -381,6 +388,8 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
         }
     });
 
+
+    //update the semester based on the selected subject
     $('select[name="subject"]').change(function ()
     {
         // Get the selected subject's semester
