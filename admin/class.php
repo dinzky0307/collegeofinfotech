@@ -252,7 +252,7 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                         </div>
                         <div class="form-group">
                             <input type="text" name="description" class="form-control" readonly required
-                                placeholder="Subject Description" style="font-size: 16px; height: 35px">
+                                placeholder="Subject Description..." style="font-size: 16px; height: 35px">
                         </div>
                         <!-- Add hidden input fields for subject year level and semester -->
                         <input type="hidden" name="year_level" id="yearLevel">
@@ -291,7 +291,7 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="sem" class="form-control" value="<?php echo $semester; ?>" readonly
+                            <input type="text" name="sem" class="form-control" placeholder="Semester..." readonly
                                 style="font-size: 16px;">
                         </div>
                         <div class="form-group">
@@ -365,6 +365,47 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
         // Trigger the change event on page load to populate the description, year level, and semester initially
         $('select[name="subject"]').trigger('change');
     });
+
+    $('select[name="subject"]').change(function ()
+    {
+        // Get the selected subject's semester
+        var semester = $(this).find('option:selected').data('semester');
+        // If semester is available, update the semester input field
+        if (semester)
+        {
+            $('input[name="sem"]').val(semester);
+        } else
+        {
+            // If semester is not available, clear the input field
+            $('input[name="sem"]').val('');
+        }
+    });
+
+    $('select[name="subject"]').change(function ()
+    {
+        // Get the selected subject's semester
+        var semester = $(this).find('option:selected').data('semester');
+        // Convert semester number to corresponding word
+        var semesterWord = convertToSemesterWord(semester);
+        // Set the semester input field value
+        $('input[name="sem"]').val(semesterWord);
+    });
+
+    // Function to convert semester number to word
+    function convertToSemesterWord(semester)
+    {
+        switch (semester)
+        {
+            case 1:
+                return "First Semester";
+            case 2:
+                return "Second Semester";
+            case 3:
+                return "Summer";
+            default:
+                return ""; // Handle other cases as needed
+        }
+    }
 </script>
 
 <!-- /#page-wrapper -->
