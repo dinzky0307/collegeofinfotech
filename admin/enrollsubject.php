@@ -1,11 +1,11 @@
 <?php
-include('include/header.php');
-include('include/sidebar.php');
-include('connection.php');
+include ('include/header.php');
+include ('include/sidebar.php');
+include ('connection.php');
 
-include('../database.php'); // Include the database connection code
+include ('../database.php'); // Include the database connection code
 
-include('data/data_model.php');
+include ('data/data_model.php');
 
 include '../DatabaseService.php';
 use Database\DatabaseService;
@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
             $rows = $pdo_statement_code->fetch(PDO::FETCH_ASSOC);
             $subjectcode = $rows['code'];
 
-         
+
 
             if ($sem == 1) {
                 $sm = "First Semester";
@@ -123,7 +123,7 @@ if (isset($_POST['submit'])) {
                 $sm = "Summer";
             }
 
-           
+
             $sql_insert = "INSERT INTO studentsubject (studid, subjectid, year, semester, section, SY) VALUES (:id, :subid, :year, :semester, :section, :ay)";
             $pdo_statement_insert = $connection->prepare($sql_insert);
             $pdo_statement_insert->bindParam(':id', $studid, PDO::PARAM_INT);
@@ -158,7 +158,7 @@ if (isset($_POST['submit'])) {
                 echo "</script>";
             }
         }
-    }else{
+    } else {
 
         ?>
         <script type="text/javascript">
@@ -166,7 +166,7 @@ if (isset($_POST['submit'])) {
         </script>
         <?php
     }
-    }
+}
 // }
 ?>
 
@@ -211,36 +211,44 @@ if (isset($_POST['submit'])) {
         </style>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 
-      
+
 
 
         <SCRIPT language="javascript">
-            $(function () {
+            $(function ()
+            {
                 // add multiple select / deselect functionality
-                $("#selectall").click(function () {
+                $("#selectall").click(function ()
+                {
                     $('.name').prop('checked', this.checked);
                     updateSelectedSubjects();
                 });
 
                 // if all checkbox are selected, then check the select all checkbox
                 // and vice versa
-                $(".name").click(function () {
-                    if ($(".name").length == $(".name:checked").length) {
+                $(".name").click(function ()
+                {
+                    if ($(".name").length == $(".name:checked").length)
+                    {
                         $("#selectall").prop("checked", "checked");
-                    } else {
+                    } else
+                    {
                         $("#selectall").removeAttr("checked");
                     }
                     updateSelectedSubjects();
                 });
 
-                $('input[name="check_list[]"]').change(function () {
+                $('input[name="check_list[]"]').change(function ()
+                {
                     updateSelectedSubjects();
                 });
 
-                function updateSelectedSubjects() {
+                function updateSelectedSubjects()
+                {
                     // Get all the selected subject IDs
                     const selectedSubjects = [];
-                    $('input[name="check_list[]"]:checked').each(function () {
+                    $('input[name="check_list[]"]:checked').each(function ()
+                    {
                         selectedSubjects.push($(this).val());
                     });
 
@@ -250,17 +258,22 @@ if (isset($_POST['submit'])) {
             });
 
 
-            $(function () {
+            $(function ()
+            {
                 // Handle regular and irregular checkboxes
-                $("input[name='regular']").on('change', function () {
-                    if ($(this).prop('checked')) {
+                $("input[name='regular']").on('change', function ()
+                {
+                    if ($(this).prop('checked'))
+                    {
                         $("input[name='irregular']").prop('checked', false);
                         $("#filterForm").submit(); // Submit the form when the checkbox is changed
                     }
                 });
 
-                $("input[name='irregular']").on('change', function () {
-                    if ($(this).prop('checked')) {
+                $("input[name='irregular']").on('change', function ()
+                {
+                    if ($(this).prop('checked'))
+                    {
                         $("input[name='regular']").prop('checked', false);
                         $("#filterForm").submit(); // Submit the form when the checkbox is changed
                     }
@@ -269,41 +282,47 @@ if (isset($_POST['submit'])) {
         </SCRIPT>
 
 
-          <?php
+        <?php
         if (isset($_GET['regular']) == 1) {
             ?>
             <script type="text/javascript">
-               $(function () {
-                // add multiple select / deselect functionality
-                // if all checkbox are selected, then check the select all checkbox
-                // and vice versa
-               
-                    if ($(".name").length == $(".name:checked").length) {
+                $(function ()
+                {
+                    // add multiple select / deselect functionality
+                    // if all checkbox are selected, then check the select all checkbox
+                    // and vice versa
+
+                    if ($(".name").length == $(".name:checked").length)
+                    {
                         $("#selectall").prop("checked", "checked");
-                    } else {
+                    } else
+                    {
                         $("#selectall").removeAttr("checked");
                     }
                     updateSelectedSubjects();
-        
 
-                $('input[name="check_list[]"]').change(function () {
-                    updateSelectedSubjects();
-                });
 
-                function updateSelectedSubjects() {
-                    // Get all the selected subject IDs
-                    const selectedSubjects = [];
-                    $('input[name="check_list[]"]:checked').each(function () {
-                        selectedSubjects.push($(this).val());
+                    $('input[name="check_list[]"]').change(function ()
+                    {
+                        updateSelectedSubjects();
                     });
 
-                    // Update the value of the hidden input field with the selected subjects
-                    $('#selected_subjects').val(selectedSubjects.join(','));
-                }
-            });
+                    function updateSelectedSubjects()
+                    {
+                        // Get all the selected subject IDs
+                        const selectedSubjects = [];
+                        $('input[name="check_list[]"]:checked').each(function ()
+                        {
+                            selectedSubjects.push($(this).val());
+                        });
+
+                        // Update the value of the hidden input field with the selected subjects
+                        $('#selected_subjects').val(selectedSubjects.join(','));
+                    }
+                });
 
             </script>
-            <?php 
+        <?php
         }
         ?>
 
@@ -342,11 +361,11 @@ if (isset($_POST['submit'])) {
                         <thead>
                             <tr>
 
-                                <th class="text-center"><input type="checkbox" id="selectall" <?php 
+                                <th class="text-center"><input type="checkbox" id="selectall" <?php
                                 if (isset($_GET['regular']) == 1) {
                                     echo "checked";
                                 }
-                            ?> /></th>
+                                ?> /></th>
                                 <th class="text-center">Subject Code</th>
                                 <th class="text-center">Descriptive Title</th>
                                 <th class="text-center">Lec Unit</th>
@@ -374,13 +393,13 @@ if (isset($_POST['submit'])) {
                                 echo '</tr>';
 
                                 // Disable the subjects that the student has already enrolled in
-    $subjectid = $subject['id'];
-    if ($irregular != 1) {
-        echo "<script>$('." . $subjectid . "').prop('disabled', true);</script>";
-    } else {
-        echo "<script>$('." . $subjectid . "').prop('disabled', false);</script>";
-    }
-}
+                                $subjectid = $subject['id'];
+                                if ($irregular != 1) {
+                                    echo "<script>$('." . $subjectid . "').prop('enabled', true);</script>";
+                                } else {
+                                    echo "<script>$('." . $subjectid . "').prop('disabled', false);</script>";
+                                }
+                            }
 
                             ?>
                         </tbody>
@@ -434,4 +453,4 @@ while ($s = $result->fetch_assoc()) {
 }
 ?>
 
-<?php include('include/footer.php'); ?>
+<?php include ('include/footer.php'); ?>
