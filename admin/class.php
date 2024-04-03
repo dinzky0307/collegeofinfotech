@@ -375,6 +375,25 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
     //update the year based on the selected subject
     $('select[name="subject"]').change(function ()
     {
+        // Get the selected subject's year
+        var year = $(this).find('option:selected').data('year');
+        // If year is available, update the year input field
+        if (year)
+        {
+            $('input[name="year"]').val(year);
+        } else
+        {
+            // If year is not available, clear the input field
+            $('input[name="year"]').val('');
+        }
+    });
+
+
+
+
+    //update the semester based on the selected subject
+    $('select[name="subject"]').change(function ()
+    {
         // Get the selected subject's semester
         var semester = $(this).find('option:selected').data('semester');
         // If semester is available, update the semester input field
@@ -388,8 +407,6 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
         }
     });
 
-
-    //update the semester based on the selected subject
     $('select[name="subject"]').change(function ()
     {
         // Get the selected subject's semester
