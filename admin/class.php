@@ -300,9 +300,9 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                                 $r = mysql_query("SELECT * FROM ay WHERE display = 1");
                                 while ($row = mysql_fetch_array($r)):
                                     ?>
-                                    <option value="<?php echo $row['academic_year']; ?>">Academic Year :<b>
-                                            <?php echo $row['academic_year']; ?>
-                                        </b></option>
+                                    <option value="<?php echo $row['academic_year']; ?>">Academic Year :
+                                        <?php echo $row['academic_year']; ?>
+                                    </option>
                                 <?php endwhile; ?>
                             </select>
                         </div>
