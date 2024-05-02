@@ -1,6 +1,6 @@
 <?php
 session_start();
-$host = '127.0.0.1';
+$host = 'localhost';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
 $db = 'u510162695_infotechMCC';
