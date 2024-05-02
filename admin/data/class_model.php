@@ -288,7 +288,7 @@ if (isset($_POST['addClass'])) {
 
 
 // }
-$servername = '127.0.0.1';
+$servername = 'localhost';
 $username = 'u510162695_infotechMCC';
 $password = 'infotechMCC2023';
 $dbname = 'u510162695_infotechMCC';

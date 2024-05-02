@@ -18,7 +18,7 @@ if (isset($_POST['grade'])) {
     $rowid = $_POST['rowid'];
     $avg = (number_format($prelim) + number_format($midterm) + number_format($final)) / 3;
 
-    $conn = new mysqli('127.0.0.1', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
+    $conn = new mysqli('localhost', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
 
     if ($avg > 3) {
         $remarks = "Failed";
