@@ -1,6 +1,6 @@
 <?php
 
-define('DB_SERVER', 'localhost');
+define('DB_SERVER', '127.0.0.1');
 define('DB_USERNAME', 'u510162695_infotechMCC');
 define('DB_PASSWORD', 'infotechMCC2023');
 define('DB_NAME', 'u510162695_infotechMCC');
