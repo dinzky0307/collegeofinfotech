@@ -1,8 +1,8 @@
 <?php
 $servername = "127.0.0.1";
 $username = "u510162695_infotechMCC";
-$password = "u510162695_infotechMCC";
-$dbname = "infotechMCC2023";
+$password = "infotechMCC2023";
+$dbname = "u510162695_infotechMCC";
 
 // Git deployment
 

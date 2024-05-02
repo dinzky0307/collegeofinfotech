@@ -1,8 +1,8 @@
 <?php
 $hostname = "127.0.0.1";
 $username = "u510162695_infotechMCC";
-$password = "u510162695_infotechMCC";
-$database = "infotechMCC2023";
+$password = "infotechMCC2023";
+$database = "u510162695_infotechMCC";
 
 $connection = mysqli_connect($hostname, $username, $password, $database);
 
