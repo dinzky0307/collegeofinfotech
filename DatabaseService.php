@@ -1,6 +1,7 @@
 <?php
 
 namespace Database;
+
 use \PDO;
 
 class DatabaseService
@@ -10,9 +11,9 @@ class DatabaseService
     public function __construct()
     {
         $servername = "127.0.0.1";
-        $username = "infotechmcc";
-        $password = "infotechmcc";
-        $dbname = "infotechmcc";
+        $username = "u510162695_infotechMCC";
+        $password = "u510162695_infotechMCC";
+        $dbname = "infotechMCC2023";
 
         $this->connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -31,7 +32,7 @@ class DatabaseService
     {
         $statement = $this->connection->prepare($query);
         $statement->execute();
-        
+
         return $statement->fetch();
     }
 
@@ -40,18 +41,18 @@ class DatabaseService
         $results = $this->connection->query($query);
         return $results->fetchColumn();
     }
-    
+
 
     public function inserToConsultation($data)
     {
         $sql = "INSERT INTO consultations (requested_by, type, thru, date, requested_by_name, person_attendance, meeting_number, areas_concern, recommendation, conducted_by, student_id, consultant_id)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      
-        $prepared = $this->connection->prepare($sql);  
+
+        $prepared = $this->connection->prepare($sql);
 
         return $prepared->execute([
-            $data['requested_by'], 
-            $data['type'], 
+            $data['requested_by'],
+            $data['type'],
             $data['thru'],
             $data['date'],
             $data['requested_by_name'],
@@ -68,8 +69,8 @@ class DatabaseService
     public function updateConsultation($data)
     {
         $sql = "UPDATE consultations SET recommendation='{$data['recommendation']}' WHERE id={$data['id']}";
-      
-        $prepared = $this->connection->prepare($sql);  
+
+        $prepared = $this->connection->prepare($sql);
 
         return $prepared->execute();
     }
@@ -77,8 +78,8 @@ class DatabaseService
     public function updatePassword($data)
     {
         $sql = "UPDATE userdata SET password='{$data['password_confirmation']}' WHERE id={$data['id']}";
-      
-        $prepared = $this->connection->prepare($sql);  
+
+        $prepared = $this->connection->prepare($sql);
 
         return $prepared->execute();
     }

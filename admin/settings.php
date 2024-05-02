@@ -1,6 +1,6 @@
 <?php
-include('include/header.php');
-include('include/sidebar.php');
+include ('include/header.php');
+include ('include/sidebar.php');
 include '../DatabaseService.php';
 include 'connection.php';
 
@@ -143,11 +143,12 @@ if (isset($_POST['deleteYear'])) {
         transition: 0.4s;
         border-radius: 50%;
     }
-    input:checked + .slider {
+
+    input:checked+.slider {
         background-color: #2196F3;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
         transform: translateX(25px);
     }
 
@@ -171,7 +172,6 @@ if (isset($_POST['deleteYear'])) {
         top: 20% !important;
         transform: translateY(-17%) !important;
     }
-
 </style>
 <!-- ... -->
 
@@ -179,7 +179,8 @@ if (isset($_POST['deleteYear'])) {
     <hr>
     <h2>Create New Year & Semester</h2>
     <br>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#yearModal" style="background-color: green; max-width: 60px;">Create </button>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#yearModal"
+        style="background-color: green; max-width: 60px;">Create </button>
     <hr>
 </div>
 
@@ -198,17 +199,22 @@ if (isset($_POST['deleteYear'])) {
                         <hr>
                         <hr>
                         <hr>
-                        <label for="academicYearInput"><h2>Set Academic Year<h2></label>
-                        <input type="text" name="academicyear" id="academicYearInput" class="form-control" placeholder="Enter academic year">
+                        <label for="academicYearInput">
+                            <h2>Set Academic Year<h2>
+                        </label>
+                        <input type="text" name="academicyear" id="academicYearInput" class="form-control"
+                            placeholder="Enter academic year">
                     </div>
                     <hr>
                     <h2>Set Semester</h2>
                     <br>
                     <div class="form-group">
-                        <label><input type="radio" name="semester" class="" value="First Semester"> First Semester</label>
+                        <label><input type="radio" name="semester" class="" value="First Semester"> First
+                            Semester</label>
                     </div>
                     <div class="form-group">
-                        <label><input type="radio" name="semester" class="" value="Second Semester"> Second Semester</label>
+                        <label><input type="radio" name="semester" class="" value="Second Semester"> Second
+                            Semester</label>
                     </div>
                     <div class="form-group">
                         <label><input type="radio" name="semester" class="" value="Summer"> Summer</label>
@@ -224,8 +230,10 @@ if (isset($_POST['deleteYear'])) {
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#nextButton').click(function() {
+    $(document).ready(function ()
+    {
+        $('#nextButton').click(function ()
+        {
             $('#nextButton').hide();
             $('#saveButton').show();
         });
@@ -247,12 +255,12 @@ if (isset($_POST['deleteYear'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($ay as $year) { 
-                                $academicYearVisible = isset($year['display']) && $year['display'] == 1;
-                                $academicYearSet = isset($year['academic_year']) && isset($year['semester']);
-                                $academic_year = $academicYearSet ? $year['academic_year'] : '';
-                                $semester = $academicYearSet ? $year['semester'] : '';
-                                ?>
+                    <?php foreach ($ay as $year) {
+                        $academicYearVisible = isset($year['display']) && $year['display'] == 1;
+                        $academicYearSet = isset($year['academic_year']) && isset($year['semester']);
+                        $academic_year = $academicYearSet ? $year['academic_year'] : '';
+                        $semester = $academicYearSet ? $year['semester'] : '';
+                        ?>
                         <tr>
                             <td><?php echo $year['academic_year']; ?></td>
                             <td><?php echo $year['semester']; ?></td> <!-- Display the selected semester -->
@@ -264,15 +272,17 @@ if (isset($_POST['deleteYear'])) {
                                 <?php } ?>
                             </td>!-->
                             <td>
-                            <form action="" method="post" style="display: inline;">
-        <input type="hidden" name="year_id" value="<?php echo $year['id']; ?>">
-        <input type="hidden" name="toggleDisplay" value="<?php echo isset($year['display']) && $year['display'] == 1 ? 0 : 1; ?>">
-        <label class="switch">
-            <input type="submit" class="toggle-input" />
-            <span class="slider round <?php echo isset($year['display']) && $year['display'] == 1 ? 'checked' : ''; ?>"></span>
-        </label>
-    </form>
-<!--                                 <form action="" method="post" style="display: inline;">
+                                <form action="" method="post" style="display: inline;">
+                                    <input type="hidden" name="year_id" value="<?php echo $year['id']; ?>">
+                                    <input type="hidden" name="toggleDisplay"
+                                        value="<?php echo isset($year['display']) && $year['display'] == 1 ? 0 : 1; ?>">
+                                    <label class="switch">
+                                        <input type="submit" class="toggle-input" />
+                                        <span
+                                            class="slider round <?php echo isset($year['display']) && $year['display'] == 1 ? 'checked' : ''; ?>"></span>
+                                    </label>
+                                </form>
+                                <!--                                 <form action="" method="post" style="display: inline;">
                                     <input type="hidden" name="year_id" value="<?php echo $year['id']; ?>">
                                     <button type="submit" class="btn btn-sm btn-danger" name="deleteYear" onclick="return confirm('Are you sure you want to delete this academic year?');">Delete</button>
                                 </form> -->
@@ -287,74 +297,78 @@ if (isset($_POST['deleteYear'])) {
         <hr>
     </div>
 </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="" method="post" >
-                    <hr>
-                    <h2>Change Password</h2>
-                    <br>
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" name="new" class="form-control" x-ref="new" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" name="confirm" class="form-control" x-ref="confirm" required>
-                    </div>
-                    <button type="submit" name="updatePass" @click="validate" class="btn btn-success btn-lg" name="changePassword"> <i class="fa fa-check"></i> Save</button>
-                    <hr>
-                </form>  
-             </div>
-        </div>
-       
-
-
+<div class="row">
+    <div class="col-lg-12">
+        <form action="" method="post">
+            <hr>
+            <h2>Change Password</h2>
+            <br>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="new" class="form-control" x-ref="new" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm" class="form-control" x-ref="confirm" required>
+            </div>
+            <button type="submit" name="updatePass" @click="validate" class="btn btn-success btn-lg"
+                name="changePassword"> <i class="fa fa-check"></i> Save</button>
+            <hr>
+        </form>
     </div>
-    <!-- /.container-fluid -->
+</div>
+
+
+
+</div>
+<!-- /.container-fluid -->
 
 </div>
 
 
-<?php 
-    $conn = mysqli_connect("127.0.0.1", "infotechmcc", "infotechmcc", "infotechmcc");
+<?php
+$conn = mysqli_connect("127.0.0.1", "u510162695_infotechMCC", "u510162695_infotechMCC", "infotechMCC2023");
 
 
-    if (isset($_POST['updatePass'])) {
-        $password = htmlspecialchars(stripslashes(trim($_POST['new'])));
-        $re_pass = $_POST['confirm'];
+if (isset($_POST['updatePass'])) {
+    $password = htmlspecialchars(stripslashes(trim($_POST['new'])));
+    $re_pass = $_POST['confirm'];
 
-        if ($password != $re_pass) {
-            ?>
-            <script type="text/javascript">
-                alert("Password don't match")
-            </script>
-            <?php 
-        }else{
-            $admin = $_SESSION['user_id'];
-            $pass_hashed = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->query("UPDATE userdata SET password = '$pass_hashed' WHERE   id = '$admin'");
-            ?>
-            <script type="text/javascript">
-                alert("Password successfully updated")
-                window.location.href = "settings.php"
-            </script>
-            <?php
-
-        }
-
+    if ($password != $re_pass) {
+        ?>
+        <script type="text/javascript">
+            alert("Password don't match")
+        </script>
+        <?php
+    } else {
+        $admin = $_SESSION['user_id'];
+        $pass_hashed = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $conn->query("UPDATE userdata SET password = '$pass_hashed' WHERE   id = '$admin'");
+        ?>
+        <script type="text/javascript">
+            alert("Password successfully updated")
+            window.location.href = "settings.php"
+        </script>
+        <?php
 
     }
+
+
+}
 
 ?>
 
 <script>
-    window.PasswordHandler = () => {
+    window.PasswordHandler = () =>
+    {
         return {
-            validate() {
+            validate()
+            {
                 const newPass = this.$refs.new;
                 const confirmPass = this.$refs.confirm
 
-                if (newPass.value.length <= 0) {
+                if (newPass.value.length <= 0)
+                {
                     Swal.fire({
                         icon: 'warning',
                         title: 'New password is empty!'
@@ -362,8 +376,9 @@ if (isset($_POST['deleteYear'])) {
 
                     return
                 }
-                
-                if (newPass.value !== confirmPass.value) {
+
+                if (newPass.value !== confirmPass.value)
+                {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Password type mismatched!'
@@ -377,6 +392,6 @@ if (isset($_POST['deleteYear'])) {
         }
     }
 </script>
-<!-- /#page-wrapper -->   
-<?php include('include/modal.php'); ?>
-<?php include('include/footer.php');
+<!-- /#page-wrapper -->
+<?php include ('include/modal.php'); ?>
+<?php include ('include/footer.php');

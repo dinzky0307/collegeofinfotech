@@ -13,7 +13,7 @@ class Dataclass
         }
 
     }
-    
+
     //create logs
     function logs($act)
     {
@@ -56,7 +56,7 @@ class Dataclass
     //add class
     function addclass()
     {
-        include('../config.php');
+        include ('../config.php');
 
         $course = $_POST['course'];
         $year = $_POST['year'];
@@ -75,7 +75,7 @@ class Dataclass
     //update class
     function updateclass()
     {
-        include('../../config.php');
+        include ('../../config.php');
         $id = $_GET['id'];
         $course = $_POST['course'];
         $year = $_POST['year'];
@@ -125,21 +125,21 @@ class Dataclass
     //add student to class
     function addstudent()
     {
-        include('../../config.php');
+        include ('../../config.php');
         $classid = $_GET['classid'];
         $studid = $_GET['studid'];
-        
+
         $verify = $this->verifystudent($studid, $classid);
-        
+
         if ($verify) {
             $q = "UPDATE studentsubject SET classid = '$classid' WHERE studid = '$studid';";
             mysql_query($q);
-        
+
             header('location:../classstudent.php?r=success&classid=' . $classid);
         } else {
             header('location:../classstudent.php?r=duplicate&classid=' . $classid);
         }
-        
+
 
         $tmp = mysql_query("select * from class where id=$classid");
         $tmp_row = mysql_fetch_array($tmp);
@@ -156,7 +156,7 @@ class Dataclass
     //verify if he/she is enrolled
     function verifystudent($studid, $classid)
     {
-        include('../../config.php');
+        include ('../../config.php');
         $q = "select * from studentsubject where studid=$studid and classid=$classid";
         $r = mysql_query($q);
         if (mysql_num_rows($r) < 1) {
@@ -170,7 +170,7 @@ class Dataclass
     {
         $classid = $_GET['classid'];
         $studid = $_GET['studid'];
-        include('../../config.php');
+        include ('../../config.php');
         $q = "delete from studentsubject where studid=$studid and classid=$classid";
         mysql_query($q);
 
@@ -194,7 +194,7 @@ class Dataclass
     {
         $classid = $_GET['classid'];
         $teachid = $_GET['teachid'];
-        include('../../config.php');
+        include ('../../config.php');
         $q = "update class set teacher=$teachid where id=$classid";
         mysql_query($q);
 
@@ -289,9 +289,9 @@ if (isset($_POST['addClass'])) {
 
 // }
 $servername = '127.0.0.1';
-$username = 'infotechmcc';
-$password = 'infotechmcc';
-$dbname = 'infotechmcc';
+$username = 'u510162695_infotechMCC';
+$password = 'u510162695_infotechMCC';
+$dbname = 'infotechMCC2023';
 $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 // set the PDO error mode to exception
 $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

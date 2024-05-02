@@ -5,9 +5,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require_once("phpmailer/src/Exception.php");
-require_once("phpmailer/src/PHPMailer.php");
-require_once("phpmailer/src/SMTP.php");
+require_once ("phpmailer/src/Exception.php");
+require_once ("phpmailer/src/PHPMailer.php");
+require_once ("phpmailer/src/SMTP.php");
 
 if (isset($_POST['submit'])) {
     $user = $_POST['email'];
@@ -50,17 +50,17 @@ if (isset($_POST['submit'])) {
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Reset Password';
-        $mail->Body    = "Click the link to reset password : <a href='https://infotechmcc.com/reset-pass.php?reset=$teach_id&id=$session'>Click here</a>";
+        $mail->Body = "Click the link to reset password : <a href='https://collegeofinfotech.com/reset-pass.php?reset=$teach_id&id=$session'>Click here</a>";
 
 
         $mail->send();
 
-?>
+        ?>
         <script>
             alert("Please check your email account for confirmation")
             window.location.href = "forgot-password.php"
         </script>
-<?php
+        <?php
 
     } else {
         // User does not have an account, display an error message
@@ -95,7 +95,7 @@ if (isset($_POST['submit'])) {
                 <form action="" method="post" class="sign-in-form">
                     <h2 class="title">Forgot Password</h2>
                     <div class="form-group">
-                        <?php if (isset($errorMessage)) : ?>
+                        <?php if (isset($errorMessage)): ?>
                             <p style="color: red;"><?php echo $errorMessage; ?></p>
                         <?php endif; ?>
                     </div>
@@ -113,7 +113,8 @@ if (isset($_POST['submit'])) {
             <div class="panels-container">
                 <div class="panel left-panel" style="max-height: 87%">
                     <div class="content">
-                        <img src="img/mcc.png" alt="mcc" width="230" height="200" style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
+                        <img src="img/mcc.png" alt="mcc" width="230" height="200"
+                            style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
                         <p class="p" style=" text-shadow: 1px 2px 3px black;
   color: #f0f0f0;"></p>
                         <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
@@ -125,7 +126,8 @@ if (isset($_POST['submit'])) {
         </div>
         <script>
             // Add an event listener to the Cancel button
-            document.getElementById('cancelButton').addEventListener('click', function() {
+            document.getElementById('cancelButton').addEventListener('click', function ()
+            {
                 // Redirect the user to a cancellation page or any other desired action
                 window.location.href = 'index.php'; // Replace 'cancel-reset.php' with the desired cancellation page
             });

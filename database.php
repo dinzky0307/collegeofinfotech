@@ -1,8 +1,8 @@
 <?php
 $servername = "127.0.0.1";
-$username = "infotechmcc";
-$password = "infotechmcc";
-$dbname = "infotechmcc";
+$username = "u510162695_infotechMCC";
+$password = "u510162695_infotechMCC";
+$dbname = "infotechMCC2023";
 
 // Git deployment
 
@@ -12,7 +12,7 @@ try {
   // set the PDO error mode to exception
   $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-} catch(PDOException $e) {
+} catch (PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
 }
 ?>
