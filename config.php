@@ -16,3 +16,5 @@ try {
   echo $sql . "<br>" . $e->getMessage();
 }
 ?>
+
+<!-- amo ini akon giutro -->
