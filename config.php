@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $host = '127.0.0.1';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
