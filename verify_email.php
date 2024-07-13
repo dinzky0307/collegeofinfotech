@@ -34,6 +34,9 @@ if (isset($_GET['token'])) {
     if ($stmt->fetch()) {
         echo "Email " . $email . " has been successfully verified.";
 
+        // Close the statement to free up the connection
+        $stmt->close();
+
         // Optionally, delete the token from the database or mark it as used
         $delete_stmt = $conn->prepare('DELETE FROM email_verifications WHERE token = ?');
         if (!$delete_stmt) {
@@ -42,13 +45,12 @@ if (isset($_GET['token'])) {
 
         $delete_stmt->bind_param('s', $token);
         $delete_stmt->execute();
+        $delete_stmt->close();
     } else {
         echo "Invalid or expired token.";
+        $stmt->close();
     }
 
-    // Close statement and connection
-    $stmt->close();
-    $delete_stmt->close();
     $conn->close();
 } else {
     echo "No token provided.";
