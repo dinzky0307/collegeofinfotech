@@ -30,11 +30,10 @@ if (isset($_GET['token'])) {
     $stmt = $conn->prepare('SELECT email FROM email_verifications WHERE token = ?');
     $stmt->bind_param('s', $token);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bind_result($email);
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        echo "Email " . $user['email'] . " has been successfully verified.";
+    if ($stmt->fetch()) {
+        echo "Email " . $email . " has been successfully verified.";
 
         // Optionally, delete the token from the database or mark it as used
         $delete_stmt = $conn->prepare('DELETE FROM email_verifications WHERE token = ?');
