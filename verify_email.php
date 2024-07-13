@@ -33,7 +33,7 @@ if (isset($_GET['token'])) {
 
     if ($stmt->fetch()) {
         echo "Email " . $email . " has been successfully verified.";
-
+        
         // Close the statement to free up the connection
         $stmt->close();
 
@@ -46,6 +46,13 @@ if (isset($_GET['token'])) {
         $delete_stmt->bind_param('s', $token);
         $delete_stmt->execute();
         $delete_stmt->close();
+
+        // Add JavaScript to redirect after 3 seconds
+        echo '<script>
+            setTimeout(function() {
+                window.location.href = "/student/index.php";
+            }, 3000);
+        </script>';
     } else {
         echo "Invalid or expired token.";
         $stmt->close();
