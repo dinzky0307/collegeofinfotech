@@ -1,16 +1,15 @@
 <?php
 
-//session_start();
-//$host = '127.0.0.1';
-//$user = 'u510162695_infotechMCC';
-//$pass = 'infotechMCC2023';
-//$db = 'u510162695_infotechMCC';
+$host = '127.0.0.1';
+$user = 'u510162695_infotechMCC';
+$pass = 'infotechMCC2023';
+$db = 'u510162695_infotechMCC';
 
-//mysql_connect($host, $user, $pass) or die(mysql_error());
-//mysql_select_db($db);
+mysql_connect($host, $user, $pass) or die(mysql_error());
+mysql_select_db($db);
 
 // Include the configuration file
-include 'config.php';
+//include 'config.php';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
