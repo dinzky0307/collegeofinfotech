@@ -3,12 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the configuration file
-//include 'config.php';
-
-// Start a session
-//session_start();
-
+// Database credentials
 $host = '127.0.0.1';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
@@ -28,6 +23,10 @@ if (isset($_GET['token'])) {
 
     // Verify token
     $stmt = $conn->prepare('SELECT email FROM email_verifications WHERE token = ?');
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
     $stmt->bind_param('s', $token);
     $stmt->execute();
     $stmt->bind_result($email);
@@ -37,6 +36,10 @@ if (isset($_GET['token'])) {
 
         // Optionally, delete the token from the database or mark it as used
         $delete_stmt = $conn->prepare('DELETE FROM email_verifications WHERE token = ?');
+        if (!$delete_stmt) {
+            die("Prepare for delete failed: " . $conn->error);
+        }
+
         $delete_stmt->bind_param('s', $token);
         $delete_stmt->execute();
     } else {
@@ -45,6 +48,7 @@ if (isset($_GET['token'])) {
 
     // Close statement and connection
     $stmt->close();
+    $delete_stmt->close();
     $conn->close();
 } else {
     echo "No token provided.";
