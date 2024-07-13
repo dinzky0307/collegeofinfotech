@@ -41,7 +41,6 @@ if (isset($_POST['submitEmail'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -128,16 +127,9 @@ if (isset($_POST['submitEmail'])) {
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="new-user">
-            <!-- <h2>Welcome New User!</h2> -->
-            <!-- <script>
-                window.onload = function() {
-                    alert("It seems that you're a new user, please provide your valid email address.");
-                }
-            </script> -->
             <center>
                 <h5 style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                     It seems that you're a new user,
@@ -145,12 +137,11 @@ if (isset($_POST['submitEmail'])) {
                 </h5>
             </center>
             <form action="send_verification.php" method="post">
-                <input type="hidden" name="username" value="<?php echo $user; ?>">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($user); ?>">
                 <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 <input type="submit" name="submitEmail" value="Send Verification Link">
             </form>
         </div>
     </div>
 </body>
-
 </html>
