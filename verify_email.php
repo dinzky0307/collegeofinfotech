@@ -50,7 +50,7 @@ if (isset($_GET['token'])) {
         // Add JavaScript to redirect after 3 seconds
         echo '<script>
             setTimeout(function() {
-                window.location.href = "/student/index.php";
+                window.location.href = "/student/grade.php";
             }, 3000);
         </script>';
     } else {
