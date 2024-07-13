@@ -144,7 +144,7 @@ if (isset($_POST['submitEmail'])) {
                     <br>please provide your valid email address.
                 </h5>
             </center>
-            <form action="" method="post">
+            <form action="send_verification.php" method="post">
                 <input type="hidden" name="username" value="<?php echo $user; ?>">
                 <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 <input type="submit" name="submitEmail" value="Send Verification Link">
