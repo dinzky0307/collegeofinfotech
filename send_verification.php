@@ -4,10 +4,19 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Include the configuration file
-include 'config.php';
+//include 'config.php';
 
 // Start a session
 //session_start();
+
+    $host = '127.0.0.1';
+$user = 'u510162695_infotechMCC';
+$pass = 'infotechMCC2023';
+$db = 'u510162695_infotechMCC';
+
+//mysql_connect($host, $user, $pass) or die(mysql_error());
+//mysql_select_db($db);
+
 
 // Function to generate a random string
 function generateRandomString($length = 32) {
@@ -18,13 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
-    $host = '127.0.0.1';
-$user = 'u510162695_infotechMCC';
-$pass = 'infotechMCC2023';
-$db = 'u510162695_infotechMCC';
 
-//mysql_connect($host, $user, $pass) or die(mysql_error());
-//mysql_select_db($db);
     
     if ($username && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         // Create a connection
