@@ -23,13 +23,18 @@ try {
     die('Database connection failed: ' . $e->getMessage());
 }
 
+// Function to generate a random string
+function generateRandomString($length = 32) {
+    return bin2hex(openssl_random_pseudo_bytes($length / 2));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         try {
             // Generate a unique verification token
-            $token = bin2hex(random_bytes(16));
+            $token = generateRandomString();
 
             // Save email and token to the database
             $stmt = $pdo->prepare('INSERT INTO email_verifications (email, token) VALUES (?, ?)');
@@ -48,13 +53,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (mail($email, $subject, $message, $headers)) {
                 echo "Verification email sent to $email";
             } else {
-                echo "Failed to send verification email.";
-            }
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-    } else {
-        echo "Invalid email address.";
-    }
-}
-?>
+        
