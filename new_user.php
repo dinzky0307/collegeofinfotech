@@ -1,7 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Include the configuration file
 include 'config.php';
+
+// Start a session
+session_start();
 
 // Get the username from the URL parameter
 $user = isset($_GET['user']) ? $_GET['user'] : '';
@@ -11,21 +17,33 @@ if (isset($_POST['submitEmail'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
 
-    // Update email in userdata table
-    $updateQuery = "UPDATE userdata SET email = '$email', display = 1 WHERE username = '$username'";
-    mysql_query($updateQuery);
+    // Create a connection
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    // Update email in student table
-    $updateStudentQuery = "UPDATE student SET email = '$email' WHERE studid = '$username'";
-    mysql_query($updateStudentQuery);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-    // Update email in teacher table
-    $updateTeacherQuery = "UPDATE teacher SET email = '$email' WHERE teachid = '$username'";
-    mysql_query($updateTeacherQuery);
+    // Prepare and bind statements to avoid SQL injection
+    $stmt = $conn->prepare("UPDATE userdata SET email = ?, display = 1 WHERE username = ?");
+    $stmt->bind_param("ss", $email, $username);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("UPDATE student SET email = ? WHERE studid = ?");
+    $stmt->bind_param("ss", $email, $username);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("UPDATE teacher SET email = ? WHERE teachid = ?");
+    $stmt->bind_param("ss", $email, $username);
+    $stmt->execute();
 
     // Fetch user data again
-    $result = mysql_query("SELECT * FROM userdata WHERE username='$username'");
-    $row = mysql_fetch_assoc($result);
+    $stmt = $conn->prepare("SELECT * FROM userdata WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
     // Proceed with login
     $_SESSION['message'] = "You are now logged in.";
@@ -33,15 +51,13 @@ if (isset($_POST['submitEmail'])) {
     $_SESSION['id'] = $row['username'];
     $_SESSION['user_id'] = $row['id'];
     $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
-    header('location:' . $row['level'] . '');
+    header('Location: ' . $row['level']);
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -128,16 +144,9 @@ if (isset($_POST['submitEmail'])) {
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="new-user">
-            <!-- <h2>Welcome New User!</h2> -->
-            <!-- <script>
-                window.onload = function() {
-                    alert("It seems that you're a new user, please provide your valid email address.");
-                }
-            </script> -->
             <center>
                 <h5 style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                     It seems that you're a new user,
@@ -145,12 +154,11 @@ if (isset($_POST['submitEmail'])) {
                 </h5>
             </center>
             <form action="send_verification.php" method="post">
-                <input type="hidden" name="username" value="<?php echo $user; ?>">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($user); ?>">
                 <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 <input type="submit" name="submitEmail" value="Send Verification Link">
             </form>
         </div>
     </div>
 </body>
-
 </html>
