@@ -261,7 +261,7 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                             <select name="teacher" class="form-control" required style="font-size: 16px; height: 35px">
                                 <option value="">Select Teacher...</option>
                                 <?php foreach ($teachers as $teacher): ?>
-                                    <option value="<?php echo $teacher['id']; ?>">
+                                    <option value="<?php echo $teacher['lname']; ?>">
                                         <?php echo "{$teacher['lname']} {$teacher['fname']}"; ?>
                                     </option>
                                 <?php endforeach; ?>
