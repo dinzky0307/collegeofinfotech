@@ -45,54 +45,33 @@ if (isset($_POST['addStudent'])) {
 
 var_dump($_POST['studid'], $_POST['sy'], $_POST['semester']);
         
-     <?php
-try {
-    // Check existing ID and academic year
-    $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
-    $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
-    $existStatement->setFetchMode(PDO::FETCH_ASSOC);
-    $exists = $existStatement->fetch();
+      // Check existing ID and academic year
+        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
+        $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
+        $existStatement->setFetchMode(PDO::FETCH_ASSOC);
+        $exists = $existStatement->fetch();
 
-    if ($exists) {
-        echo "<script type='text/javascript'>";
-        echo "Swal.fire({
-            title: '" . htmlspecialchars($_POST['studid'], ENT_QUOTES, 'UTF-8') . " ID already exists!',
-            icon: 'error',
-        })";
-        echo "</script>";
-    } else {
-        $sql = "INSERT INTO student (studid, lname, fname, mname, email, year, section, semester, ay)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $statement = $connection->prepare($sql);
-        $statement->execute([
-            $_POST['studid'],
-            $_POST['lname'],
-            $_POST['fname'],
-            $_POST['mname'],
-            $_POST['email'],
-            $_POST['year'],
-            $_POST['section'],
-            $_POST['semester'],
-            $_POST['sy']
-        ]);
-
-        echo "<script type='text/javascript'>";
-        echo "Swal.fire({
-            title: 'Student added successfully!',
-            icon: 'success',
-        })";
-        echo "</script>";
-    }
-} catch (PDOException $e) {
-    echo "<script type='text/javascript'>";
-    echo "Swal.fire({
-        title: 'Database error!',
-        text: '" . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "',
-        icon: 'error',
-    })";
-    echo "</script>";
-}
-?>
+        if ($exists) {
+            echo "<script type='text/javascript'>";
+            echo "Swal.fire({
+               title: '{$_POST['studid']} ID already exists!',
+               icon: 'error',
+             })";
+            echo "</script>";
+        } else {
+            $sql = "INSERT INTO student (studid, lname, fname, mname,email, year, section, semester,ay)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $connection->prepare($sql)->execute([
+                $_POST['studid'],
+                $_POST['lname'],
+                $_POST['fname'],
+                $_POST['mname'],
+                $_POST['email'],
+                $_POST['year'],
+                $_POST['section'],
+                $_POST['semester'],
+                $_POST['sy']
+            ]);
 
             $username = $_POST['studid'];
             $fname = $_POST['fname'];
