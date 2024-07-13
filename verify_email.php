@@ -1,5 +1,14 @@
 <?php
-// Database credentials
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Include the configuration file
+//include 'config.php';
+
+// Start a session
+//session_start();
+
 $host = '127.0.0.1';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
