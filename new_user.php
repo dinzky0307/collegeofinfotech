@@ -146,8 +146,8 @@ if (isset($_POST['submitEmail'])) {
             </center>
             <form action="" method="post">
                 <input type="hidden" name="username" value="<?php echo $user; ?>">
-                <input type="email" name="email" placeholder="Enter your email" required>
-                <input type="submit" name="submitEmail" value="Submit">
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                <input type="submit" name="submitEmail" value="Send Verification Link">
             </form>
         </div>
     </div>
