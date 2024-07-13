@@ -1,10 +1,6 @@
 <?php
-// Database connection
-$host = 'localhost';
-$db = 'your_database';
-$user = 'your_username';
-$pass = 'your_password';
-$charset = 'utf8mb4';
+// Include the configuration file
+include 'config.php';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
