@@ -1,99 +1,116 @@
 <?php
-// Include database service
-include '../DatabaseService.php';
+include('include/header.php');
+include('include/sidebar.php');
+include('../database.php'); // Include the database connection code
 
-use Database\DatabaseService;
+include('data/student_model.php');
 
-$dbService = new DatabaseService;
+$student = new Datastudent($connection); // Create an instance of the Datastudent class and pass the connection as a parameter
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Print POST data for debugging
-    var_dump($_POST['studid'], $_POST['sy'], $_POST['semester']);
+if (isset($_GET['q'])) {
+    $studentModel->$_GET['q']();
+}
 
-    // Check existing ID and academic year
-    $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
-    $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
-    $existStatement->setFetchMode(PDO::FETCH_ASSOC);
-    $exists = $existStatement->fetch();
+$search = isset($_POST['search']) ? $_POST['search'] : null;
+$student = $student->getstudent($search, null, null, null, $connection);
 
-    if ($exists) {
+$studid = "";
+$lname = "";
+$fname = "";
+$mname = "";
+$email = "";
+$year = "";
+$section = "";
+$semester = "";
+$ay = "";
+
+if (isset($_POST['addStudent'])) {
+    if (strlen($_POST['studid']) > 9 || strlen($_POST['studid']) < 9) {
         echo "<script type='text/javascript'>";
         echo "Swal.fire({
-           title: '{$_POST['studid']} ID already exists!',
+           title: 'ID must not be less or greater than 9 characters',
            icon: 'error',
          })";
         echo "</script>";
     } else {
-        $sql = "INSERT INTO student (studid, lname, fname, mname,email, year, section, semester,ay)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $insertStatement = $connection->prepare($sql);
-        $insertStatement->execute([
-            $_POST['studid'],
-            $_POST['lname'],
-            $_POST['fname'],
-            $_POST['mname'],
-            $_POST['email'],
-            $_POST['year'],
-            $_POST['section'],
-            $_POST['semester'],
-            $_POST['sy']
-        ]);
-
-        $username = $_POST['studid'];
-        $fname = $_POST['fname'];
+        $studid = $_POST['studid'];
         $lname = $_POST['lname'];
+        $fname = $_POST['fname'];
+        $mname = $_POST['mname'];
         $email = $_POST['email'];
-        $password = password_hash($username, PASSWORD_DEFAULT);
+        $year = $_POST['year'];
+        $section = $_POST['section'];
+        $semester = $_POST['semester'];
+        $ay = $_POST['sy'];
 
-        $q_create_user_student = "INSERT INTO userdata VALUES(null, '$username', '$email', '$password', '$fname', '$lname', 'student')";
-        $save = mysql_query($q_create_user_student);
 
-        if ($save) {
+        // Check existing ID and academic year
+        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
+        $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
+        $existStatement->setFetchMode(PDO::FETCH_ASSOC);
+        $exists = $existStatement->fetch();
+
+        if ($exists) {
             echo "<script type='text/javascript'>";
             echo "Swal.fire({
-               title: 'Student successfully added!',
-               icon: 'success',
+               title: '{$_POST['studid']} ID already exists!',
+               icon: 'error',
              })";
             echo "</script>";
-            // Redirect with parameters
-            echo "<script type='text/javascript'>window.location.href = 'enrollsubject.php?id=$studid&y=$year&s=$semester';</script>";
-            exit;
         } else {
-            echo "<script type='text/javascript'>";
-            echo "Swal.fire({
-               title: 'Student not added!',
-               icon: 'warning',
-             })";
-            echo "</script>";
+            $sql = "INSERT INTO student (studid, lname, fname, mname,email, year, section, semester,ay)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $connection->prepare($sql)->execute([
+                $_POST['studid'],
+                $_POST['lname'],
+                $_POST['fname'],
+                $_POST['mname'],
+                $_POST['email'],
+                $_POST['year'],
+                $_POST['section'],
+                $_POST['semester'],
+                $_POST['sy']
+            ]);
+            $username = $_POST['studid'];
+            $fname = $_POST['fname'];
+            $lname = $_POST['lname'];
+            $password = password_hash($username, PASSWORD_DEFAULT);
+
+            $q_create_user_student = "insert into userdata values(null,'$username', '$email', '$password','$fname','$lname','student')";
+            $save = mysql_query($q_create_user_student);
+
+            if ($save) {
+                echo "<script type='text/javascript'>";
+                echo "Swal.fire({
+                   title: 'Student successfully added!',
+                   icon: 'success',
+                 })";
+                echo "</script>";
+                // Redirect with parameters
+                echo "<script type='text/javascript'>window.location.href = 'enrollsubject.php?id=$studid&y=$year&s=$semester';</script>";
+                exit;
+            } else {
+                echo "<script type='text/javascript'>";
+                echo "Swal.fire({
+                   title: 'Student not added!',
+                   icon: 'warning',
+                 })";
+                echo "</script>";
+            }
         }
     }
 }
-
-// Query database to fetch active academic year and semester
 $activeAcademicYear = ""; // variable to store active academic year
 $activeSemester = ""; // variable to store active semester
 
+// Query database to fetch active academic year and semester
 $query = "SELECT academic_year, semester FROM ay WHERE display = 1";
 $result = mysql_query($query);
 if ($row = mysql_fetch_assoc($result)) {
     $activeAcademicYear = $row['academic_year'];
     $activeSemester = $row['semester'];
 }
-?>
 
-<?php
-$ay = $dbService->fetchRow("SELECT * from ay");
-?>
-
-
-<?php
-include '../DatabaseService.php';
-
-use Database\DatabaseService;
-
-$dbService = new DatabaseService;
-
-$ay = $dbService->fetchRow("SELECT * from ay");
 ?>
 <style>
     .form-control {
