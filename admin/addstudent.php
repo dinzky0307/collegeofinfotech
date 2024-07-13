@@ -291,8 +291,8 @@ $ay = $dbService->fetchRow("SELECT * from ay");
             <div class="col-md-12">
                 <div class="modal-footer">
                     <a href="studentlist.php"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></a>
-                    <!-- <input type="hidden" name="year" value="<?php echo $year; ?>" />
-                    <input type="hidden" name="semester" value="<?php echo $semester; ?>" /> -->
+                    <input type="hidden" name="year" value="<?php echo $year; ?>
+                    <input type="hidden" name="semester" value="<?php echo $semester; ?>
                     <button type="submit" class="btn btn-primary">Next <i class="fa fa-arrow-right"></i></button></a>
                     </form>
                 </div>
