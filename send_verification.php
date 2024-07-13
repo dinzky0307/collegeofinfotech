@@ -18,9 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
+    $host = '127.0.0.1';
+$user = 'u510162695_infotechMCC';
+$pass = 'infotechMCC2023';
+$db = 'u510162695_infotechMCC';
+
+mysql_connect($host, $user, $pass) or die(mysql_error());
+mysql_select_db($db);
+    
     if ($username && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         // Create a connection
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $conn = new mysqli($host, $user, $pass, $db);
 
         // Check connection
         if ($conn->connect_error) {
