@@ -45,7 +45,7 @@ if (isset($_POST['addStudent'])) {
 
 
         // Check existing ID and academic year
-        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = '2023-0298' AND ay = '2023-2024' AND semester = 'Second Semester'");
+        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
         $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
         $existStatement->setFetchMode(PDO::FETCH_ASSOC);
         $exists = $existStatement->fetch();
