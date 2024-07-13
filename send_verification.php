@@ -3,6 +3,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Define a log file
+$log_file = '/path/to/your/logfile.log';
+
+// Function to log errors
+function log_error($message) {
+    global $log_file;
+    error_log(date('[Y-m-d H:i:s] ') . $message . PHP_EOL, 3, $log_file);
+}
+
 $host = '127.0.0.1';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
@@ -20,6 +29,7 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
+    log_error('Database connection failed: ' . $e->getMessage());
     die('Database connection failed: ' . $e->getMessage());
 }
 
@@ -36,21 +46,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Generate a unique verification token
             $token = generateRandomString();
 
-            // Save email and token to the database
-            $stmt = $pdo->prepare('INSERT INTO email_verifications (email, token) VALUES (?, ?)');
-            $stmt->execute([$email, $token]);
-
-            // Create verification link
-            $verification_link = "http://collegeofinfotech.com/verify_email.php?token=$token";
-
-            // Send verification email
-            $subject = "Email Verification";
-            $message = "Please click the following link to verify your email: $verification_link";
-            $headers = 'From: noreply@collegeofinfotech.com' . "\r\n" .
-                       'Reply-To: noreply@collegeofinfotech.com' . "\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
-
-            if (mail($email, $subject, $message, $headers)) {
-                echo "Verification email sent to $email";
-            } else {
-        
+            // Save email and token to the
