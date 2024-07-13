@@ -239,7 +239,7 @@ if (isset($_POST['deleteClass']) && isset($_POST['classId'])) {
                             <select name="subject" class="form-control" required style="font-size: 16px; height: 35px">
                                 <option value="">Select Subject Code...</option>
                                 <?php
-                                $r = mysql_query("SELECT * FROM subject");
+                                $r = mysql_query("SELECT * FROM subject ORDER year");
                                 while ($row = mysql_fetch_array($r)):
                                     ?>
                                     <option value="<?php echo $row['code']; ?>" data-title="<?php echo $row['title']; ?>"
