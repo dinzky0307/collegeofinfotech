@@ -43,7 +43,8 @@ if (isset($_POST['addStudent'])) {
         $semester = $_POST['semester'];
         $ay = $_POST['sy'];
 
-
+var_dump($_POST['studid'], $_POST['sy'], $_POST['semester']);
+        
         // Check existing ID and academic year
         $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
         $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
