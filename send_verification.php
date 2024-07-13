@@ -1,4 +1,14 @@
 <?php
+
+//session_start();
+//$host = '127.0.0.1';
+//$user = 'u510162695_infotechMCC';
+//$pass = 'infotechMCC2023';
+//$db = 'u510162695_infotechMCC';
+
+//mysql_connect($host, $user, $pass) or die(mysql_error());
+//mysql_select_db($db);
+
 // Include the configuration file
 include 'config.php';
 
@@ -27,13 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$email, $token]);
 
         // Create verification link
-        $verification_link = "http://yourdomain.com/verify_email.php?token=$token";
+        $verification_link = "http://collegeofinfotech.com/verify_email.php?token=$token";
 
         // Send verification email
         $subject = "Email Verification";
         $message = "Please click the following link to verify your email: $verification_link";
-        $headers = 'From: noreply@yourdomain.com' . "\r\n" .
-                   'Reply-To: noreply@yourdomain.com' . "\r\n" .
+        $headers = 'From: noreply@collegeofinfotech.com' . "\r\n" .
+                   'Reply-To: noreply@collegeofinfotech.com' . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
 
         if (mail($email, $subject, $message, $headers)) {
