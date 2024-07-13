@@ -1,16 +1,11 @@
 <?php
-
 $host = '127.0.0.1';
 $user = 'u510162695_infotechMCC';
 $pass = 'infotechMCC2023';
 $db = 'u510162695_infotechMCC';
+$charset = 'utf8mb4';
 
-mysql_connect($host, $user, $pass) or die(mysql_error());
-mysql_select_db($db);
-
-// Include the configuration file
-//include 'config.php';
-
+// DSN (Data Source Name) for PDO
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
