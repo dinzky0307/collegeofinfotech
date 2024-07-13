@@ -43,7 +43,10 @@ if (isset($_POST['addStudent'])) {
         $semester = $_POST['semester'];
         $ay = $_POST['sy'];
 
-var_dump($_POST['studid'], $_POST['sy'], $_POST['semester']);
+// Debugging: Print POST data
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
         
       // Check existing ID and academic year
         $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
@@ -51,6 +54,12 @@ var_dump($_POST['studid'], $_POST['sy'], $_POST['semester']);
         $existStatement->setFetchMode(PDO::FETCH_ASSOC);
         $exists = $existStatement->fetch();
 
+        // Debugging: Print the result of the existence check
+echo "<pre>";
+print_r($exists);
+echo "</pre>";
+
+        
         if ($exists) {
             echo "<script type='text/javascript'>";
             echo "Swal.fire({
