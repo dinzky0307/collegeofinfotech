@@ -6,9 +6,6 @@ error_reporting(E_ALL);
 // Include the configuration file
 include 'config.php';
 
-// Start a session
-session_start();
-
 // Get the username from the URL parameter
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 
