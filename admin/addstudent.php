@@ -269,13 +269,14 @@ $ay = $dbService->fetchRow("SELECT * from ay");
                             <option value="North West" <?php echo $section == "North West" ? "selected" : "" ?>>North West</option>
                         </select>
                     </div>
-                    <div class="form-group" style="height:44px">
-                        <select class="form-control" name="semester" placeholder="Semester" required style="height: 45px">
-                            <option value="<?php echo $activeSemester; ?>"><?php echo $activeSemester; ?></option>
-                            <!-- <option value="Second Semester" <?php echo $semester == "Second Semester" ? "selected" : "" ?> >Second Semester</option>
-                            <option value="Summer" <?php echo $semester == "Summer" ? "selected" : "" ?> >Summer</option> -->
+                   <div class="form-group" style="height:44px">
+                         <select class="form-control" name="semester" placeholder="Semester" required style="height: 45px">
+                            <option value="First Semester" <?php echo $activeSemester == "First Semester" ? "selected" : "" ?> >First Semester</option>
+                            <option value="Second Semester" <?php echo $activeSemester == "Second Semester" ? "selected" : "" ?> >Second Semester</option>
+                            <option value="Summer" <?php echo $activeSemester == "Summer" ? "selected" : "" ?> >Summer</option>
                         </select>
                     </div>
+
                     <div class="form-group" style="height:44px">
                         <select name="sy" class="form-control" required style="height: 45px">
                             <option value="<?php echo $row['academic_year']; ?>" <?php echo $activeAcademicYear == $row['academic_year'] ? "selected" : ""; ?>>Academic Year : <?php echo $row['academic_year']; ?></option>
