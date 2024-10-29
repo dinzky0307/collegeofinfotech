@@ -1,39 +1,53 @@
 <?php
-include 'config.php';
+include 'database.php';
 
 if (isset($_POST['submit'])) {
-  $user = $_POST['user'];
-  $pass = $_POST['pass'];
-  $query = "SELECT * FROM userdata WHERE username='$user'";
-  $result = mysql_query($query);
+    // Sanitize user inputs to prevent XSS
+    $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
+    $pass = $_POST['pass'];
 
-  if (mysql_num_rows($result) == 1) {
-    $row = mysql_fetch_assoc($result);
-    if (password_verify($pass, $row['password'])) {
-      if ($row['display'] == 0) {
-        // Redirect to new user alert page
-        header('location: new_user.php?user=' . urlencode($user));
-        exit();
-      } else {
-        // User is not new, proceed with login
-        $_SESSION['message'] = "You are now logged in.";
-        $_SESSION['level'] = $row['level'];
-        $_SESSION['id'] = $row['username'];
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
-        header('location:' . $row['level'] . '');
-        exit();
-      }
+    try {
+        // Use a prepared statement to prevent SQL injection
+        $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
+        $stmt->bindParam(':user', $user, PDO::PARAM_STR);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Check if a user record was found and verify the password
+        if ($row && password_verify($pass, $row['password'])) {
+            if ($row['display'] == 0) {
+                // Redirect to new user alert page safely
+                header('location: new_user.php?user=' . urlencode($user));
+                exit();
+            } else {
+                // User is not new, proceed with login
+                session_start();
+                $_SESSION['message'] = "You are now logged in.";
+                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                header('location:' . $_SESSION['level']);
+                exit();
+            }
+        } else {
+            // Redirect to login page with an error message if credentials are invalid
+            header('location:index.php?login=0');
+        }
+    } catch (PDOException $e) {
+        // Handle database errors
+        error_log("Database error: " . $e->getMessage());
+        header('location:index.php?login=0');
     }
-  }
-
-  header('location:index.php?login=0');
 }
 
+// If the user is already logged in, redirect them based on their level
 if (isset($_SESSION['level'])) {
-  header('location:' . $_SESSION['level'] . '');
+    header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'));
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
