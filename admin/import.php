@@ -18,7 +18,7 @@ if (isset($_POST['import'])) {
     $sheet = $spreadsheet->getActiveSheet();
 
     // Connect to MySQL
-    $conn = new mysqli('localhost', 'root', '', 'infotech');
+    $conn = new mysqli('127.0.0.1', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
