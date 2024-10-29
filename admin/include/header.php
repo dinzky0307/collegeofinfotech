@@ -247,6 +247,7 @@
     <a href="list.php"><i class="fa fa-envelope"></i> Consultation</a>
     <a href="report.php"><i class="fa fa-fw fa-folder"></i> Generate Reports</a>
     <a href="users.php"><i class="fa fa-fw fa-users"></i> Users</a>
+     <a href="ms_acc.php"><i class="fa fa-fw fa-users"></i> MS Account 365</a>
     <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
     <a href="../logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
   </div>
