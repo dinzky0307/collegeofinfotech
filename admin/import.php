@@ -75,9 +75,9 @@ if (isset($_POST['import'])) {
 
     // Redirect back to employee.php after import
     if ($hasErrors) {
-        header("Location: ms_acc.php?status=error");
+        header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=error");
     } else {
-        header("Location: ms_acc.php?status=success");
+        header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=success");
     }
     exit(); // Make sure to exit after the header redirect
 }
