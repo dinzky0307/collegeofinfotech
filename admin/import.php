@@ -1,84 +1,80 @@
 <?php
-require 'vendor/autoload.php';  // Load PhpSpreadsheet
+require 'vendor/autoload.php'; // Load PhpSpreadsheet
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-// Increase memory limit and allow a longer execution time
-ini_set('memory_limit', '512M');  // Adjust the memory limit as needed
-set_time_limit(300);  // Allow the script to run for 300 seconds (5 minutes)
+// Increase memory limit and execution time
+ini_set('memory_limit', '512M');
+set_time_limit(300);
 
-if (isset($_POST['import'])) {
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['import']) && isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
     $file = $_FILES['file']['tmp_name'];
 
-    // Load the Excel file
-    $spreadsheet = IOFactory::load($file);
+    try {
+        // Load the Excel file
+        $spreadsheet = IOFactory::load($file);
+        $sheet = $spreadsheet->getActiveSheet();
 
-    // Get the first sheet
-    $sheet = $spreadsheet->getActiveSheet();
-
-    // Connect to MySQL
-    $conn = new mysqli('127.0.0.1', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Flag to indicate if there were any issues
-    $hasErrors = false;
-
-    // Loop through each row in the Excel sheet
-    foreach ($sheet->getRowIterator() as $row) {
-        $cellIterator = $row->getCellIterator();
-        $cellIterator->setIterateOnlyExistingCells(false); // Loop through all cells
-
-        $data = [];
-        foreach ($cellIterator as $cell) {
-            $data[] = $cell->getValue();
+        // Connect to MySQL
+        $conn = new mysqli('127.0.0.1', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
+        if ($conn->connect_error) {
+            throw new Exception("Connection failed: " . $conn->connect_error);
         }
 
-        // Check if the array has the correct number of elements
-        if (count($data) >= 4) {  // Ensure that $data has at least 4 elements
+        $hasErrors = false;
 
-            // Check if the record already exists in the database
-            $checkSql = "SELECT * FROM ms_account WHERE ms_id = ?";
-            $checkStmt = $conn->prepare($checkSql);
-            $checkStmt->bind_param('s', $data[0]);
-            $checkStmt->execute();
-            $result = $checkStmt->get_result();
+        foreach ($sheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(false);
+            $data = [];
 
-            if ($result->num_rows > 0) {
-                // Record exists, skip it
-                $hasErrors = true;
-            } else {
-                // Prepare your SQL query. Adjust the table name and columns as needed.
-                $sql = "INSERT INTO ms_account (ms_id, firstname, lastname, username) VALUES (?, ?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-
-                // Adjust the number and types of parameters according to your table schema
-                $stmt->bind_param('ssss', $data[0], $data[1], $data[2], $data[3]);
-
-                if (!$stmt->execute()) {
-                    $hasErrors = true;
-                }
-
-                $stmt->close();  // Close the statement after use
+            foreach ($cellIterator as $cell) {
+                $data[] = $cell->getValue();
             }
 
-            $checkStmt->close();  // Close the statement after use
-        } else {
-            $hasErrors = true;
+            if (count($data) >= 4) {
+                $checkSql = "SELECT * FROM ms_account WHERE ms_id = ?";
+                $checkStmt = $conn->prepare($checkSql);
+                $checkStmt->bind_param('s', $data[0]);
+                $checkStmt->execute();
+                $result = $checkStmt->get_result();
+
+                if ($result->num_rows == 0) {
+                    $sql = "INSERT INTO ms_account (ms_id, firstname, lastname, username) VALUES (?, ?, ?, ?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param('ssss', $data[0], $data[1], $data[2], $data[3]);
+
+                    if (!$stmt->execute()) {
+                        $hasErrors = true;
+                    }
+
+                    $stmt->close();
+                }
+
+                $checkStmt->close();
+            } else {
+                $hasErrors = true;
+            }
         }
-    }
 
-    $conn->close();
+        $conn->close();
 
-    // Redirect back to employee.php after import
-    if ($hasErrors) {
+        header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=" . ($hasErrors ? 'error' : 'success'));
+        exit();
+
+    } catch (Exception $e) {
+        error_log("Error during import: " . $e->getMessage());
         header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=error");
-    } else {
-        header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=success");
+        exit();
     }
-    exit(); // Make sure to exit after the header redirect
+} else {
+    header("Location: https://collegeofinfotech.com/admin/ms_acc.php?status=file_error");
+    exit();
 }
 ?>
