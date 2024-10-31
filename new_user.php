@@ -67,7 +67,7 @@ if (isset($_POST['submitEmail'])) {
             height: 1600px;
             width: 1600px;
             top: -10%;
-            right: 60%;
+            right: 70%;
             transform: translateY(-50%);
             background-image: linear-gradient(#000000, #000000);
             transition: 1.8s ease-in-out;
@@ -127,30 +127,52 @@ if (isset($_POST['submitEmail'])) {
             background-color: #4d84e2;
         }
     </style>
+      <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <body>
     <div class="container">
         <div class="new-user">
-            <!-- <h2>Welcome New User!</h2> -->
-            <!-- <script>
-                window.onload = function() {
-                    alert("It seems that you're a new user, please provide your valid email address.");
-                }
-            </script> -->
+            <h2>Microsoft 365 Account Verification</h2> 
             <center>
                 <h5 style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                     It seems that you're a new user,
-                    <br>please provide your valid email address.
+                    <br>Enter your MS 365 Username to receive a registration link.
                 </h5>
             </center>
             <form action="send_verification.php" method="post">
                 <input type="hidden" name="username" value="<?php echo $user; ?>">
-                <input type="email" name="email" id="email" placeholder="Enter your email" required>
-                <input type="submit" name="submitEmail" value="Send Verification Link">
+                <input type="email" name="email" id="email" placeholder="Please enter your MS 365 Email." required>
+                 <div id="validationServerUsernameFeedback" class="invalid-feedback"></div>
+                <input type="submit" name="registration_link" value="Send Verification Link">
+                
             </form>
         </div>
     </div>
+     <!-- Display SweetAlert messages based on the session status -->
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])): ?>
+     <script>
+         Swal.fire({
+             icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
+             title: '<?php echo $_SESSION['status']; ?>'
+           }).then((result) => {
+             // If the status is "success", redirect to index.php
+             if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
+                window.location.href = "https://collegeofinfotech.com/index.php";
+             }
+             // If the status is "error", stay on the current page
+            else {
+                 window.location.href = `new_user.php?user=${user}`;
+            }
+        });
+    </script>
+    <?php
+        // Clear the session message after displaying it
+        unset($_SESSION['status']);
+        unset($_SESSION['status_code']);
+    ?>
+<?php endif; ?>
+
 </body>
 
 </html>
