@@ -1,6 +1,6 @@
 <?php
     include('include/header.php');
-    include('include/sidebar.php');
+    
 
     $tmp = $_SESSION['id'];
     $q = "select * from teacher where teachid='$tmp'";
@@ -46,99 +46,115 @@
     
 
 ?>
-<div id="page-wrapper">
+<style>
 
-    <div class="container-fluid">
+/* Ensure that the sidebar and content align responsively */
+.wrapper {
+    display: flex;
+}
 
-        <!-- Page Heading -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header">
-                    Dashboard <small>Overview</small>
-                </h2>
-                <ol class="breadcrumb">
-                    <li class="active">
-                        <i class="fa fa-dashboard"></i> Dashboard
-                    </li>
-                </ol>
-            </div>
-        </div>
-        <!-- /.row -->
+.main-sidebar {
+    flex: 0 0 250px; /* Set a fixed width for the sidebar */
+}
 
-        <div class="row">
-            <div class="col-lg-12 col-md-6">
-                 <div class="panel"style= "background-color: #029b02; color: white;">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-bar-chart-o fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo $count1[0];?></div>
-                                <div>Subjects!</div>
-                            </div>
-                        </div>
-                    </div>
-                   <a href="subject.php"style= "text-decoration: none; color: #029b02;">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-6">
-                <div class="panel "style= "background-color: #ff0800; color: white; height: 110px;">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-users fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo  $all_students[0]; ?></div>
-                                <div>Students!</div>
-                            </div>
-                        </div>
-                    </div>
-<!--                     <a href="student.php"style= "text-decoration: none; color:  #ff0800;">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a> -->
-                </div>
-            </div>
-<!--             <div class="col-lg-12 col-md-6">
-                 <div class="panel"style= "background-color: #Edf52f; color: white;">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-envelope fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo $consultations;?></div>
-                                <div>Consultations!</div>
-                            </div>
-                        </div>
-                    </div>
-                   <a href="subject.php"style= "text-decoration: none; color: #029b02;">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div> -->
-        </div>
-        <!-- /.row -->
+.content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .main-sidebar {
+        display: none; /* Hide sidebar on smaller screens */
+    }
+
+    .content-wrapper {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+
+
+
+
+
+</style> 
+<div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="main-sidebar">
+        <section class="sidebar">   
         
+            
+            <ul class="nav navbar-nav side-nav">               
+               
+                <li class="active"><a href="index.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li><a href="subject.php"><i class="fa fa-book"></i> <span>My Subjects</span></a></li>
+                <li><a href="list.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                <li><a href="settings.php"><i class="fa fa-gear"></i> <span>Change Password</span></a></li>
+                <li><a href="../logout.php"><i class="fa fa-power-off"></i> <span>Log Out</span></a></li>
+            </ul>
+        </section>
+    </aside>
 
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        
+                        
+                        <h2 class="page-header">Dashboard <small>Overview</small></h2>
+                        <ol class="breadcrumb">
+                            <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Panels Section -->
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel" style="background-color: #029b02; color: white;">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3"><i class="fa fa-bar-chart-o fa-5x"></i></div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $count1[0];?></div>
+                                        <div>Subjects!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="subject.php" style="text-decoration: none; color: #029b02;">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel" style="background-color: #ff0800; color: white; height: 110px;">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3"><i class="fa fa-users fa-5x"></i></div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $all_students[0]; ?></div>
+                                        <div>Students!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <br><br> <br><br>  <br><br>
+            <!-- /.container-fluid -->
+             <footer class="container-fluid">
+        <?php include 'include/footer.php'; ?>
+      </footer>
+        </section>
     </div>
-    <!-- /.container-fluid -->
-
+      
 </div>
-<!-- /#page-wrapper -->    
-<?php include('include/footer.php');

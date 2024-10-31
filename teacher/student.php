@@ -98,15 +98,15 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="text-center">ID Number</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Prelim</th>
-                                <th class="text-center">Midterm</th>
-                                <th class="text-center">Final</th>
-                                <th class="text-center">Average</th>
-                                <th class="text-center">Equivalent</th>
-                                <th class="text-center">Remarks</th>
-                                <th class="text-center">Option</th>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Prelim</th>
+                                <th>Midterm</th>
+                                <th>Final</th>
+                                <th>Average</th>
+                                <th>Equivalent</th>
+                                <th>Remarks</th>
+                                <th>Option</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -116,16 +116,16 @@
                                 
                                 <tr id="<?php echo $row['id']; ?>">
                                     <td><?php echo $c; ?></td>    
-                                    <td class="text-center"><?php echo $row['studid']; ?></td>    
-                                    <td class="text-center"><?php echo $row['lname'].', '.$row['fname'].' '.$row['mname']; ?></td>  
+                                    <td><?php echo $row['studid']; ?></td>    
+                                    <td><?php echo $row['lname'].', '.$row['fname'].' '.$row['mname']; ?></td>  
                                     <?php $grade = $student->getstudentgrade($row['grade_id']); ?>
-                                    <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>    
-                                    <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['midterm'];?>" name="midterm_grade" id="midterm"></td>    
-                                    <td class="text-center"><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
-                                    <td class="text-center"><?php echo $grade['total'];?></td>
-                                    <td class="text-center"><?php echo $grade['eqtotal'];?></td>
+                                    <td><input type="number" class="box-size" value="<?php echo $grade['prelim'];?>" name="prelim_grade" id="prelim"></td>    
+                                    <td><input type="number" class="box-size" value="<?php echo $grade['midterm'];?>" name="midterm_grade" id="midterm"></td>    
+                                    <td><input type="number" class="box-size" value="<?php echo $grade['final'];?>" name="finals_grade" id="final"></td>    
+                                    <td><?php echo $grade['total'];?></td>
+                                    <td><?php echo $grade['eqtotal'];?></td>
                                    
-                                    <td class="text-center">
+                                    <td>
                                         <?php
                                         if ($grade['eqtotal'] >3) {
                                             echo "<font color='red'>Failed</font>";
@@ -136,7 +136,7 @@
                                         }
                                         ?>
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         
                                     <a data-classid="<?php echo $classid; ?>" data-subjects="<?php echo $row['subjectid']; ?>" data-ay="<?php echo $row['SY']; ?>" data-gradeid="<?php echo $row['grade_id']; ?>" data-sec="<?php echo $row['section']; ?>" data-sem="<?php echo $row['semester']; ?>" data-year="<?php echo $row['year']; ?>" data-id="<?php echo $row['id']; ?>" 
                                         data-scode="<?php echo $code ?>" class="btn btn-success updategrade"><i class="fa fa-check fa-lg"></i> Save</a>

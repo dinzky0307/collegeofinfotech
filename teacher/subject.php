@@ -35,12 +35,61 @@
             color: red; /* Change this color to the desired text color */
         }
     </style>
-<div id="page-wrapper">
+<style>
 
-    <div class="container-fluid">
+/* Ensure that the sidebar and content align responsively */
+.wrapper {
+    display: flex;
+}
 
-        <!-- Page Heading -->
-        <div class="row">
+.main-sidebar {
+    flex: 0 0 250px; /* Set a fixed width for the sidebar */
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .main-sidebar {
+        display: none; /* Hide sidebar on smaller screens */
+    }
+
+    .content-wrapper {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+
+
+
+
+
+</style> 
+<div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="main-sidebar">
+        <section class="sidebar">   
+        
+            
+            <ul class="nav navbar-nav side-nav">               
+               
+                <li class="active"><a href="index.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li><a href="subject.php"><i class="fa fa-book"></i> <span>My Subjects</span></a></li>
+                <li><a href="list.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                <li><a href="settings.php"><i class="fa fa-gear"></i> <span>Change Password</span></a></li>
+                <li><a href="../logout.php"><i class="fa fa-power-off"></i> <span>Log Out</span></a></li>
+            </ul>
+        </section>
+    </aside>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
                     <small>MY SUBJECTS</small>
@@ -55,8 +104,8 @@
                 </ol>
             </div>
         </div>
-        <!-- /.row -->
-         <div class="row">
+                <!-- Panels Section -->
+                    <div class="row">
             <div class="col-lg-12">
                 <!-- <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#data1" role="tab" data-toggle="tab">First Semester</a></li>
@@ -79,11 +128,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="">Subject</th>
-                                        <th class="text-center">Course</th>
-                                        <th class="text-center">Year</th>
-                                        <th class="text-center">Section</th>
-                                        <th class="text-center">Students</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,10 +141,10 @@
                                         <tr>
                                             <td><?php echo $c; ?></td>
                                             <td class=""><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
-                                            <td class="text-center"><?php echo $row['course']; ?></td>
-                                            <td class="text-center"><?php echo $row['year']; ?></td>
-                                            <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                         </tr>
                                     <?php $c++; ?>
                                     <?php endwhile; ?>
@@ -114,11 +163,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="">Subject</th>
-                                        <th class="text-center">Course</th>
-                                        <th class="text-center">Year</th>
-                                        <th class="text-center">Section</th>
-                                        <th class="text-center">Students</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,11 +175,11 @@
                                     <?php while($row = mysql_fetch_array($secondsem)): ?>
                                         <tr>
                                             <td><?php echo $c; ?></td>
-                                            <td class=""><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
-                                            <td class="text-center"><?php echo $row['course']; ?></td>
-                                            <td class="text-center"><?php echo $row['year']; ?></td>
-                                            <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                            <td><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                         </tr>
                                     <?php $c++; ?>
                                     <?php endwhile; ?>
@@ -149,11 +198,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="">Subject</th>
-                                        <th class="text-center">Course</th>
-                                        <th class="text-center">Year</th>
-                                        <th class="text-center">Section</th>
-                                        <th class="text-center">Students</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -161,11 +210,11 @@
                                     <?php while($row = mysql_fetch_array($summer)): ?>
                                         <tr>
                                             <td><?php echo $c; ?></td>
-                                            <td class=""><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
-                                            <td class="text-center"><?php echo $row['course']; ?></td>
-                                            <td class="text-center"><?php echo $row['year']; ?></td>
-                                            <td class="text-center"><?php echo $row['section']; ?></td>
-                                            <td class="text-center"><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                            <td><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
                                             
                                         </tr>
                                     <?php $c++; ?>
@@ -180,16 +229,14 @@
                 </div>   
             </div>
         </div>
-        <!-- /.row -->
-       
-
-
+                <!-- /.row -->
+            </div>
+            <br><br> <br><br>  <br><br>
+            <!-- /.container-fluid -->
+             <footer class="container-fluid">
+        <?php include 'include/footer.php'; ?>
+      </footer>
+        </section>
     </div>
-    <!-- /.container-fluid -->
-
+      
 </div>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
-<!-- /#page-wrapper -->    
-<?php include('include/footer.php');

@@ -23,16 +23,66 @@
     //     echo "</script>";
     // }
 ?>
-<div id="page-wrapper" x-data="PasswordHandler">
+<style>
+
+/* Ensure that the sidebar and content align responsively */
+.wrapper {
+    display: flex;
+}
+
+.main-sidebar {
+    flex: 0 0 250px; /* Set a fixed width for the sidebar */
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .main-sidebar {
+        display: none; /* Hide sidebar on smaller screens */
+    }
+
+    .content-wrapper {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+</style> 
+<div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="main-sidebar">
+        <section class="sidebar">   
+        
+            
+            <ul class="nav navbar-nav side-nav">               
+               
+                <li class="active"><a href="index.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li><a href="subject.php"><i class="fa fa-book"></i> <span>My Subjects</span></a></li>
+                <li><a href="list.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                <li><a href="settings.php"><i class="fa fa-gear"></i> <span>Change Password</span></a></li>
+                <li><a href="../logout.php"><i class="fa fa-power-off"></i> <span>Log Out</span></a></li>
+            </ul>
+        </section>
+    </aside>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+              
+
+                <!-- Panels Section -->
+                <div id="page-wrapper" x-data="PasswordHandler">
 
     <div class="container-fluid">
 
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">
-                    Settings <small>Change Password</small>
-                </h1>
+             
                 <ol class="breadcrumb">
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
@@ -64,6 +114,17 @@
 
     </div>
     <!-- /.container-fluid -->
+</div>
+                <!-- /.row -->
+            </div>
+            <br><br> <br><br>  <br><br>
+            <!-- /.container-fluid -->
+             <footer class="container-fluid">
+        <?php include 'include/footer.php'; ?>
+      </footer>
+        </section>
+    </div>
+      
 </div>
 <?php 
     $conn = mysqli_connect("localhost", "root", "", "infotech");
@@ -126,5 +187,3 @@
         }
     }
 </script>
-<!-- /#page-wrapper -->    
-<?php include('include/footer.php');

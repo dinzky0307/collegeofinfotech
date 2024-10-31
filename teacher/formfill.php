@@ -324,10 +324,10 @@ input[type=radio] {
                                 title: 'Consultation',
                                 text: 'Submitted successfully!',
                                 position: 'center',
-                            }).then(() =>window.location.href = 'http://localhost/InfoTech/teacher/' )
+                            }).then(() =>window.location.href = 'https://collegeofinfotech.com/teacher/' )
 
                             setTimeout(() => {
-                                window.location.href = 'http://localhost/InfoTech/teacher/'
+                                window.location.href = 'https://collegeofinfotech.com/teacher/'
                             }, 3000)
                         })
                 },
