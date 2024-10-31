@@ -1,74 +1,148 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('session.cookie_httponly', 1);
+ob_start();
+session_start();
+include('database.php');
 
-// Include the configuration file
-//include 'config.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// Start a session
-//session_start();
+require 'phpmailer/src/Exception.php';
+require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/SMTP.php';
 
-    $host = '127.0.0.1';
-$user = 'u510162695_infotechMCC';
-$pass = 'infotechMCC2023';
-$db = 'u510162695_infotechMCC';
-
-//mysql_connect($host, $user, $pass) or die(mysql_error());
-//mysql_select_db($db);
-
-
-// Function to generate a random string
-function generateRandomString($length = 32) {
-    return bin2hex(openssl_random_pseudo_bytes($length / 2));
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
+if (isset($_POST['registration_link'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
 
+    // Validate email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['status'] = "Invalid Email: Please enter a valid MS 365 email address.";
+        $_SESSION['status_code'] = "error";
+        header("Location: new_user.php?user=$username");
+        exit();
+    }
 
-    
-    if ($username && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Create a connection
-        $conn = new mysqli($host, $user, $pass, $db);
+    // Verify domain
+    $domain = substr(strrchr($email, "@"), 1);
+    if ($domain !== 'mcclawis.edu.ph') {
+        $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph";
+        $_SESSION['status_code'] = "error";
+        header("Location: new_user.php?user=$username");
+        exit();
+    }
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+    // Check email usage in the database
+    $stmt = $connection->prepare("SELECT used FROM ms_account WHERE username = :email");
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $used = $stmt->fetchColumn();
 
-        // Generate a unique verification token
-        $token = generateRandomString();
+    if ($used === false) {
+        $_SESSION['status'] = "Email not found. Please visit the BSIT office to get MS 365 Account.";
+        $_SESSION['status_code'] = "error";
+        header("Location: new_user.php?user=$username");
+        exit();
+    }
 
-        // Save email and token to the database
-        $stmt = $conn->prepare('INSERT INTO email_verifications (email, token) VALUES (?, ?)');
-        $stmt->bind_param('ss', $email, $token);
+    if ($used == 1) {
+        $_SESSION['status'] = "This email has already been used.";
+        $_SESSION['status_code'] = "error";
+        header("Location: new_user.php?user=$username");
+        exit();
+    }
+
+    // Prepare and execute the update queries with prepared statements
+    $updateQuery = "UPDATE userdata SET email = :email, display = 0 WHERE username = :username";
+    $stmt = $connection->prepare($updateQuery);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':username', $username);
+
+    if ($stmt->execute()) {
+        // Update email in student table
+        $updateStudentQuery = "UPDATE student SET email = :email WHERE studid = :username";
+        $stmt = $connection->prepare($updateStudentQuery);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+
+        // Update email in teacher table
+        $updateTeacherQuery = "UPDATE teacher SET email = :email WHERE teachid = :username";
+        $stmt = $connection->prepare($updateTeacherQuery);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+
+        // Generate a verification code
+        $verification_code = md5(rand());
+
+        // Update the verification code in the database
+        $updateVerification = "UPDATE ms_account SET verification_code = :verification_code, created_at = NOW() WHERE username = :email";
+        $stmt = $connection->prepare($updateVerification);
+        $stmt->bindParam(':verification_code', $verification_code);
+        $stmt->bindParam(':email', $email);
+
         if ($stmt->execute()) {
-            // Create verification link
-            $verification_link = "http://collegeofinfotech.com/verify_email.php?token=$token";
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'collegeofinfotech2023@gmail.com'; // Use environment variable for security
+                $mail->Password = 'ohwp vvlw pfyx xkfo'; // Use environment variable for security
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
 
-            // Send verification email
-            $subject = "Email Verification";
-            $message = "Please click the following link to verify your email: $verification_link";
-            $headers = 'From: noreply@collegeofinfotech.com' . "\r\n" .
-                       'Reply-To: noreply@collegeofinfotech.com' . "\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
+                $mail->setFrom('collegeofinfotech2023@gmail.com', 'Infotech MCC Verification');
+                $mail->addAddress($email);
 
-            if (mail($email, $subject, $message, $headers)) {
-                echo "Verification email sent to $email";
-            } else {
-                echo "Failed to send verification email.";
+                $mail->isHTML(true);
+                $mail->Subject = 'Infotech MCC Verification Account';
+                $mail->Body = "
+                <html>
+                <body>
+                    <p>Greetings!</p>
+                    <p>To complete your account registration with BSIT Grading Information Management System, click <a href='https://collegeofinfotech.com/verify_email.php?code=$verification_code&email=$email&username=$username'>Register</a>.</p>
+                    <p><b>Importance Notice: </b> Never share this link with anyone 
+                    in order to protect your account from unathorized access.</p>
+                    
+                    <p>If you did not expect this message, please ignore this email.</p>
+                </body>
+                </html>
+                ";
+
+                $mail->send();
+                $_SESSION['status'] = "Registration link sent. Please check your email on Outlook.";
+                $_SESSION['status_code'] = "success";
+                header("Location: new_user.php?user=$username");
+                exit();
+            } catch (Exception $e) {
+                error_log("Mailer Error: " . $mail->ErrorInfo);
+                $_SESSION['status'] = "Unable to send the registration link at this moment.";
+                $_SESSION['status_code'] = "error";
+                header("Location: new_user.php?user=$username");
+                exit();
             }
         } else {
-            echo "Failed to save verification token.";
+            error_log("MySQL execute error: " . $stmt->errorInfo()[2]);
+            $_SESSION['status'] = "Database error. Please try again later.";
+            $_SESSION['status_code'] = "error";
+            header("Location: new_user.php?user=$username");
+            exit();
         }
-
-        // Close statement and connection
-        $stmt->close();
-        $conn->close();
     } else {
-        echo "Invalid email address or missing username.";
+        error_log("Update query error: " . $stmt->errorInfo()[2]);
+        $_SESSION['status'] = "Unable to update records. Please try again.";
+        $_SESSION['status_code'] = "error";
+        header("Location: new_user.php?user=$username");
+        exit();
     }
+} else {
+    $_SESSION['status'] = "Invalid request.";
+    $_SESSION['status_code'] = "error";
+    header("Location: new_user.php?user=$username");
+    exit();
 }
+
+ob_end_flush();
 ?>
