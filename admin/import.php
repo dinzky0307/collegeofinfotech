@@ -20,7 +20,7 @@ if (isset($_POST['import']) && isset($_FILES['file']) && $_FILES['file']['error'
         // Load the Excel file
         $spreadsheet = IOFactory::load($file);
         $sheet = $spreadsheet->getActiveSheet();
-
+ 
         // Connect to MySQL
         $conn = new mysqli('127.0.0.1', 'u510162695_infotechMCC', 'infotechMCC2023', 'u510162695_infotechMCC');
         if ($conn->connect_error) {
@@ -39,13 +39,13 @@ if (isset($_POST['import']) && isset($_FILES['file']) && $_FILES['file']['error'
             }
 
             if (count($data) >= 4) {
-                $checkSql = "SELECT * FROM ms_account WHERE ms_id = ?";
+                $checkSql = "SELECT 1 FROM ms_account WHERE ms_id = ?";
                 $checkStmt = $conn->prepare($checkSql);
                 $checkStmt->bind_param('s', $data[0]);
                 $checkStmt->execute();
-                $result = $checkStmt->get_result();
+                $checkStmt->store_result();
 
-                if ($result->num_rows == 0) {
+                if ($checkStmt->num_rows == 0) {
                     $sql = "INSERT INTO ms_account (ms_id, firstname, lastname, username) VALUES (?, ?, ?, ?)";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param('ssss', $data[0], $data[1], $data[2], $data[3]);
