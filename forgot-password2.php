@@ -83,12 +83,12 @@ if (isset($_POST['submit'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = getenv('collegeofinfotech2023@gmail.com');
-                $mail->Password = getenv('ohwp vvlw pfyx xkfo');
+                $mail->Username = 'collegeofinfotech2023@gmail.com'; // Use environment variable for security
+                $mail->Password = 'ohwp vvlw pfyx xkfo'; // Use environment variable for security
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
-
-                $mail->setFrom(getenv('collegeofinfotech2023@gmail.com'), 'Infotech MCC Forgot Password Account');
+               
+                $mail->setFrom('collegeofinfotech2023@gmail.com', 'Infotech MCC Forgot Password Account');
                 $mail->addAddress($email);
 
                 $mail->isHTML(true);
