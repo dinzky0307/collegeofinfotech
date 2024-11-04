@@ -13,41 +13,45 @@ require_once "phpmailer/src/SMTP.php";
 
 if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $redirect = false;
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['status'] = "Invalid Email: Please enter a valid MS 365 email address.";
         $_SESSION['status_code'] = "error";
-     
+        $redirect = true;
+    } else {
+        // Verify domain
+        $domain = substr(strrchr($email, "@"), 1);
+        if ($domain !== 'mcclawis.edu.ph') {
+            $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph domain.";
+            $_SESSION['status_code'] = "error";
+            $redirect = true;
+        } else {
+            // Check email usage in the database
+            $stmt = $connection->prepare("SELECT used, username FROM ms_account WHERE username = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                $_SESSION['status'] = "Email not found. Please visit the BSIT office to get MS 365 Account.";
+                $_SESSION['status_code'] = "error";
+                $redirect = true;
+            } else {
+                $used = $result['used'];
+                $username = $result['username'];
+
+                if ($used == 1) {
+                    $_SESSION['status'] = "This email has already been used.";
+                    $_SESSION['status_code'] = "error";
+                    $redirect = true;
+                }
+            }
+        }
     }
 
-    // Verify domain
-    $domain = substr(strrchr($email, "@"), 1);
-    if ($domain !== 'mcclawis.edu.ph') {
-        $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph domain.";
-        $_SESSION['status_code'] = "error";
-      
-    }
-
-    // Check email usage in the database
-    $stmt = $connection->prepare("SELECT used, username FROM ms_account WHERE username = :email");
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$result) {
-        $_SESSION['status'] = "Email not found. Please visit the BSIT office to get MS 365 Account.";
-        $_SESSION['status_code'] = "error";
-        header("Location: forgot_password.php");
-        exit();
-    }
-
-    $used = $result['used'];
-    $username = $result['username'];
-
-    if ($used == 1) {
-        $_SESSION['status'] = "This email has already been used.";
-        $_SESSION['status_code'] = "error";
+    if ($redirect) {
         header("Location: forgot_password.php");
         exit();
     }
@@ -59,6 +63,7 @@ if (isset($_POST['submit'])) {
     $stmt->bindParam(':username', $username);
 
     if ($stmt->execute()) {
+        // Update other tables
         $tables = ['student', 'teacher'];
         foreach ($tables as $table) {
             $updateTableQuery = "UPDATE $table SET email = :email WHERE " . ($table == 'student' ? 'studid' : 'teachid') . " = :username";
@@ -68,10 +73,10 @@ if (isset($_POST['submit'])) {
             $stmt->execute();
         }
 
-        // Generate a verification code
+        // Generate verification code
         $verification_code = md5(rand());
 
-        // Update the verification code in the ms_account table
+        // Update verification code in ms_account table
         $updateVerification = "UPDATE ms_account SET verification_code = :verification_code, created_at = NOW() WHERE username = :email";
         $stmt = $connection->prepare($updateVerification);
         $stmt->bindParam(':verification_code', $verification_code);
@@ -83,12 +88,12 @@ if (isset($_POST['submit'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = getenv('EMAIL_USERNAME'); 
-                $mail->Password = getenv('EMAIL_PASSWORD'); 
+                $mail->Username = getenv('collegeofinfotech2023@gmail.com');
+                $mail->Password = getenv('ohwp vvlw pfyx xkfo');
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                $mail->setFrom(getenv('EMAIL_USERNAME'), 'Infotech MCC Forgot Password Account');
+                $mail->setFrom(getenv('collegeofinfotech2023@gmail.com'), 'Infotech MCC Forgot Password Account');
                 $mail->addAddress($email);
 
                 $mail->isHTML(true);
@@ -136,6 +141,7 @@ if (isset($_POST['submit'])) {
     exit();
 }
 ?>
+
 
 <style>
     .btn {
