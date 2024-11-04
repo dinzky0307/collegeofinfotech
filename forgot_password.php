@@ -26,21 +26,21 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="forgot-password2.php" method="post" class="sign-in-form">
-                    <h2 class="title">Forgot Password</h2>
-                    <div class="form-group">
-                    <?php if (isset($_SESSION['status'])): ?>
-                     <p style="color: red;"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
-                       <?php endif; ?>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="text" placeholder="Microsoft 365 Account Email" name="email" required />
-                    </div>
-                    <input type="submit" value="Submit" name="submit" class="btn solid" />
-                    <button type="button" class="btn cancel" id="cancelButton" style="height: 44px;">Cancel</button>
+            <form action="forgot-password2.php" method="post" class="sign-in-form">
+    <h2 class="title">Forgot Password</h2>
+    <div class="form-group">
+        <?php if (isset($_SESSION['status'])): ?>
+            <p style="color: red;"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
+        <?php endif; ?>
+    </div>
+    <div class="input-field">
+        <i class="fas fa-envelope"></i>
+        <input type="text" placeholder="Microsoft 365 Account Email" name="email" required />
+    </div>
+    <input type="submit" value="Submit" name="submit" class="btn solid" />
+    <button type="button" class="btn cancel" id="cancelButton" style="height: 44px;">Cancel</button>
+</form>
 
-                </form>
             </div>
 
 
