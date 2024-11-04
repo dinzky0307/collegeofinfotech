@@ -218,7 +218,7 @@ if (isset($_POST['submit_verify'])) {
                     <label for="terms" onclick="showTerms()">I agree to the terms and conditions</label>
                 </div>
 
-                <input type="submit" name="submit_verify" value="Register">
+                <input type="submit" name="submit_verify" value="Submit">
             </form>
         </div>
     </div>
