@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include 'config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,7 +18,8 @@ if (isset($_POST['submit'])) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['status'] = "Invalid Email: Please enter a valid MS 365 email address.";
         $_SESSION['status_code'] = "error";
-    
+        header("Location: forgot_password.php");
+        exit();
     }
 
     // Verify domain
@@ -24,7 +27,8 @@ if (isset($_POST['submit'])) {
     if ($domain !== 'mcclawis.edu.ph') {
         $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph domain.";
         $_SESSION['status_code'] = "error";
-       
+        header("Location: forgot_password.php");
+        exit();
     }
 
     // Check email usage in the database
@@ -36,7 +40,8 @@ if (isset($_POST['submit'])) {
     if (!$result) {
         $_SESSION['status'] = "Email not found. Please visit the BSIT office to get MS 365 Account.";
         $_SESSION['status_code'] = "error";
-        
+        header("Location: forgot_password.php");
+        exit();
     }
 
     $used = $result['used'];
@@ -45,7 +50,8 @@ if (isset($_POST['submit'])) {
     if ($used == 1) {
         $_SESSION['status'] = "This email has already been used.";
         $_SESSION['status_code'] = "error";
-       
+        header("Location: forgot_password.php");
+        exit();
     }
 
     // Update email in userdata, student, and teacher tables
@@ -102,29 +108,34 @@ if (isset($_POST['submit'])) {
                 $mail->send();
                 $_SESSION['status'] = "Registration link sent. Please check your email on Outlook.";
                 $_SESSION['status_code'] = "success";
-               
+                header("Location: forgot_password.php");
+                exit();
             } catch (Exception $e) {
                 error_log("Mailer Error: " . $mail->ErrorInfo);
                 $_SESSION['status'] = "Unable to send the registration link at this moment.";
                 $_SESSION['status_code'] = "error";
-               
+                header("Location: forgot_password.php");
+                exit();
             }
         } else {
             error_log("MySQL execute error: " . $stmt->errorInfo()[2]);
             $_SESSION['status'] = "Database error. Please try again later.";
             $_SESSION['status_code'] = "error";
-       
+            header("Location: forgot_password.php");
+            exit();
         }
     } else {
         error_log("Update query error: " . $stmt->errorInfo()[2]);
         $_SESSION['status'] = "Unable to update records. Please try again.";
         $_SESSION['status_code'] = "error";
- 
+        header("Location: forgot_password.php");
+        exit();
     }
 } else {
     $_SESSION['status'] = "Invalid request.";
     $_SESSION['status_code'] = "error";
-   
+    header("Location: forgot_password.php");
+    exit();
 }
 ?>
 
