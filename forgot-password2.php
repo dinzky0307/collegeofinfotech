@@ -122,3 +122,5 @@ if (isset($_POST['submit'])) {
     header("Location: forgot_password.php");
     exit();
 }
+
+?>

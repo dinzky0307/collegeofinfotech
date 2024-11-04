@@ -1,5 +1,7 @@
+<?php
+session_start();
 
-
+?>
 <style>
     .btn {
         margin-right: 20px;
