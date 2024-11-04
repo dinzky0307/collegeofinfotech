@@ -79,7 +79,7 @@ if (isset($_POST['submit'])) {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'collegeofinfotech2023@gmail.com'; // Use environment variable for security
-            $mail->Password = 'your_password'; // Use environment variable for security
+            $mail->Password = 'ohwp vvlw pfyx xkfo'; // Use environment variable for security
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
