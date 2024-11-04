@@ -96,10 +96,10 @@ if (isset($_POST['submit'])) {
                 $mail->Body = "
                 <html>
                 <body>
-                    <p>Greetings!</p>
-                    <p>To complete your Forgot Password Account with BSIT Grading Information Management System, click <a href='https://collegeofinfotech.com/forgot-password2.php?code=$verification_code&email=$email&username=$username'>Register</a>.</p>
-                    <p><b>Important Notice:</b> Never share this link with anyone to protect your account from unauthorized access.</p>
-                    <p>If you did not expect this message, please ignore this email.</p>
+                      <p>Greetings!</p>
+                      <p>To complete your Forgot Password Account with BSIT Grading Information Management System, click <a href='https://collegeofinfotech.com/forgot-password2.php?code=$verification_code&email=$email'>Register</a>.</p>
+                      <p><b>Important Notice:</b> Never share this link with anyone to protect your account from unauthorized access.</p>
+                      <p>If you did not expect this message, please ignore this email.</p>
                 </body>
                 </html>";
 
