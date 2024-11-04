@@ -9,6 +9,10 @@ require_once "phpmailer/src/Exception.php";
 require_once "phpmailer/src/PHPMailer.php";
 require_once "phpmailer/src/SMTP.php";
 
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $redirectRequired = false;
@@ -29,17 +33,21 @@ if (isset($_POST['submit'])) {
             // Check email usage in the database
             $stmt = $connection->prepare("SELECT used, username FROM ms_account WHERE username = :email");
             $stmt->bindParam(':email', $email);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$result) {
-                $_SESSION['status'] = "Email not found. Please visit the BSIT office to get an MS 365 Account.";
+            if (!$stmt->execute()) {
+                $_SESSION['status'] = "Database error while checking email.";
                 $_SESSION['status_code'] = "error";
                 $redirectRequired = true;
-            } elseif ($result['used'] == 1) {
-                $_SESSION['status'] = "This email has already been used.";
-                $_SESSION['status_code'] = "error";
-                $redirectRequired = true;
+            } else {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$result) {
+                    $_SESSION['status'] = "Email not found. Please visit the BSIT office to get an MS 365 Account.";
+                    $_SESSION['status_code'] = "error";
+                    $redirectRequired = true;
+                } elseif ($result['used'] == 1) {
+                    $_SESSION['status'] = "This email has already been used.";
+                    $_SESSION['status_code'] = "error";
+                    $redirectRequired = true;
+                }
             }
         }
     }
@@ -95,7 +103,7 @@ if (isset($_POST['submit'])) {
         }
     } else {
         error_log("MySQL execute error: " . implode(', ', $stmt->errorInfo()));
-        $_SESSION['status'] = "Database error. Please try again later.";
+        $_SESSION['status'] = "Database error while updating verification code.";
         $_SESSION['status_code'] = "error";
     }
 

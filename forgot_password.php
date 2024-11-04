@@ -32,7 +32,7 @@ session_start();
    
     <div class="input-field">
         <i class="fas fa-envelope"></i>
-        <input type="text" placeholder="Microsoft 365 Account Email" name="email" required />
+        <input type="email" placeholder="Microsoft 365 Account Email" name="email" required />
     </div>
     <input type="submit" value="Submit" name="submit" class="btn solid" />
     <button type="button" class="btn cancel" id="cancelButton" style="height: 44px;">Cancel</button>
