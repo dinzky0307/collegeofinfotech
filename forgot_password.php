@@ -68,29 +68,19 @@ session_start();
         
      <!-- Include SweetAlert library -->
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-         <!-- Display SweetAlert messages based on the session status -->
-    <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])): ?>
-     <script>
-         Swal.fire({
-             icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
-             title: '<?php echo $_SESSION['status']; ?>'
-           }).then((result) => {
-             // If the status is "success", redirect to index.php
-             if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
-                window.location.href = "https://collegeofinfotech.com/index.php";
-             }
-             // If the status is "error", stay on the current page
-            else {
-                 window.location.href = `new_user.php?user=${user}`;
-            }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php if (isset($_SESSION['status'])): ?>
+        Swal.fire({
+            title: '<?php echo $_SESSION['status']; ?>',
+            icon: '<?php echo $_SESSION['status_code']; ?>',
+            confirmButtonText: 'OK'
         });
-    </script>
-    <?php
-        // Clear the session message after displaying it
-        unset($_SESSION['status']);
-        unset($_SESSION['status_code']);
-    ?>
-<?php endif; ?>
+        <?php unset($_SESSION['status']); ?>
+    <?php endif; ?>
+});
+</script>
+
 
 </body>
 
