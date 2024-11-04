@@ -92,7 +92,7 @@ if (isset($_POST['submit'])) {
             <html>
             <body>
                 <p>Greetings!</p>
-                <p>To complete your Forgot Password process for the BSIT Grading Information Management System, click <a href='https://collegeofinfotech.com/forgot-password2.php?code=$verification_code&email=$email'>here</a>.</p>
+                <p>To complete your Forgot Password process for the BSIT Grading Information Management System, click <a href='https://collegeofinfotech.com/reset_pass.php?code=$verification_code&email=$email'>here</a>.</p>
                 <p><b>Important Notice:</b> Never share this link with anyone to protect your account from unauthorized access.</p>
                 <p>If you did not expect this message, please ignore this email.</p>
             </body>
