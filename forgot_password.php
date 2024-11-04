@@ -110,7 +110,7 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="text" placeholder="Email" name="email" required />
+                        <input type="text" placeholder="Microsoft Account 365 Email" name="email" required />
                     </div>
                     <input type="submit" value="Submit" name="submit" class="btn solid" />
                     <button type="button" class="btn cancel" id="cancelButton" style="height: 44px;">Cancel</button>
