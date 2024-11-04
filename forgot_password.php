@@ -18,8 +18,7 @@ if (isset($_POST['submit'])) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['status'] = "Invalid Email: Please enter a valid MS 365 email address.";
         $_SESSION['status_code'] = "error";
-        header("Location: forgot_password.php");
-        exit();
+     
     }
 
     // Verify domain
@@ -27,8 +26,7 @@ if (isset($_POST['submit'])) {
     if ($domain !== 'mcclawis.edu.ph') {
         $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph domain.";
         $_SESSION['status_code'] = "error";
-        header("Location: forgot_password.php");
-        exit();
+      
     }
 
     // Check email usage in the database
