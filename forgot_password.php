@@ -26,7 +26,7 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="" method="post" class="sign-in-form">
+                <form action="forgot-password2.php" method="post" class="sign-in-form">
                     <h2 class="title">Forgot Password</h2>
                     <div class="form-group">
                         <?php if (isset($errorMessage)): ?>
