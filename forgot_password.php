@@ -69,28 +69,33 @@ session_start();
      <!-- Include SweetAlert library -->
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          <!-- Display SweetAlert messages based on the session status -->
-    <?php if (isset($_SESSION['status'])): ?>
-     <script>
-         Swal.fire({
-             icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
-             title: '<?php echo $_SESSION['status']; ?>'
-           }).then((result) => {
-             // If the status is "success", redirect to index.php
-             if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
+         <?php if (isset($_SESSION['status'])): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
+            title: '<?php echo $_SESSION['status']; ?>',
+            text: '<?php echo $_SESSION['status_code'] === "success" ? "Operation was successful!" : "There was an error. Please try again.";?>', // Optional additional text
+            confirmButtonText: 'OK' // Button text for confirmation
+        }).then((result) => {
+            // If the status is "success", redirect to index.php
+            if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
                 window.location.href = "https://collegeofinfotech.com/index.php";
-             }
-             // If the status is "error", stay on the current page
-            else {
-                 window.location.href = `new_user.php?user=${user}`;
+            } else {
+                // If the status is "error", redirect to new_user.php with a user query parameter
+                const user = '<?php echo isset($user) ? $user : ''; ?>'; // Ensure user variable is defined
+                window.location.href = `forgot_password.php?user=${user}`;
             }
         });
-    </script>
-    <?php
-        // Clear the session message after displaying it
-        unset($_SESSION['status']);
-        unset($_SESSION['status_code']);
-    ?>
+    });
+</script>
+<?php
+    // Clear the session message after displaying it
+    unset($_SESSION['status']);
+    unset($_SESSION['status_code']);
+?>
 <?php endif; ?>
+
 
 </body>
 
