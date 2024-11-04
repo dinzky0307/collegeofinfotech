@@ -1,6 +1,11 @@
 <?php
 session_start(); // Ensure session is started
-include 'config.php';
+include 'database.php'; // Ensure this contains your database connection setup
+
+// Check if the connection is established
+if (!isset($connection)) {
+    die("Database connection failed.");
+}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -74,7 +79,7 @@ if (isset($_POST['submit'])) {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'collegeofinfotech2023@gmail.com'; // Use environment variable for security
-            $mail->Password = 'ohwp vvlw pfyx xkfo'; // Use environment variable for security
+            $mail->Password = 'your_password'; // Use environment variable for security
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
@@ -115,4 +120,3 @@ if (isset($_POST['submit'])) {
     header("Location: forgot_password.php");
     exit();
 }
-?>
