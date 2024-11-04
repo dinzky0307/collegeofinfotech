@@ -22,7 +22,6 @@ if (isset($_POST['registration_link'])) {
         header("Location: new_user.php?user=$username");
         exit();
     }
-
     // Verify domain
     $domain = substr(strrchr($email, "@"), 1);
     if ($domain !== 'mcclawis.edu.ph') {
