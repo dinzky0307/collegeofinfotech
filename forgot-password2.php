@@ -1,4 +1,5 @@
 <?php
+session_start(); // Ensure session is started
 include 'config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -15,14 +16,12 @@ if (isset($_POST['submit'])) {
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['status'] = "Invalid Email: Please enter a valid MS 365 email address.";
-        $_SESSION['status_code'] = "error";
         $redirectRequired = true;
     } else {
         // Verify domain
         $domain = substr(strrchr($email, "@"), 1);
         if ($domain !== 'mcclawis.edu.ph') {
             $_SESSION['status'] = "Invalid: Please enter an email address with the mcclawis.edu.ph domain.";
-            $_SESSION['status_code'] = "error";
             $redirectRequired = true;
         } else {
             // Check email usage in the database
@@ -33,11 +32,9 @@ if (isset($_POST['submit'])) {
 
             if (!$result) {
                 $_SESSION['status'] = "Email not found. Please visit the BSIT office to get MS 365 Account.";
-                $_SESSION['status_code'] = "error";
                 $redirectRequired = true;
             } elseif ($result['used'] == 1) {
                 $_SESSION['status'] = "This email has already been used.";
-                $_SESSION['status_code'] = "error";
                 $redirectRequired = true;
             }
         }
@@ -57,6 +54,7 @@ if (isset($_POST['submit'])) {
     $stmt->bindParam(':username', $username);
 
     if ($stmt->execute()) {
+        // Other updates
         $tables = ['student', 'teacher'];
         foreach ($tables as $table) {
             $updateTableQuery = "UPDATE $table SET email = :email WHERE " . ($table === 'student' ? 'studid' : 'teachid') . " = :username";
@@ -103,21 +101,17 @@ if (isset($_POST['submit'])) {
 
                 $mail->send();
                 $_SESSION['status'] = "Registration link sent. Please check your email on Outlook.";
-                $_SESSION['status_code'] = "success";
             } catch (Exception $e) {
                 error_log("Mailer Error: " . $mail->ErrorInfo);
                 $_SESSION['status'] = "Unable to send the registration link at this moment.";
-                $_SESSION['status_code'] = "error";
             }
         } else {
             error_log("MySQL execute error: " . $stmt->errorInfo()[2]);
             $_SESSION['status'] = "Database error. Please try again later.";
-            $_SESSION['status_code'] = "error";
         }
     } else {
         error_log("Update query error: " . $stmt->errorInfo()[2]);
         $_SESSION['status'] = "Unable to update records. Please try again.";
-        $_SESSION['status_code'] = "error";
     }
 
     // Final redirection after processing
@@ -125,8 +119,6 @@ if (isset($_POST['submit'])) {
     exit();
 } else {
     $_SESSION['status'] = "Invalid request.";
-    $_SESSION['status_code'] = "error";
     header("Location: forgot_password.php");
     exit();
 }
-?>

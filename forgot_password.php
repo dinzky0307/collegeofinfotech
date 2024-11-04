@@ -29,9 +29,9 @@
                 <form action="forgot-password2.php" method="post" class="sign-in-form">
                     <h2 class="title">Forgot Password</h2>
                     <div class="form-group">
-                        <?php if (isset($errorMessage)): ?>
-                            <p style="color: red;"><?php echo $errorMessage; ?></p>
-                        <?php endif; ?>
+                    <?php if (isset($_SESSION['status'])): ?>
+                     <p style="color: red;"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
+                       <?php endif; ?>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
