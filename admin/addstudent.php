@@ -2,117 +2,74 @@
 include('include/header.php');
 include('include/sidebar.php');
 include('../database.php'); // Include the database connection code
-
 include('data/student_model.php');
 
-$student = new Datastudent($connection); // Create an instance of the Datastudent class and pass the connection as a parameter
+$student = new Datastudent($connection); // Create an instance of the Datastudent class
 
-if (isset($_GET['q'])) {
-    $studentModel->$_GET['q']();
-}
+// Fetch active academic year and semester
+$activeAcademicYear = "";
+$activeSemester = "";
 
-$search = isset($_POST['search']) ? $_POST['search'] : null;
-$student = $student->getstudent($search, null, null, null, $connection);
-
-$studid = "";
-$lname = "";
-$fname = "";
-$mname = "";
-$email = "";
-$year = "";
-$section = "";
-$semester = "";
-$ay = "";
-
-if (isset($_POST['addStudent'])) {
-    if (strlen($_POST['studid']) > 9 || strlen($_POST['studid']) < 9) {
-        echo "<script type='text/javascript'>";
-        echo "Swal.fire({
-           title: 'ID must not be less or greater than 9 characters',
-           icon: 'error',
-         })";
-        echo "</script>";
-    } else {
-        $studid = $_POST['studid'];
-        $lname = $_POST['lname'];
-        $fname = $_POST['fname'];
-        $mname = $_POST['mname'];
-        $email = $_POST['email'];
-        $year = $_POST['year'];
-        $section = $_POST['section'];
-        $semester = $_POST['semester'];
-        $ay = $_POST['sy'];
-      
-      // Check existing ID and academic year
-        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
-        $existStatement->execute([$_POST['studid'], $_POST['sy'], $_POST['semester']]);
-       // $existStatement->execute([$studid, $ay, $semester]);
-        $existStatement->setFetchMode(PDO::FETCH_ASSOC);
-        $exists = $existStatement->fetch();
-       
-        if ($exists) {
-            echo "<script type='text/javascript'>";
-            echo "Swal.fire({
-               title: '{$_POST['studid']} ID already exists!',
-               icon: 'error',
-             })";
-            echo "</script>";
-        } else {
-            $sql = "INSERT INTO student (studid, lname, fname, mname,email, year, section, semester,ay)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $connection->prepare($sql)->execute([
-                $_POST['studid'],
-                $_POST['lname'],
-                $_POST['fname'],
-                $_POST['mname'],
-                $_POST['email'],
-                $_POST['year'],
-                $_POST['section'],
-                $_POST['semester'],
-                $_POST['sy']
-            ]);
-
-            $username = $_POST['studid'];
-            $fname = $_POST['fname'];
-            $lname = $_POST['lname'];
-            $password = password_hash($username, PASSWORD_DEFAULT);
-
-            $q_create_user_student = "insert into userdata values(null,'$username', '$email', '$password','$fname','$lname','student')";
-            $save = mysql_query($q_create_user_student);
-
-            if ($save) {
-                echo "<script type='text/javascript'>";
-                echo "Swal.fire({
-                   title: 'Student successfully added!',
-                   icon: 'success',
-                 })";
-                echo "</script>";
-                // Redirect with parameters
-                echo "<script type='text/javascript'>window.location.href = 'enrollsubject.php?id=$studid&y=$year&s=$semester';</script>";
-                exit;
-            } else {
-                echo "<script type='text/javascript'>";
-                echo "Swal.fire({
-                   title: 'Student not added!',
-                   icon: 'warning',
-                 })";
-                echo "</script>";
-            }
-        }
-    }
-}
-$activeAcademicYear = ""; // variable to store active academic year
-$activeSemester = ""; // variable to store active semester
-
-// Query database to fetch active academic year and semester
 $query = "SELECT academic_year, semester FROM ay WHERE display = 1";
-$result = mysql_query($query);
-if ($row = mysql_fetch_assoc($result)) {
+$result = $connection->query($query);
+if ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $activeAcademicYear = $row['academic_year'];
     $activeSemester = $row['semester'];
 }
 
+// Initialize student details
+$studid = $lname = $fname = $mname = $email = $year = $section = $semester = $ay = "";
+
+if (isset($_POST['addStudent'])) {
+    $studid = $_POST['studid'];
+    $lname = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $mname = $_POST['mname'];
+    $email = $_POST['email'];
+    $year = $_POST['year'];
+    $section = $_POST['section'];
+    $semester = $_POST['semester'];
+    $ay = $_POST['sy'];
+
+    // Validate student ID length
+    if (strlen($studid) !== 9) {
+        echo "<script>Swal.fire({ title: 'ID must be exactly 9 characters', icon: 'error' });</script>";
+    } else {
+        // Check if student ID already exists for this AY and semester
+        $existStatement = $connection->prepare("SELECT studid FROM student WHERE studid = ? AND ay = ? AND semester = ?");
+        $existStatement->execute([$studid, $ay, $semester]);
+        $exists = $existStatement->fetch();
+
+        if ($exists) {
+            echo "<script>Swal.fire({ title: 'ID $studid already exists!', icon: 'error' });</script>";
+        } else {
+            // Insert new student record
+            $insertStudent = $connection->prepare("INSERT INTO student (studid, lname, fname, mname, email, year, section, semester, ay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $studentSaved = $insertStudent->execute([$studid, $lname, $fname, $mname, $email, $year, $section, $semester, $ay]);
+
+            // Insert into user data if student was saved
+            if ($studentSaved) {
+                $username = $studid;
+                $password = password_hash($username, PASSWORD_DEFAULT);
+                
+                $insertUser = $connection->prepare("INSERT INTO userdata (username, email, password, fname, lname, level) VALUES (?, ?, ?, ?, ?, ?)");
+                $userSaved = $insertUser->execute([$username, $email, $password, $fname, $lname, 'student']);
+
+                if ($userSaved) {
+                    echo "<script>Swal.fire({ title: 'Student successfully added!', icon: 'success' });</script>";
+                    echo "<script>window.location.href = 'enrollsubject.php?id=$studid&y=$year&s=$semester';</script>";
+                    exit;
+                } else {
+                    echo "<script>Swal.fire({ title: 'User account not added!', icon: 'warning' });</script>";
+                }
+            } else {
+                echo "<script>Swal.fire({ title: 'Student not added!', icon: 'warning' });</script>";
+            }
+        }
+    }
+}
 ?>
+
 <style>
     .form-control {
         height: 45px;
