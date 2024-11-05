@@ -85,56 +85,52 @@ if (isset($_POST['confirm'])) {
 
 </head>
 <style>
-    /* Dropdown Button */
-    .dropbtn {
-        background-color: ;
-        color: black;
-        padding: 7px;
-        font-size: 14px;
+        .box-size {
+        text-align: center;
+        width: 70px;
+        height: 25px;
+        padding: 6px 12px;
+        color: #555;
+        background-color: transparent;
         border: none;
-        border-radius: 3px;
+        margin-top: -7px;
     }
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: inner-spin-button;
+            display: inline-block;
+            cursor: default;
+            flex: 0 0 auto;
+            align-self: stretch;
+            -webkit-user-select: none;
+            opacity: 0;
+            pointer-events: none;
+            -webkit-user-modify: read-only;
+        }
+            .btn-text-right{
+                text-align: right;
+        }
 
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
 
-    /* Dropdown Content (Hidden by Default) */
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: white;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-        border-radius: 4px;
-    }
-
-    /* Links inside the dropdown */
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {
-        background-color: orange;
-        border-radius: 4px;
-    }
-
-    /* Show the dropdown menu on hover */
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    /* Change the background color of the dropdown button when the dropdown content is shown */
-    .dropdown:hover .dropbtn {
-        background-color: orange;
-    }
+        .dropdown-menu-right {
+          text-align: left;
+          min-width: 160px;
+     }
+.dropdown-menu a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.dropdown-menu a i {
+    margin-right: 8px;
+}
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+.text-danger {
+    color: #d9534f !important;
+}
 </style>
 
 <body>
@@ -151,14 +147,39 @@ if (isset($_POST['confirm'])) {
                 <a class="navbar-brand" href="index.php">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <div class="navbar-form navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn btn-primary" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+                        <i class="fa fa-user" > </i>&nbsp;&nbsp;<?php echo $_SESSION['name']; ?> <span class="caret"></span>
+                    </a>
+                  <ul class="dropdown-menu">
+                       <li class="">
+                           <a href="index.php">
+                               <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                           </a>
+                       </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#changepass">
+                                <li><a href="form.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                       <li>
+                           <a href="#" data-toggle="modal" data-target="#changepass">
+                               <i class="fa fa-gear"></i> <span>Change Password</span>
+                           </a>
+                       </li>
+                       <li role="separator" class="divider"></li>
+                       <li>
+                           <a href="../logout.php" class="text-danger">
+                               <i class="fa fa-power-off"></i> Logout
+                           </a>
+                       </li>
+                   </ul>
 
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeEmailModal">
-                        <i class="fa fa-envelope"></i> Change Email
-                    </button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#changepass"><i class="fa fa-gear"></i> Change Password</button>
-                    <a href="../logout.php"><button type="button" class="btn btn-danger" name="submit">Logout</button></a>
-                </div>
+                </li>
+            </ul>
             </div><!--/.navbar-collapse -->
         </div>
     </nav>
