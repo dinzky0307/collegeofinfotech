@@ -144,7 +144,7 @@ if (isset($_POST['confirm'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
+                <a class="navbar-brand" href="index.php"style="font-size: 15px;"></a>>MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -197,10 +197,10 @@ if (isset($_POST['confirm'])) {
 
 
     <div class="container" style="margin-top:60px;" x-data="PasswordHandler">
-        <label class="text-primary" style="color: black; font-size: 20px;">
+        <!-- <label class="text-primary" style="color: black; font-size: 20px;">
             <i class="fa fa-user" style="font-size: 30px;"></i> :
             <?php echo $_SESSION['name']; ?>&nbsp;&nbsp;
-        </label>
+        </label> -->
 
         <!-- Example row of columns -->
         <div class="row">
