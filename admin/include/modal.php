@@ -24,7 +24,7 @@
                     <input type="number" min="1" max="5" class="form-control" name="lecunit" placeholder='Lec Units' required />
                 </div>
                 <div class="form-group">
-                    <input type="number" min="1" max="5" class="form-control" name="labunit" placeholder='Lab Units' required />
+                    <input type="number" min="0" max="5" class="form-control" name="labunit" placeholder='Lab Units' required />
                 </div>
                 <div class="form-group">
                     <input type="number" min="1" max="10" class="form-control" name="totalunit" placeholder='Total Units' required />
