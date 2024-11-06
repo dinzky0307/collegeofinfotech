@@ -1,0 +1,6 @@
+Mobile apps responsive (Login, Forgot Password, Send Verfication 
+Teachers portal and Students portal)
+
+Sweetalerts in login and log out.
+
+Testing for Penetration Testing
