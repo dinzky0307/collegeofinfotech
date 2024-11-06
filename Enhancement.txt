@@ -1,3 +1,10 @@
+Admin Side (Subject List, import csv to userdata table)
+
+
+
+Student portal(Select academic year)
+
+
 Mobile apps responsive (Login, Forgot Password, Send Verfication 
 Teachers portal and Students portal)
 
