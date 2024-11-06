@@ -110,7 +110,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php" style="font-size: 15px;">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
+            <a class="navbar-brand" href="index.php" style="font-size: 13px;">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
         </div>
         
         <!-- Collapsible Navbar -->
