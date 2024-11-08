@@ -219,121 +219,136 @@ if (isset($_POST['confirm'])) {
                         <option value="Second Semester" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Second Semester' ? 'selected' : ''; ?>>Second Semester</option>
                         <option value="Summer" <?php echo isset($_GET['semester']) && $_GET['semester'] === 'Summer' ? 'selected' : ''; ?>>Summer</option>
                     </select>
-                    </form>
-<div class="container mt-3">
-    <table class="table table-bordered table-responsive-sm table-hover">
-        <thead class="table-info">
-            <tr>
-                <th class="text-center">Subject Code</th>
-                <th class="text-center">Subject Description</th>
-                <th class="text-center">Midterm</th>
-                <th class="text-center">Remark</th>
-                <th class="text-center">Final</th>
-                <th class="text-center">Remark</th>
-                <th class="text-center">Final Ratings</th>
-                <th class="text-center">Final Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($mysubject as $row) : ?>
-                <tr>
-                    <td><?php echo $row['code']; ?></td>
-                    <td><?php echo $row['title']; ?></td>
-                    <td class="text-center"><?php echo isset($row['midterm_grade']) ? $row['midterm_grade'] : ''; ?></td>
-                    <td class="text-center">
-                        <?php echo isset($row['midterm_grade']) ? ($row['midterm_grade'] > 3 ? '<span class="text-danger">Failed</span>' : '<span class="text-success">Passed</span>') : '<span class="text-secondary">NG</span>'; ?>
-                    </td>
-                    <td class="text-center"><?php echo isset($row['final_grade']) ? $row['final_grade'] : ''; ?></td>
-                    <td class="text-center">
-                        <?php echo isset($row['final_grade']) ? ($row['final_grade'] > 3 ? '<span class="text-danger">Failed</span>' : '<span class="text-success">Passed</span>') : '<span class="text-secondary">NG</span>'; ?>
-                    </td>
-                    <td class="text-center"><?php echo isset($row['total']) ? sprintf("%.1f", $row['total']) : ''; ?></td>
-                    <td class="text-center">
-                        <?php echo isset($row['total']) ? ($row['total'] > 3 ? '<span class="text-danger">Failed</span>' : '<span class="text-success">Passed</span>') : '<span class="text-secondary">NG</span>'; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+                </form>
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="warning warning-info">
+                                <th class="text-center">Subject Code</th>
+                                <th class="text-center">Subject Description</th>
+                                <th class="text-center">Prelim</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Midterm</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Final</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Final Ratings</th>
+                                <th class="text-center">Final Remarks</th>
+                                <!-- <th class="text-center">Units</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($mysubject as $row) : ?>
+                                <tr>
+                                    <td><?php echo $row['code']; ?></td>
+                                    <td><?php echo $row['title']; ?></td>
+                                    <!-- Display grades -->
+                                    <td class="text-center"><?php echo isset($row['prelim_grade']) ? $row['prelim_grade'] : ''; ?></td>
+                                    <td class="text-center"><?php echo isset($row['prelim_grade']) ? ($row['prelim_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
+                                    <td class="text-center"><?php echo isset($row['midterm_grade']) ? $row['midterm_grade'] : ''; ?></td>
+                                    <td class="text-center"><?php echo isset($row['midterm_grade']) ? ($row['midterm_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
+                                    <td class="text-center"><?php echo isset($row['final_grade']) ? $row['final_grade'] : ''; ?></td>
+                                    <td class="text-center"><?php echo isset($row['final_grade']) ? ($row['final_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
+                                    <td class="text-center"><?php echo isset($row['total']) ? sprintf("%.1f", $row['total']) : ''; ?></td>
+                                    <td class="text-center"><?php echo isset($row['total']) ? ($row['total'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
 
-<div class="container mt-5">
-    <?php
-    if (isset($_POST["delete"])) {
-        $id = $_POST['id'];
-        $sql = "DELETE FROM consultations WHERE id = ?";
-        $stmt = $dbconnection->prepare($sql);
-        $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            echo "<script>
-                Swal.fire({
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top:60px;">
+            <!-- Example row of columns -->
+            <?php
+
+            if (isset($_POST["delete"])) {
+                $id = $_POST['id'];
+                $sql = "delete from consultations where id = '$id'";
+
+                if ($dbconnection->query($sql) === TRUE) {
+                    echo "<script type='text/javascript'>";
+                    echo "Swal.fire({
                     title: 'Record Successfully Deleted',
                     icon: 'success',
-                });
-            </script>";
-        } else {
-            echo "Error Deleting record: " . $dbconnection->error;
-        }
-    }
-    ?>
-    <div class="row">
-        <div class="col-12">
-            <h2 class="text-center">Consultation</h2>
-            <a href="form.php" class="btn btn-success mb-3">Consultation Form</a>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-info">
-                        <tr>
-                            <th class="text-center">Type</th>
-                            <th class="text-center">Consulted to:</th>
-                            <th class="text-center">Concern</th>
-                            <th class="text-center">Date</th>
-                            <th class="text-center">View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($consultations as $consultation) : ?>
-                            <tr>
-                                <td class="text-center"><?php echo $consultation['level']; ?></td>
-                                <td class="text-center"><?php echo $consultation['name']; ?></td>
-                                <td class="text-center"><?php echo $consultation['areas_concern']; ?></td>
-                                <td class="text-center">
-                                    <?php echo Carbon::parse($consultation['created_at'])->format('F d, Y'); ?>
-                                </td>
-                                <td class="text-center">
-                                    <a href="response.php?id=<?php echo $consultation['id']; ?>" class="btn btn-link">View</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for changing email -->
-    <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changeEmailLabel">Change Email</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    })";
+                    echo "</script>";
+                } else {
+                    echo "Error Deleting record: " . $dbconnection->error;
+                }
+            }
+            ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-center">Consultation</h2>
+                    <a href="form.php"><button type="button" class="btn btn-success" name="submit" style=" margin-bottom: 10px;">Consultation Form</button></a>
+                    <div class="">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="warning warning-info">
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Consulted to:</th>
+                                    <th class="text-center">Concern</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">View</th>
+                                    <!--                             <th class="text-center">Delete</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($consultations as $consultation) : ?>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?php echo $consultation['level']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $consultation['name']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $consultation['areas_concern']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            echo Carbon::parse($consultation['created_at'])->format('F d, Y');
+                                            ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="response.php?id=<?php echo $consultation['id']; ?>">View</a>
+                                        </td>
+                                        <!--                                 <td class="text-center">
+                            <form action="" method="POST">
+                            <input type="hidden" name="id" value="<?php echo $consultation['id']; ?>">
+                            <button type="submit" name="delete" style="border: none;"><i class="fa fa-trash-o text-danger fa-lg "></i></button>
+                            </form></td> -->
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="change_email.php" method="post">
-                        <div class="mb-3">
-                            <input type="email" class="form-control" name="new_email" placeholder="New Email Address" required />
+            </div>
+
+            <!-- Modal for changing email -->
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Change Email</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form action="change_email.php" method="post">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="new_email" placeholder="New Email Address" required />
+                                </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Change</button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
             <!-- add modal for subject -->
             <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
