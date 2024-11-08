@@ -74,7 +74,8 @@ if (isset($_POST['confirm'])) {
     <link rel="stylesheet" href="../css/font-awesome.min.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="mystyle.css" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -135,55 +136,48 @@ if (isset($_POST['confirm'])) {
 
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                
-                <a class="navbar-brand" href="index.php"style="font-size: 13px;">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle btn btn-primary" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
-                        <i class="fa fa-user" > </i>&nbsp;&nbsp;<?php echo $_SESSION['name']; ?> <span class="caret"></span>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.php" style="font-size: 15px;">MADRIDEJOS COMMUNITY COLLEGE - BSIT</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle btn btn-primary text-white" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;<?php echo $_SESSION['name']; ?>
                     </a>
-                  <ul class="dropdown-menu">
-                       <li class="">
-                           <a href="index.php">
-                               <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                           </a>
-                       </li>
-                        <li role="separator" class="divider"></li>
+                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#changepass">
-                                <li><a href="form.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                            <a class="dropdown-item" href="index.php">
+                                <i class="fa fa-dashboard"></i> Dashboard
                             </a>
                         </li>
-                        <li role="separator" class="divider"></li>
-                       <li>
-                           <a href="#" data-toggle="modal" data-target="#changepass">
-                               <i class="fa fa-gear"></i> <span>Change Password</span>
-                           </a>
-                       </li>
-                       <li role="separator" class="divider"></li>
-                       <li>
-                           <a href="../logout.php" class="text-danger">
-                               <i class="fa fa-power-off"></i> Logout
-                           </a>
-                       </li>
-                   </ul>
-
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="form.php">
+                                <i class="fa fa-envelope"></i> Consultation
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changepass">
+                                <i class="fa fa-gear"></i> Change Password
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="../logout.php">
+                                <i class="fa fa-power-off"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-            </div><!--/.navbar-collapse -->
         </div>
-    </nav>
+    </div>
+</nav>
 
     <?php
     include('connection.php');
