@@ -1,6 +1,10 @@
 Admin Side (Subject List, import csv to userdata table)
 
-ok
+Teachers Side
+remove the average, equivalent, 
+
+Students Side
+Midterm Finals , Midterm , Final Ratings, Midterm Remarks, Final Remarks, Final Ratings
 
 Student portal(Select academic year)
 
