@@ -226,8 +226,8 @@ if (isset($_POST['confirm'])) {
                             <tr class="warning warning-info">
                                 <th class="text-center">Subject Code</th>
                                 <th class="text-center">Subject Description</th>
-                                <th class="text-center">Prelim</th>
-                                <th class="text-center">Remark</th>
+                                <!-- <th class="text-center">Prelim</th> -->
+                                <!-- <th class="text-center">Remark</th> -->
                                 <th class="text-center">Midterm</th>
                                 <th class="text-center">Remark</th>
                                 <th class="text-center">Final</th>
@@ -243,8 +243,8 @@ if (isset($_POST['confirm'])) {
                                     <td><?php echo $row['code']; ?></td>
                                     <td><?php echo $row['title']; ?></td>
                                     <!-- Display grades -->
-                                    <td class="text-center"><?php echo isset($row['prelim_grade']) ? $row['prelim_grade'] : ''; ?></td>
-                                    <td class="text-center"><?php echo isset($row['prelim_grade']) ? ($row['prelim_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
+                                    <!-- <td class="text-center"><?php echo isset($row['prelim_grade']) ? $row['prelim_grade'] : ''; ?></td> -->
+                                    <!-- <td class="text-center"><?php echo isset($row['prelim_grade']) ? ($row['prelim_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td> -->
                                     <td class="text-center"><?php echo isset($row['midterm_grade']) ? $row['midterm_grade'] : ''; ?></td>
                                     <td class="text-center"><?php echo isset($row['midterm_grade']) ? ($row['midterm_grade'] > 3 ? '<font color="red">Failed</font>' : '<font color="green">Passed</font>') : '<font color="black">NG</font>'; ?></td>
                                     <td class="text-center"><?php echo isset($row['final_grade']) ? $row['final_grade'] : ''; ?></td>
