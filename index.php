@@ -47,8 +47,6 @@ if (isset($_SESSION['level'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,15 +82,15 @@ if (isset($_SESSION['level'])) {
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="pass" required />
+            <input type="password" placeholder="Password" id="password" name="pass" required />
+            <i class="fas fa-eye eye-icon" id="toggleNewPassword" onclick="togglePassword('password', 'toggleNewPassword')"></i>
           </div>
-          <input type="submit" value="Login" name="submit" class="btn solid" style="" />
+          <input type="submit" value="Login" name="submit" class="btn solid" />
           <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a
               href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a></p>
         </form>
       </div>
     </div>
-
 
     <div class="panels-container">
       <div class="panel left-panel" style="max-height: 87%">
@@ -104,32 +102,27 @@ if (isset($_SESSION['level'])) {
           <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
   color: #f0f0f0;">College of Computer Studies</h2>
         </div>
-        <!-- <img src="img/register.svg" class="image" alt=""/> -->
       </div>
     </div>
   </div>
 
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-  <!--   <script src="app.js"></script> -->
+  
   <script>
-    window.addEventListener('DOMContentLoaded', (event) =>
-    {
-      function focusOnUsername()
-      {
-        const usernameInput = document.querySelector('input[name="user"]');
-        if (usernameInput)
-        {
-          usernameInput.focus(); // Focus on the username input field
-        }
-      }
+    function togglePassword(passwordId, toggleId) {
+        const passwordField = document.getElementById(passwordId);
+        const toggleIcon = document.getElementById(toggleId);
 
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile)
-      {
-        focusOnUsername(); // Call the focus function for mobile devices
-      }
-    });
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = "password";
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
   </script>
 </body>
-
 </html>
