@@ -71,10 +71,12 @@ if (isset($_SESSION['level'])) {
             }
             ?>" required />
           </div>
+          <div class="input-field">
           <div class="password-container">
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" id="password" name="pass" required />
             <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePassword()"></i>
+            </div>
           </div>
           <input type="submit" value="Login" name="submit" class="btn solid" />
           <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a
