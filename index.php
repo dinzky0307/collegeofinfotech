@@ -16,11 +16,9 @@ if (isset($_POST['submit'])) {
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
-                // Redirect to new user alert page safely
                 header('location: new_user.php?user=' . urlencode($user));
                 exit();
             } else {
-                // User is not new, proceed with login
                 session_start();
                 $_SESSION['message'] = "You are now logged in.";
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
@@ -31,17 +29,14 @@ if (isset($_POST['submit'])) {
                 exit();
             }
         } else {
-            // Redirect to login page with an error message if credentials are invalid
             header('location:index.php?login=0');
         }
     } catch (PDOException $e) {
-        // Handle database errors
         error_log("Database error: " . $e->getMessage());
         header('location:index.php?login=0');
     }
 }
 
-// If the user is already logged in, redirect them based on their level
 if (isset($_SESSION['level'])) {
     header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'));
 }
@@ -56,7 +51,6 @@ if (isset($_SESSION['level'])) {
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="img/mcc.png">
-
   <title>InfoTech</title>
   <link rel="stylesheet" href="css/style1.css" />
 </head>
@@ -83,7 +77,7 @@ if (isset($_SESSION['level'])) {
           <div class="input-field">
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" id="password" name="pass" required />
-            <i class="fas fa-eye eye-icon" id="toggleNewPassword" onclick="togglePassword('password', 'toggleNewPassword')"></i>
+            <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePassword()"></i>
           </div>
           <input type="submit" value="Login" name="submit" class="btn solid" />
           <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a
@@ -109,18 +103,18 @@ if (isset($_SESSION['level'])) {
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
   
   <script>
-    function togglePassword(passwordId, toggleId) {
-        const passwordField = document.getElementById(passwordId);
-        const toggleIcon = document.getElementById(toggleId);
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const toggleIcon = document.getElementById("togglePassword");
 
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
+            toggleIcon.classList.remove("fa-eye");
+            toggleIcon.classList.add("fa-eye-slash");
         } else {
             passwordField.type = "password";
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
+            toggleIcon.classList.remove("fa-eye-slash");
+            toggleIcon.classList.add("fa-eye");
         }
     }
   </script>
