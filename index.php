@@ -2,18 +2,15 @@
 include 'database.php';
 
 if (isset($_POST['submit'])) {
-    // Sanitize user inputs to prevent XSS
     $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
     $pass = $_POST['pass'];
 
     try {
-        // Use a prepared statement to prevent SQL injection
         $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
         $stmt->bindParam(':user', $user, PDO::PARAM_STR);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
                 header('location: new_user.php?user=' . urlencode($user));
@@ -77,7 +74,7 @@ if (isset($_SESSION['level'])) {
           <div class="input-field">
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" id="password" name="pass" required />
-           
+            <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePassword()"></i>
           </div>
           <input type="submit" value="Login" name="submit" class="btn solid" />
           <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a
@@ -91,10 +88,8 @@ if (isset($_SESSION['level'])) {
         <div class="content">
           <img src="img/mcc.png" alt="mcc" width="230" height="200"
             style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
-          <p class="p" style=" text-shadow: 1px 2px 3px black;
-  color: #f0f0f0;"></p>
-          <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
-  color: #f0f0f0;">College of Computer Studies</h2>
+          <p class="p" style=" text-shadow: 1px 2px 3px black; color: #f0f0f0;"></p>
+          <h2 class="h2" style=" text-shadow: 1px 3px 3px black; color: #f0f0f0;">College of Computer Studies</h2>
         </div>
       </div>
     </div>
