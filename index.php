@@ -97,12 +97,12 @@ if (isset($_SESSION['level'])) {
     <div class="panels-container">
       <div class="panel left-panel" style="max-height: 87%">
         <div class="content">
-          <img src="img/mcc.png" alt="mcc" width="230" height="200"
-            style="padding: 0 4px; margin-bottom: 95px; margin-right: 50px; margin-top: 30px;">
+          <img src="img/mcc.png" alt="mcc" width="190" height="180"
+            style="padding: 0 4px; margin-bottom: 95px; margin-right: auto; margin-top: auto;">
           <p class="p" style=" text-shadow: 1px 2px 3px black;
   color: #f0f0f0;"></p>
           <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
-  color: #f0f0f0; margin-left: 50px;">College of Computer Studies</h2>
+  color: #f0f0f0; margin-left: 50px;  ">College of Computer Studies</h2>
         </div>
         <!-- <img src="img/register.svg" class="image" alt=""/> -->
       </div>
