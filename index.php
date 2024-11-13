@@ -56,7 +56,6 @@ if (isset($_SESSION['level'])) {
     </script>";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
