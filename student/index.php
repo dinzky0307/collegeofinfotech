@@ -191,7 +191,7 @@ if (isset($_POST['confirm'])) {
     ?>
 
 
-    <div class="container-md" style="margin-top:60px;" x-data="PasswordHandler">
+    <div class="container" style="margin-top:60px;" x-data="PasswordHandler">
         <!-- <label class="text-primary" style="color: black; font-size: 20px;">
             <i class="fa fa-user" style="font-size: 30px;"></i> :
             <?php echo $_SESSION['name']; ?>&nbsp;&nbsp;
