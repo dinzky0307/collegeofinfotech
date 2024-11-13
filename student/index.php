@@ -200,7 +200,7 @@ if (isset($_POST['confirm'])) {
         <!-- Example row of columns -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-center">Report of Grades</h2>
+                <h2 class="text-center" style="margin-left: 90px; margin-top: 20px;">Report of Grades</h2>
                 <form id="yearSemesterForm">
                     <label for="cars">Select Year:</label>
                     <select name="year" id="year" class="dropbtn" onchange="submitYearSemester()">
