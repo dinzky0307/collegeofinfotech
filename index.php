@@ -82,7 +82,7 @@ if (isset($_SESSION['level'])) {
   <div class="input-field">
     <i class="fas fa-lock"></i>
     <input type="password" placeholder="Password" name="pass" id="password" required />
-    <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; margin-left: -30px;"></i>
+    <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; margin-right: -30px;"></i>
   </div>
   <input type="submit" value="Login" name="submit" class="btn solid" />
   <p style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
