@@ -102,7 +102,7 @@ if (isset($_SESSION['level'])) {
           <p class="p" style=" text-shadow: 1px 2px 3px black;
   color: #f0f0f0;"></p>
           <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
-  color: #f0f0f0;">College of Computer Studies</h2>
+  color: #f0f0f0; margin-left: 50px;">College of Computer Studies</h2>
         </div>
         <!-- <img src="img/register.svg" class="image" alt=""/> -->
       </div>
