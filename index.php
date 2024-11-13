@@ -33,8 +33,6 @@ if (isset($_POST['submit'])) {
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
-
-              
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
