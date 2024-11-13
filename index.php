@@ -1,5 +1,8 @@
 <?php
 include 'database.php';
+session_start();
+
+$loginSuccess = false;  // Initialize variable to track successful login
 
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
@@ -23,17 +26,13 @@ if (isset($_POST['submit'])) {
                 exit();
             } else {
                 // User is not new, proceed with login
-                session_start();
                 $_SESSION['message'] = "You are now logged in.";
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
 
-                // Trigger SweetAlert for successful login
-                echo "<script>
-                    let loginSuccess = true;
-                </script>";
+                $loginSuccess = true;  // Set success flag for SweetAlert
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
@@ -155,8 +154,11 @@ if (isset($_SESSION['level'])) {
     });
   </script>
    <script>
-    // Check for login success, failure, or database error and show SweetAlert notifications
-    if (typeof loginSuccess !== 'undefined' && loginSuccess) {
+    // PHP variable to JS to trigger SweetAlert
+    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
+
+    // Show SweetAlert notifications based on login status
+    if (loginSuccess) {
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
