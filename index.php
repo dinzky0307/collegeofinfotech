@@ -67,29 +67,44 @@ if (isset($_SESSION['level'])) {
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
-        <form action="" method="post" class="sign-in-form">
-          <h2 class="title">Log In</h2>
-          <div class="form-group" style="color: red;">
-            <?php if (isset($_GET['login'])): ?>
-              <label class="text-danger">Invalid Username/Password try again</label>&nbsp;
-            <?php endif; ?>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="ID number" name="user" value="<?php
-            if (isset($_SESSION['username'])) {
-              echo $_SESSION['username'];
-            }
-            ?>" required />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="pass" required />
-          </div>
-          <input type="submit" value="Login" name="submit" class="btn solid" style="" />
-          <p style="display: flex;justify-content: center;align-items: center;margin-top: 20px;"><a
-              href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a></p>
-        </form>
+      <form action="" method="post" class="sign-in-form">
+  <h2 class="title">Log In</h2>
+  <div class="form-group" style="color: red;">
+    <?php if (isset($_GET['login'])): ?>
+      <label class="text-danger">Invalid Username/Password. Try again.</label>&nbsp;
+    <?php endif; ?>
+  </div>
+  <div class="input-field">
+    <i class="fas fa-user"></i>
+    <input type="text" placeholder="ID number" name="user" 
+           value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
+  </div>
+  <div class="input-field">
+    <i class="fas fa-lock"></i>
+    <input type="password" placeholder="Password" name="pass" id="password" required />
+    <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; margin-left: -30px;"></i>
+  </div>
+  <input type="submit" value="Login" name="submit" class="btn solid" />
+  <p style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+    <a href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a>
+  </p>
+</form>
+
+<script>
+  // Toggle password visibility
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordField = document.getElementById('password');
+
+  togglePassword.addEventListener('click', () => {
+    // Toggle the type attribute
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    
+    // Toggle the eye icon
+    togglePassword.classList.toggle('fa-eye-slash');
+  });
+</script>
+
       </div>
     </div>
 
