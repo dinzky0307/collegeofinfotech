@@ -18,8 +18,8 @@ if (isset($_POST['submit'])) {
 
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
+            // If user is new (display == 0), prompt them to complete their profile
             if ($row['display'] == 0) {
-                // User is new, redirect to the new user page with a parameter
                 $_SESSION['user'] = $user;  // Store user in session
                 echo "<script>
                     window.onload = function() {
@@ -34,16 +34,15 @@ if (isset($_POST['submit'])) {
                         });
                     };
                 </script>";
-                exit();  // Stop further execution
+                exit();  // Stop further execution after redirection
             } else {
                 // User is not new, proceed with login
-                $_SESSION['message'] = "You are now logged in."; // Store login message
-                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['level'] = $row['level'];  // Set user level
+                $_SESSION['id'] = $row['username'];  // Set user ID
+                $_SESSION['user_id'] = $row['id'];   // Set user ID (numeric ID)
+                $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];  // Set user's full name
 
-                // Show login success message
+                // Successful login message and redirect based on user level
                 echo "<script>
                     window.onload = function() {
                         Swal.fire({
@@ -57,7 +56,7 @@ if (isset($_POST['submit'])) {
                         });
                     };
                 </script>";
-                exit();  // Stop further execution
+                exit();  // Stop further execution after redirection
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
@@ -93,6 +92,7 @@ if (isset($_SESSION['level'])) {
     </script>";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
