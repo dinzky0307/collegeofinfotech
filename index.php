@@ -56,103 +56,74 @@ if (isset($_SESSION['level'])) {
     </script>";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="img/mcc.png">
-
   <title>InfoTech</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="css/style1.css" />
 </head>
-
 <body>
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
-      <form action="" method="post" class="sign-in-form">
-  <h2 class="title">Log In</h2>
-  <div class="form-group" style="color: red;">
-    <?php if (isset($_GET['login'])): ?>
-      <label class="text-danger">Invalid Username/Password. Try again.</label>&nbsp;
-    <?php endif; ?>
-  </div>
-  <div class="input-field">
-    <i class="fas fa-user"></i>
-    <input type="text" placeholder="ID number" name="user" 
-           value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
-  </div>
-  <div class="input-field">
-  <input type="password" placeholder="Password" name="pass" id="password" required />
-  <i class="fas fa-eye" id="togglePassword"></i>
-</div>
-  <input type="submit" value="Login" name="submit" class="btn solid" />
-  <p style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
-    <a href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a>
-  </p>
-</form>
+        <form action="" method="post" class="sign-in-form">
+          <h2 class="title">Log In</h2>
+          <div class="form-group" style="color: red;">
+            <?php if (isset($_GET['login'])): ?>
+              <label class="text-danger">Invalid Username/Password. Try again.</label>&nbsp;
+            <?php endif; ?>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="ID number" name="user" 
+              value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
+          </div>
+          <div class="input-field">
+            <input type="password" placeholder="Password" name="pass" id="password" required />
+            <i class="fas fa-eye" id="togglePassword"></i>
+          </div>
+          <input type="submit" value="Login" name="submit" class="btn solid" />
+          <p style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            <a href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a>
+          </p>
+        </form>
 
-<script>
-  // Toggle password visibility
-  const togglePassword = document.getElementById('togglePassword');
-  const passwordField = document.getElementById('password');
+        <script>
+          // Toggle password visibility
+          const togglePassword = document.getElementById('togglePassword');
+          const passwordField = document.getElementById('password');
 
-  togglePassword.addEventListener('click', () => {
-    // Toggle the type attribute
-    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordField.setAttribute('type', type);
-    
-    // Toggle the eye icon
-    togglePassword.classList.toggle('fa-eye-slash');
-  });
-</script>
-
+          togglePassword.addEventListener('click', () => {
+            // Toggle the type attribute
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Toggle the eye icon
+            togglePassword.classList.toggle('fa-eye-slash');
+          });
+        </script>
       </div>
     </div>
-
 
     <div class="panels-container">
       <div class="panel left-panel" style="max-height: 87%">
         <div class="content">
-          <img src="img/mcc.png" alt="mcc" width="190" height="180"
-            style="padding: 0 4px; margin-bottom: 95px; margin-right: auto; margin-top: auto;">
-          <p class="p" style=" text-shadow: 1px 2px 3px black;
-  color: #f0f0f0;"></p>
-          <h2 class="h2" style=" text-shadow: 1px 3px 3px black;
-  color: #f0f0f0; margin-left: 50px;  ">College of Computer Studies</h2>
+          <img src="img/mcc.png" alt="mcc" width="190" height="180" style="padding: 0 4px; margin-bottom: 95px;">
+          <h2 class="h2" style="color: #f0f0f0;">College of Computer Studies</h2>
         </div>
-        <!-- <img src="img/register.svg" class="image" alt=""/> -->
       </div>
     </div>
   </div>
 
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-  <!--   <script src="app.js"></script> -->
   <script>
-    window.addEventListener('DOMContentLoaded', (event) =>
-    {
-      function focusOnUsername()
-      {
-        const usernameInput = document.querySelector('input[name="user"]');
-        if (usernameInput)
-        {
-          usernameInput.focus(); // Focus on the username input field
-        }
-      }
-
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile)
-      {
-        focusOnUsername(); // Call the focus function for mobile devices
-      }
-    });
-  </script>
-   <script>
     // PHP variable to JS to trigger SweetAlert
     const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
 
