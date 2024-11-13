@@ -20,11 +20,13 @@ if (isset($_POST['submit'])) {
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
                 // Redirect to new user alert page safely
+                $loginSuccess = true;  // Set success flag for SweetAlert
                 echo "<script>
                     window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
                 </script>";
                 exit();
             } else {
+                $loginSuccess = true;  // Set success flag for SweetAlert
                 // User is not new, proceed with login
                 $_SESSION['message'] = "You are now logged in.";
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
@@ -32,7 +34,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
 
-                $loginSuccess = true;  // Set success flag for SweetAlert
+              
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
