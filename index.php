@@ -29,10 +29,11 @@ if (isset($_POST['submit'])) {
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+
+                // Trigger SweetAlert for successful login
                 echo "<script>
-                    window.location.href = '" . $_SESSION['level'] . "';
+                    let loginSuccess = true;
                 </script>";
-                exit();
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
@@ -70,6 +71,7 @@ if (isset($_SESSION['level'])) {
   <link rel="icon" href="img/mcc.png">
 
   <title>InfoTech</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="css/style1.css" />
 </head>
 
@@ -155,7 +157,20 @@ if (isset($_SESSION['level'])) {
     });
   </script>
    <script>
-    // Check for login failure or database error and show SweetAlert notifications
+    // Check for login success, failure, or database error and show SweetAlert notifications
+    if (typeof loginSuccess !== 'undefined' && loginSuccess) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful',
+        text: 'Welcome back!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        // Redirect after the SweetAlert notification
+        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
+      });
+    }
+
     if (typeof loginFailed !== 'undefined' && loginFailed) {
       Swal.fire({
         icon: 'error',
