@@ -36,16 +36,16 @@ if (isset($_POST['submit'])) {
                         });
                     };
                 </script>";
+                exit
             } else {
-                // User is not new, proceed with login
-                $_SESSION['message'] = "You are now logged in.";
+              
+               
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
                 
-                // Successful login, show SweetAlert and redirect
-                $loginSuccess = true;
+              
                 echo "<script>
                     window.onload = function() {
                         Swal.fire({
@@ -188,40 +188,7 @@ if (isset($_SESSION['level'])) {
       }
     });
   </script>
-   <script>
-    // PHP variable to JS to trigger SweetAlert
-    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
-
-    // Show SweetAlert notifications based on login status
-    if (loginSuccess) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful',
-        text: 'Welcome back!',
-        showConfirmButton: false,
-        timer: 1500
-      }).then(() => {
-        // Redirect after the SweetAlert notification
-        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
-      });
-    }
-
-    if (typeof loginFailed !== 'undefined' && loginFailed) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Username or Password. Please try again.',
-      });
-    }
-
-    if (typeof dbError !== 'undefined' && dbError) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Database Error',
-        text: 'An error occurred while connecting to the database. Please try again later.',
-      });
-    }
-  </script>
+  
 </body>
 <style>
   .input-field {
