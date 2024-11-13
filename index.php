@@ -27,12 +27,7 @@ if (isset($_POST['submit'])) {
                 exit();
             } else {
                 $loginSuccess = true;  // Set success flag for SweetAlert
-                // User is not new, proceed with login
-                $_SESSION['message'] = "You are now logged in.";
-                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+               
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
@@ -78,9 +73,7 @@ if (isset($_SESSION['level'])) {
       <form action="" method="post" class="sign-in-form">
   <h2 class="title">Log In</h2>
   <div class="form-group" style="color: red;">
-    <?php if (isset($_GET['login'])): ?>
-      <label class="text-danger">Invalid Username/Password. Try again.</label>&nbsp;
-    <?php endif; ?>
+   
   </div>
   <div class="input-field">
     <i class="fas fa-user"></i>
