@@ -80,10 +80,9 @@ if (isset($_SESSION['level'])) {
            value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
   </div>
   <div class="input-field">
-    <i class="fas fa-lock"></i>
-    <input type="password" placeholder="Password" name="pass" id="password" required />
-    <i class="fas fa-eye" id="togglePassword" ></i>
-  </div>
+  <input type="password" placeholder="Password" name="pass" id="password" required />
+  <i class="fas fa-eye" id="togglePassword"></i>
+</div>
   <input type="submit" value="Login" name="submit" class="btn solid" />
   <p style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
     <a href="forgot_password.php" style="color: #4590ef;">Forgot Password?</a>
@@ -146,5 +145,35 @@ if (isset($_SESSION['level'])) {
     });
   </script>
 </body>
+<style>
+  .input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
 
+  .input-field input[type="password"],
+  .input-field input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* Space for the eye icon */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-field input:focus {
+    border-color: #1877f2;
+  }
+
+  .input-field i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+  }
+</style>
 </html>
