@@ -17,7 +17,9 @@ if (isset($_POST['submit'])) {
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
                 // Redirect to new user alert page safely
-                header('location: new_user.php?user=' . urlencode($user));
+                echo "<script>
+                    window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                </script>";
                 exit();
             } else {
                 // User is not new, proceed with login
@@ -27,23 +29,31 @@ if (isset($_POST['submit'])) {
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
-                header('location:' . $_SESSION['level']);
+                echo "<script>
+                    window.location.href = '" . $_SESSION['level'] . "';
+                </script>";
                 exit();
             }
         } else {
-            // Redirect to login page with an error message if credentials are invalid
-            header('location:index.php?login=0');
+            // Trigger SweetAlert for invalid login credentials
+            echo "<script>
+                let loginFailed = true;
+            </script>";
         }
     } catch (PDOException $e) {
-        // Handle database errors
+        // Handle database errors and trigger SweetAlert
         error_log("Database error: " . $e->getMessage());
-        header('location:index.php?login=0');
+        echo "<script>
+            let dbError = true;
+        </script>";
     }
 }
 
 // If the user is already logged in, redirect them based on their level
 if (isset($_SESSION['level'])) {
-    header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'));
+    echo "<script>
+        window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
+    </script>";
 }
 ?>
 
@@ -143,6 +153,24 @@ if (isset($_SESSION['level'])) {
         focusOnUsername(); // Call the focus function for mobile devices
       }
     });
+  </script>
+   <script>
+    // Check for login failure or database error and show SweetAlert notifications
+    if (typeof loginFailed !== 'undefined' && loginFailed) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid Username or Password. Please try again.',
+      });
+    }
+
+    if (typeof dbError !== 'undefined' && dbError) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Database Error',
+        text: 'An error occurred while connecting to the database. Please try again later.',
+      });
+    }
   </script>
 </body>
 <style>
