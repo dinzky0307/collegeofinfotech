@@ -58,8 +58,6 @@ if (isset($_SESSION['level'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
