@@ -161,7 +161,7 @@ if (isset($_SESSION['level'])) {
         title: 'Login Successful',
         text: 'Welcome back!',
         showConfirmButton: false,
-        timer: 1500s
+        timer: 1500
       }).then(() => {
         // Redirect after the SweetAlert notification
         window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
