@@ -1,10 +1,11 @@
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 include 'database.php';
 session_start();
 
-// Check if the login attempts counter is set in the session, and initialize if necessary
+// Include SweetAlert2 library
+echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+
+// Initialize login attempts tracking
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
     $_SESSION['lockout_time'] = null;
@@ -13,7 +14,7 @@ if (!isset($_SESSION['login_attempts'])) {
 $loginSuccess = false;
 
 if (isset($_POST['submit'])) {
-    // Check if the user is in a lockout period
+    // Check if user is locked out
     if ($_SESSION['login_attempts'] >= 3 && $_SESSION['lockout_time'] && time() < $_SESSION['lockout_time']) {
         echo "<script>
             Swal.fire({
@@ -23,28 +24,29 @@ if (isset($_POST['submit'])) {
             });
         </script>";
     } else {
-        // Reset login attempts if lockout period has passed
+        // Reset attempts if lockout has expired
         if ($_SESSION['lockout_time'] && time() >= $_SESSION['lockout_time']) {
             $_SESSION['login_attempts'] = 0;
             $_SESSION['lockout_time'] = null;
         }
 
-        // Sanitize user inputs to prevent XSS
+        // Sanitize inputs
         $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
         $pass = $_POST['pass'];
 
         try {
-            // Use a prepared statement to prevent SQL injection
+            // Prepare statement to prevent SQL injection
             $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
             $stmt->bindParam(':user', $user, PDO::PARAM_STR);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Check if a user record was found and verify the password
+            // Verify credentials
             if ($row && password_verify($pass, $row['password'])) {
-                $_SESSION['login_attempts'] = 0;  // Reset login attempts on successful login
+                $_SESSION['login_attempts'] = 0;
+
                 if ($row['display'] == 0) {
-                    // Redirect to new user alert page
+                    // Redirect new user with SweetAlert
                     echo "<script>
                         Swal.fire({
                             title: 'Welcome!',
@@ -58,7 +60,7 @@ if (isset($_POST['submit'])) {
                     </script>";
                     exit();
                 } else {
-                    // Proceed with login and set session data
+                    // Store session data
                     $_SESSION['message'] = "You are now logged in.";
                     $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
                     $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
@@ -79,11 +81,11 @@ if (isset($_POST['submit'])) {
                     exit();
                 }
             } else {
-                // Increment login attempts on failure
+                // Increment login attempts
                 $_SESSION['login_attempts']++;
 
                 if ($_SESSION['login_attempts'] >= 3) {
-                    $_SESSION['lockout_time'] = time() + (1 * 60); // Set lockout time for 3 minutes
+                    $_SESSION['lockout_time'] = time() + (3 * 60); // 3 minutes
                     echo "<script>
                         Swal.fire({
                             title: 'Account Locked!',
@@ -102,7 +104,7 @@ if (isset($_POST['submit'])) {
                 }
             }
         } catch (PDOException $e) {
-            // Handle database errors
+            // Log and display error
             error_log("Database error: " . $e->getMessage());
             echo "<script>
                 Swal.fire({
@@ -115,7 +117,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Redirect if the user is already logged in
+// Redirect if already logged in
 if (isset($_SESSION['level'])) {
     echo "<script>
         window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
