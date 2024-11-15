@@ -215,40 +215,7 @@ if (isset($_SESSION['level'])) {
       }
     });
   </script>
-   <script>
-    // PHP variable to JS to trigger SweetAlert
-    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
-
-    // Show SweetAlert notifications based on login status
-    if (loginSuccess) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful',
-        text: 'Welcome back!',
-        showConfirmButton: false,
-        timer: 100
-      }).then(() => {
-        // Redirect after the SweetAlert notification
-        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
-      });
-    }
-
-    if (typeof loginFailed !== 'undefined' && loginFailed) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Username or Password. Please try again.',
-      });
-    }
-
-    if (typeof dbError !== 'undefined' && dbError) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Database Error',
-        text: 'An error occurred while connecting to the database. Please try again later.',
-      });
-    }
-  </script>
+  
 </body>
 <style>
   .input-field {
