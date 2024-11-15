@@ -18,72 +18,33 @@ if (isset($_POST['submit'])) {
 
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
-            // Check if the user is new or not
             if ($row['display'] == 0) {
-                // User is new, prompt them to complete their profile
-                // $loginSuccess = true;  // Set success flag for SweetAlert
-                $_SESSION['user'] = $user; // Store user in session to pass to next page
+                // Redirect to new user alert page safely
+                $loginSuccess = true;  // Set success flag for SweetAlert
                 echo "<script>
-                    window.onload = function() {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'You are successfully logged in!',
-                            icon: 'success'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                 window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
-                            }
-                        });
-                    };
+                    window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
                 </script>";
-                exit; // Add the semicolon here
+                exit();
             } else {
-               
-
-                // Show success message with SweetAlert
-                echo "<script>
-                    window.onload = function() {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'You are successfully logged in!',
-                            icon: 'success'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
-                            }
-                        });
-                    };
-                </script>";
-
-                 // Store session variables for regular login
-                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                 $_SESSION['user_id'] = $row['id'];
-                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                $loginSuccess = true;  // Set success flag for SweetAlert
+                // User is not new, proceed with login
+                $_SESSION['message'] = "You are now logged in.";
+                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
             echo "<script>
-                window.onload = function() {
-                    Swal.fire({
-                        title: 'Login Failed!',
-                        text: 'Invalid Username or Password. Please try again.',
-                        icon: 'error'
-                    });
-                };
+                let loginFailed = true;
             </script>";
         }
     } catch (PDOException $e) {
         // Handle database errors and trigger SweetAlert
         error_log("Database error: " . $e->getMessage());
         echo "<script>
-            window.onload = function() {
-                Swal.fire({
-                    title: 'Database Error!',
-                    text: 'An error occurred while connecting to the database. Please try again later.',
-                    icon: 'error'
-                });
-            };
+            let dbError = true;
         </script>";
     }
 }
@@ -189,7 +150,40 @@ if (isset($_SESSION['level'])) {
       }
     });
   </script>
- 
+   <script>
+    // PHP variable to JS to trigger SweetAlert
+    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
+
+    // Show SweetAlert notifications based on login status
+    if (loginSuccess) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful',
+        text: 'Welcome back!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        // Redirect after the SweetAlert notification
+        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
+      });
+    }
+
+    if (typeof loginFailed !== 'undefined' && loginFailed) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid Username or Password. Please try again.',
+      });
+    }
+
+    if (typeof dbError !== 'undefined' && dbError) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Database Error',
+        text: 'An error occurred while connecting to the database. Please try again later.',
+      });
+    }
+  </script>
 </body>
 <style>
   .input-field {
