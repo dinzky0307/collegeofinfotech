@@ -2,33 +2,29 @@
 include 'database.php';
 session_start();
 
-// Initialize login attempt tracking
+// Check if the login attempts counter is set in the session, and initialize if necessary
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
-    $_SESSION['last_attempt_time'] = 0;
+    $_SESSION['lockout_time'] = null;
 }
 
 $loginSuccess = false;
-$lockoutDuration = 180;  // Lockout duration in seconds (3 minutes)
 
-// Check if the form is submitted
 if (isset($_POST['submit'])) {
-    // Check if lockout time has passed
-    if ($_SESSION['login_attempts'] >= 3 && (time() - $_SESSION['last_attempt_time']) < $lockoutDuration) {
-        $remainingTime = $lockoutDuration - (time() - $_SESSION['last_attempt_time']);
+    // Check if the user is in a lockout period
+    if ($_SESSION['login_attempts'] >= 3 && $_SESSION['lockout_time'] && time() < $_SESSION['lockout_time']) {
         echo "<script>
-            window.onload = function() {
-                Swal.fire({
-                    title: 'Locked Out!',
-                    text: 'Too many failed attempts. Please try again in " . ceil($remainingTime / 60) . " minutes.',
-                    icon: 'warning'
-                });
-            };
+            Swal.fire({
+                title: 'Account Locked!',
+                text: 'Too many login attempts. Please try again after 3 minutes.',
+                icon: 'error'
+            });
         </script>";
     } else {
-        // Reset attempts if lockout duration has passed
-        if ((time() - $_SESSION['last_attempt_time']) >= $lockoutDuration) {
+        // Reset login attempts if lockout period has passed
+        if ($_SESSION['lockout_time'] && time() >= $_SESSION['lockout_time']) {
             $_SESSION['login_attempts'] = 0;
+            $_SESSION['lockout_time'] = null;
         }
 
         // Sanitize user inputs to prevent XSS
@@ -44,69 +40,74 @@ if (isset($_POST['submit'])) {
 
             // Check if a user record was found and verify the password
             if ($row && password_verify($pass, $row['password'])) {
-                $_SESSION['login_attempts'] = 0;  // Reset attempts on successful login
-                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
-
-                // Redirect to new user or main page based on display status
+                $_SESSION['login_attempts'] = 0;  // Reset login attempts on successful login
                 if ($row['display'] == 0) {
+                    // Redirect to new user alert page
                     echo "<script>
-                        window.onload = function() {
-                            Swal.fire({
-                                title: 'Welcome!',
-                                text: 'Please complete your profile.',
-                                icon: 'info'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                     window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
-                                }
-                            });
-                        };
+                        Swal.fire({
+                            title: 'Welcome!',
+                            text: 'Please complete your profile.',
+                            icon: 'info'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                            }
+                        });
+                    </script>";
+                    exit();
+                } else {
+                    // Proceed with login and set session data
+                    $_SESSION['message'] = "You are now logged in.";
+                    $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                    $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                    $_SESSION['user_id'] = $row['id'];
+                    $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+
+                    echo "<script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'You are successfully logged in!',
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
+                            }
+                        });
+                    </script>";
+                    exit();
+                }
+            } else {
+                // Increment login attempts on failure
+                $_SESSION['login_attempts']++;
+
+                if ($_SESSION['login_attempts'] >= 3) {
+                    $_SESSION['lockout_time'] = time() + (3 * 60); // Set lockout time for 3 minutes
+                    echo "<script>
+                        Swal.fire({
+                            title: 'Account Locked!',
+                            text: 'Too many login attempts. Please try again after 3 minutes.',
+                            icon: 'error'
+                        });
                     </script>";
                 } else {
                     echo "<script>
-                        window.onload = function() {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'You are successfully logged in!',
-                                icon: 'success'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
-                                }
-                            });
-                        };
-                    </script>";
-                }
-                exit();
-            } else {
-                // Increment login attempts and store the time of the last attempt
-                $_SESSION['login_attempts']++;
-                $_SESSION['last_attempt_time'] = time();
-
-                echo "<script>
-                    window.onload = function() {
                         Swal.fire({
                             title: 'Login Failed!',
-                            text: 'Invalid Username or Password. Attempts left: " . (3 - $_SESSION['login_attempts']) . "',
+                            text: 'Invalid Username or Password. Please try again.',
                             icon: 'error'
                         });
-                    };
-                </script>";
+                    </script>";
+                }
             }
         } catch (PDOException $e) {
-            // Handle database errors and trigger SweetAlert
+            // Handle database errors
             error_log("Database error: " . $e->getMessage());
             echo "<script>
-                window.onload = function() {
-                    Swal.fire({
-                        title: 'Database Error!',
-                        text: 'An error occurred while connecting to the database. Please try again later.',
-                        icon: 'error'
-                    });
-                };
+                Swal.fire({
+                    title: 'Database Error!',
+                    text: 'An error occurred while connecting to the database. Please try again later.',
+                    icon: 'error'
+                });
             </script>";
         }
     }
