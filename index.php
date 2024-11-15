@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
             // Check if the user is new or not
             if ($row['display'] == 0) {
                 // User is new, prompt them to complete their profile
-                $loginSuccess = true;  // Set success flag for SweetAlert
+                // $loginSuccess = true;  // Set success flag for SweetAlert
                 $_SESSION['user'] = $user; // Store user in session to pass to next page
                 echo "<script>
                     window.onload = function() {
@@ -38,11 +38,7 @@ if (isset($_POST['submit'])) {
                 </script>";
                 exit; // Add the semicolon here
             } else {
-                // Store session variables for regular login
-                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+               
 
                 // Show success message with SweetAlert
                 echo "<script>
@@ -58,6 +54,12 @@ if (isset($_POST['submit'])) {
                         });
                     };
                 </script>";
+
+                 // Store session variables for regular login
+                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                 $_SESSION['user_id'] = $row['id'];
+                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
             }
         } else {
             // Trigger SweetAlert for invalid login credentials
