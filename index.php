@@ -81,7 +81,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['login_attempts']++;
 
                 if ($_SESSION['login_attempts'] >= 3) {
-                    $_SESSION['lockout_time'] = time() + (3 * 60); // Set lockout time for 3 minutes
+                    $_SESSION['lockout_time'] = time() + (1 * 60); // Set lockout time for 3 minutes
                     echo "<script>
                         Swal.fire({
                             title: 'Account Locked!',
