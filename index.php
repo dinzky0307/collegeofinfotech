@@ -2,60 +2,124 @@
 include 'database.php';
 session_start();
 
-$loginSuccess = false;  // Initialize variable to track successful login
+// Initialize login attempt tracking
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['last_attempt_time'] = 0;
+}
 
+$loginSuccess = false;
+$lockoutDuration = 180;  // Lockout duration in seconds (3 minutes)
+
+// Check if the form is submitted
 if (isset($_POST['submit'])) {
-    // Sanitize user inputs to prevent XSS
-    $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
-    $pass = $_POST['pass'];
+    // Check if lockout time has passed
+    if ($_SESSION['login_attempts'] >= 3 && (time() - $_SESSION['last_attempt_time']) < $lockoutDuration) {
+        $remainingTime = $lockoutDuration - (time() - $_SESSION['last_attempt_time']);
+        echo "<script>
+            window.onload = function() {
+                Swal.fire({
+                    title: 'Locked Out!',
+                    text: 'Too many failed attempts. Please try again in " . ceil($remainingTime / 60) . " minutes.',
+                    icon: 'warning'
+                });
+            };
+        </script>";
+    } else {
+        // Reset attempts if lockout duration has passed
+        if ((time() - $_SESSION['last_attempt_time']) >= $lockoutDuration) {
+            $_SESSION['login_attempts'] = 0;
+        }
 
-    try {
-        // Use a prepared statement to prevent SQL injection
-        $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
-        $stmt->bindParam(':user', $user, PDO::PARAM_STR);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Sanitize user inputs to prevent XSS
+        $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
+        $pass = $_POST['pass'];
 
-        // Check if a user record was found and verify the password
-        if ($row && password_verify($pass, $row['password'])) {
-            if ($row['display'] == 0) {
-                // Redirect to new user alert page safely
-                $loginSuccess = true;  // Set success flag for SweetAlert
-                echo "<script>
-                    window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
-                </script>";
-                exit();
-            } else {
-                $loginSuccess = true;  // Set success flag for SweetAlert
-                // User is not new, proceed with login
-                $_SESSION['message'] = "You are now logged in.";
+        try {
+            // Use a prepared statement to prevent SQL injection
+            $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
+            $stmt->bindParam(':user', $user, PDO::PARAM_STR);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Check if a user record was found and verify the password
+            if ($row && password_verify($pass, $row['password'])) {
+                $_SESSION['login_attempts'] = 0;  // Reset attempts on successful login
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+
+                // Redirect to new user or main page based on display status
+                if ($row['display'] == 0) {
+                    echo "<script>
+                        window.onload = function() {
+                            Swal.fire({
+                                title: 'Welcome!',
+                                text: 'Please complete your profile.',
+                                icon: 'info'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                     window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                                }
+                            });
+                        };
+                    </script>";
+                } else {
+                    echo "<script>
+                        window.onload = function() {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'You are successfully logged in!',
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
+                                }
+                            });
+                        };
+                    </script>";
+                }
+                exit();
+            } else {
+                // Increment login attempts and store the time of the last attempt
+                $_SESSION['login_attempts']++;
+                $_SESSION['last_attempt_time'] = time();
+
+                echo "<script>
+                    window.onload = function() {
+                        Swal.fire({
+                            title: 'Login Failed!',
+                            text: 'Invalid Username or Password. Attempts left: " . (3 - $_SESSION['login_attempts']) . "',
+                            icon: 'error'
+                        });
+                    };
+                </script>";
             }
-        } else {
-            // Trigger SweetAlert for invalid login credentials
+        } catch (PDOException $e) {
+            // Handle database errors and trigger SweetAlert
+            error_log("Database error: " . $e->getMessage());
             echo "<script>
-                let loginFailed = true;
+                window.onload = function() {
+                    Swal.fire({
+                        title: 'Database Error!',
+                        text: 'An error occurred while connecting to the database. Please try again later.',
+                        icon: 'error'
+                    });
+                };
             </script>";
         }
-    } catch (PDOException $e) {
-        // Handle database errors and trigger SweetAlert
-        error_log("Database error: " . $e->getMessage());
-        echo "<script>
-            let dbError = true;
-        </script>";
     }
 }
 
-// If the user is already logged in, redirect them based on their level
+// Redirect if the user is already logged in
 if (isset($_SESSION['level'])) {
     echo "<script>
         window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
     </script>";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
