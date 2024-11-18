@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
                 setcookie('level', $_SESSION['level'], $cookieExpire, '/', '', false, true);
 
-                // Check if the user is new (display == 0)
+                // Check if the user is new (display == 0) or an existing user (display == 1)
                 if ($row['display'] == 0) {
                     // Redirect new users to complete their profile
                     $alertScript = "
@@ -87,7 +87,15 @@ if (isset($_POST['submit'])) {
                             showConfirmButton: true
                         }).then(() => {
                             // Use the level to redirect
-                            window.location.href = '" . $_SESSION['level'] . "/index.php';
+                            if ('" . $_SESSION['level'] . "' === 'admin') {
+                                window.location.href = 'admin/index.php';
+                            } else if ('" . $_SESSION['level'] . "' === 'teacher') {
+                                window.location.href = 'teacher/index.php';
+                            } else if ('" . $_SESSION['level'] . "' === 'student') {
+                                window.location.href = 'student/index.php';   
+                            } else {
+                                window.location.href = 'index.php';
+                            }
                         });
                     ";
                 }
