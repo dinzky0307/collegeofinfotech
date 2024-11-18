@@ -13,11 +13,14 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Initialize SweetAlert response
+        $alertScript = "";
+
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
                 // SweetAlert for new user login
-                echo "<script>
+                $alertScript = "
                     Swal.fire({
                         title: 'Welcome!',
                         text: 'Redirecting to complete your profile.',
@@ -25,15 +28,15 @@ if (isset($_POST['submit'])) {
                         timer: 3000,
                         showConfirmButton: false
                     }).then(() => {
-                        window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                        window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                     });
-                </script>";
+                ";
             } else {
                 // SweetAlert for successful login
                 $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
                 $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
 
-                echo "<script>
+                $alertScript = "
                     Swal.fire({
                         title: 'Login Successful',
                         text: 'Welcome back, $fullName!',
@@ -43,31 +46,34 @@ if (isset($_POST['submit'])) {
                     }).then(() => {
                         window.location.href = '$level';
                     });
-                </script>";
+                ";
             }
         } else {
             // SweetAlert for invalid login credentials
-            echo "<script>
+            $alertScript = "
                 Swal.fire({
                     title: 'Error',
                     text: 'Invalid username or password. Please try again.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
-            </script>";
+            ";
         }
     } catch (PDOException $e) {
         // Handle database errors and trigger SweetAlert
         error_log("Database error: " . $e->getMessage());
-        echo "<script>
+        $alertScript = "
             Swal.fire({
                 title: 'Error',
                 text: 'Something went wrong. Please try again later.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-        </script>";
+        ";
     }
+
+    // Inject the alert script into the page
+    echo "<script>$alertScript</script>";
 }
 ?>
 
