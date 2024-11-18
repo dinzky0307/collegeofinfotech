@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['name'] = $fullName;
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
 
-                $cookieExpire = time() + (1 * 60 * 60); // 1 hour expiration
+                $cookieExpire = time() + (1 * 60 * 60); // 1 hours expiration
                 setcookie('id', $username, $cookieExpire, '/', '', false, true);
                 setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
@@ -76,68 +76,22 @@ if (isset($_POST['submit'])) {
                             window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                         });
                     ";
-                } else {
-                    // Check the level status in the database (ensure the level is 1)
-                    $stmt = $connection->prepare("SELECT level, display FROM userdata WHERE username = :username");
-                    $stmt->bindParam(':username', $_SESSION['id'], PDO::PARAM_STR);
-                    $stmt->execute();
-                    $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                } else  {
+                    // Redirect users based on their level
+                    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
+                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
 
-                    if ($userRow) {
-                        // Check if the level is 1, meaning the user is authorized to proceed
-                        if ($userRow['level'] == 1) {
-                            // Set session display to 1 when the profile is completed
-                            $updateQuery = "UPDATE userdata SET display = 1 WHERE username = :username";
-                            $stmt = $connection->prepare($updateQuery);
-                            $stmt->bindParam(':username', $_SESSION['id'], PDO::PARAM_STR);
-                            $stmt->execute(); // Update the user's display status in the database
-
-                            // Update session variable to reflect the display status
-                            $_SESSION['display'] = 1;
-
-                            // Redirect users based on their level
-                            switch ($_SESSION['level']) {
-                                case 'admin':
-                                    $redirectUrl = 'admin/index.php';
-                                    break;
-                                case 'teacher':
-                                    $redirectUrl = 'teacher/index.php';
-                                    break;
-                                case 'students':
-                                    $redirectUrl = 'students/index.php';
-                                    break;
-                                default:
-                                    // Fallback in case of an unexpected level value
-                                    $redirectUrl = 'index.php';
-                                    break;
-                            }
-
-                            // Show success message and redirect to the appropriate page
-                            $alertScript = "
-                                Swal.fire({
-                                    title: 'Login Successful',
-                                    text: 'Welcome back, $fullName!',
-                                    icon: 'success',
-                                    timer: 3000,
-                                    showConfirmButton: true
-                                }).then(() => {
-                                    window.location.href = '$redirectUrl';
-                                });
-                            ";
-                        } else {
-                            // If the level is not 1, redirect to the index page
-                            $alertScript = "
-                                Swal.fire({
-                                    title: 'Access Denied',
-                                    text: 'Your account is not authorized to log in at this time.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    window.location.href = 'index.php';
-                                });
-                            ";
-                        }
-                    }
+                    $alertScript = "
+                        Swal.fire({
+                            title: 'Login Successful',
+                            text: 'Welcome back, $fullName!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true
+                        }).then(() => {
+                            window.location.href = '$redirectUrl';
+                        });
+                    ";
                 }
             } else {
                 // Increment login attempts on failure
