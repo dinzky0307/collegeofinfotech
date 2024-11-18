@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
 
                 // Check if the user is new (display == 0) or an existing user (display == 1)
                 if ($row['display'] == 0) {
-                    // Stay on the index page (don't proceed)
+                    // Redirect new users to complete their profile
                     $alertScript = "
                         Swal.fire({
                             title: 'Account Not Verified',
