@@ -68,7 +68,7 @@ if (isset($_POST['submit'])) {
                     $alertScript = "
                         Swal.fire({
                             title: 'Account Not Verified',
-                            text: 'Your account is pending approval. Please wait until it is activated.',
+                            text: 'It seems that you're a new user. Redirecting to complete your profile.',
                             icon: 'info',
                             confirmButtonText: 'OK'
                         }).then(() => {
