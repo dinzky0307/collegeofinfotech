@@ -83,6 +83,7 @@ if (isset($_POST['submit'])) {
 
   <title>InfoTech</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <link rel="stylesheet" href="css/style1.css" />
 </head>
 
