@@ -1,10 +1,13 @@
 <?php
 include 'database.php';
+session_start();
+
+$loginSuccess = false;  // Initialize variable to track successful login
 
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
     $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
-    $pass = $_POST['password'];
+    $pass = $_POST['pass'];
 
     try {
         // Use a prepared statement to prevent SQL injection
@@ -13,70 +16,46 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Initialize SweetAlert response
-        $alertScript = "";
-
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
-                // SweetAlert for new user login
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Welcome!',
-                        text: 'Redirecting to complete your profile.',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = 'new_user.php?user=" . urlencode($user) . "';
-                    });
-                ";
+                // Redirect to new user alert page safely
+                $loginSuccess = true;  // Set success flag for SweetAlert
+                echo "<script>
+                    window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                </script>";
+                exit();
             } else {
-                // SweetAlert for successful login
-                $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
-
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Login Successful',
-                        text: 'Welcome back, $fullName!',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = '$level';
-                    });
-                ";
+                $loginSuccess = true;  // Set success flag for SweetAlert
+                // User is not new, proceed with login
+                $_SESSION['message'] = "You are now logged in.";
+                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
             }
         } else {
-            // SweetAlert for invalid login credentials
-            $alertScript = "
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Invalid username or password. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            ";
+            // Trigger SweetAlert for invalid login credentials
+            echo "<script>
+                let loginFailed = true;
+            </script>";
         }
     } catch (PDOException $e) {
         // Handle database errors and trigger SweetAlert
         error_log("Database error: " . $e->getMessage());
-        $alertScript = "
-            Swal.fire({
-                title: 'Error',
-                text: 'Something went wrong. Please try again later.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        ";
+        echo "<script>
+            let dbError = true;
+        </script>";
     }
+}
 
-    // Inject the alert script into the page
-    echo "<script>$alertScript</script>";
+// If the user is already logged in, redirect them based on their level
+if (isset($_SESSION['level'])) {
+    echo "<script>
+        window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
+    </script>";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,7 +68,6 @@ if (isset($_POST['submit'])) {
 
   <title>InfoTech</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <link rel="stylesheet" href="css/style1.css" />
 </head>
 
@@ -108,7 +86,7 @@ if (isset($_POST['submit'])) {
            value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
   </div>
   <div class="input-field">
-  <input type="password" placeholder="Password" name="password" id="password" required />
+  <input type="password" placeholder="Password" name="pass" id="password" required />
   <i class="fas fa-eye" id="togglePassword"></i>
 </div>
   <input type="submit" value="Login" name="submit" class="btn solid" />
@@ -172,7 +150,40 @@ if (isset($_POST['submit'])) {
       }
     });
   </script>
-  
+   <script>
+    // PHP variable to JS to trigger SweetAlert
+    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
+
+    // Show SweetAlert notifications based on login status
+    if (loginSuccess) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful',
+        text: 'Welcome back!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        // Redirect after the SweetAlert notification
+        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
+      });
+    }
+
+    if (typeof loginFailed !== 'undefined' && loginFailed) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid Username or Password. Please try again.',
+      });
+    }
+
+    if (typeof dbError !== 'undefined' && dbError) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Database Error',
+        text: 'An error occurred while connecting to the database. Please try again later.',
+      });
+    }
+  </script>
 </body>
 <style>
   .input-field {
