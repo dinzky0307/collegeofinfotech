@@ -4,7 +4,7 @@ include 'database.php';
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
     $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
-    $pass = $_POST['pass'];
+    $pass = $_POST['password'];
 
     try {
         // Use a prepared statement to prevent SQL injection
@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
            value="<?php if (isset($_SESSION['username'])) { echo $_SESSION['username']; } ?>" required />
   </div>
   <div class="input-field">
-  <input type="password" placeholder="Password" name="pass" id="password" required />
+  <input type="password" placeholder="Password" name="password" id="password" required />
   <i class="fas fa-eye" id="togglePassword"></i>
 </div>
   <input type="submit" value="Login" name="submit" class="btn solid" />
