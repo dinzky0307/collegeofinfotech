@@ -106,18 +106,39 @@ if (isset($_POST['submitEmail'])) {
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-            background-color: #031c24;
-            color: #fff;
-            cursor: pointer;
-            border: none;
+            transition: border-color 0.3s ease;
         }
 
         .new-user input[type="email"]:focus,
         .new-user input[type="submit"]:hover,
         .new-user input[type="button"]:hover {
             border-color: #007bff;
+        }
+
+        .new-user input[type="submit"] {
+            background-color: #031c24;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .new-user input[type="submit"]:hover {
             background-color: #4d84e2;
+        }
+
+        .new-user input[type="button"] {
+            background-color: #031c24; /* Red color for cancel button */
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .new-user input[type="button"]:hover {
+            background-color: #e53935;
         }
     </style>
     <!-- Include SweetAlert library -->
@@ -179,5 +200,4 @@ if (isset($_POST['submitEmail'])) {
 </body>
 
 </html>
-
 
