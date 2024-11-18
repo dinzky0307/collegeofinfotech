@@ -64,20 +64,19 @@ if (isset($_POST['submit'])) {
 
                 // Check if the user is new (display == 0) or an existing user (display == 1)
                 if ($row['display'] == 0) {
-                    // Redirect new users to complete their profile
+                    // Stay on the index page (don't proceed)
                     $alertScript = "
                         Swal.fire({
-                            title: 'Welcome!',
-                            text: 'Redirecting to complete your profile.',
-                            icon: 'success',
-                            timer: 3000,
-                            showConfirmButton: true
+                            title: 'Account Pending Approval',
+                            text: 'Your account is pending approval. Please wait until it is activated.',
+                            icon: 'info',
+                            confirmButtonText: 'OK'
                         }).then(() => {
                             window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                         });
                     ";
                 } else {
-                    // Redirect users based on their level using the session 'level'
+                    // Allow user to proceed if display == 1
                     $alertScript = "
                         Swal.fire({
                             title: 'Login Successful',
@@ -86,7 +85,7 @@ if (isset($_POST['submit'])) {
                             timer: 3000,
                             showConfirmButton: true
                         }).then(() => {
-                            // Use the level to redirect
+                            // Redirect based on the level of the user
                             if ('" . $_SESSION['level'] . "' === 'admin') {
                                 window.location.href = 'admin/index.php';
                             } else if ('" . $_SESSION['level'] . "' === 'teacher') {
