@@ -67,8 +67,8 @@ if (isset($_POST['submit'])) {
                     // Stay on the index page (don't proceed)
                     $alertScript = "
                         Swal.fire({
-                            title: 'Account Pending Approval',
-                            text: 'Your account is pending approval. Please wait until it is activated.',
+                            title: 'Account Not Verified',
+                            text: 'Your account is pending. Redirecting to complete your profile.',
                             icon: 'info',
                             confirmButtonText: 'OK'
                         }).then(() => {
