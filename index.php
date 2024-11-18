@@ -4,13 +4,6 @@ session_start(); // Start session
 
 $alertScript = ""; // Initialize alert script
 
-// Redirect already logged-in users
-if (isset($_SESSION['level']) || isset($_COOKIE['level'])) {
-    $redirectLevel = isset($_SESSION['level']) ? $_SESSION['level'] : $_COOKIE['level'];
-    header('location:' . htmlspecialchars($redirectLevel, ENT_QUOTES, 'UTF-8') . '/index.php');
-    exit();
-}
-
 // Initialize login attempt tracking
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
@@ -93,7 +86,7 @@ if (isset($_POST['submit'])) {
                             } else if ('" . $_SESSION['level'] . "' === 'student') {
                                 window.location.href = 'student/index.php';   
                             } else {
-                                window.location.href = 'https://collegeofinfotech.com/index.php';
+                                window.location.href = 'index.php';
                             }
                         });
                     ";
@@ -129,6 +122,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
