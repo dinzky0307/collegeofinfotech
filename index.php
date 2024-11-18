@@ -64,11 +64,11 @@ if (isset($_POST['submit'])) {
 
                 // Check if the user is new (display == 0) or an existing user (display == 1)
                 if ($row['display'] == 0) {
-                    // Redirect new users to complete their profile
+                    // Stay on the index page (don't proceed)
                     $alertScript = "
                         Swal.fire({
                             title: 'Account Not Verified',
-                            text: 'It seems that you're a new user. Redirecting to complete your profile.',
+                            text: 'Your account is pending approval. Please wait until it is activated.',
                             icon: 'info',
                             confirmButtonText: 'OK'
                         }).then(() => {
