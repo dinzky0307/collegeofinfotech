@@ -16,6 +16,10 @@ if (isset($_POST['submit'])) {
 
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
+            $userId = htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); // Get user ID
+            $username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); // Get username
+            $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8'); // Full name
+
             if ($row['display'] == 0) {
                 // SweetAlert for new user login
                 $alertScript = "
@@ -24,25 +28,36 @@ if (isset($_POST['submit'])) {
                         text: 'Redirecting to complete your profile.',
                         icon: 'success',
                         timer: 3000,
-                        showConfirmButton: false
+                        showConfirmButton: true
                     }).then(() => {
                         window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                     });
                 ";
             } else {
-                // SweetAlert for successful login
+                // Determine redirection based on the level
                 $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                $redirectUrl = '';
 
+                if ($level === 'admin') {
+                    $redirectUrl = 'admin/index.php';
+                } elseif ($level === 'teacher') {
+                    $redirectUrl = 'teacher/index.php';
+                } elseif ($level === 'student') {
+                    $redirectUrl = "students/index.php?user_id=$userId";
+                } else {
+                    $redirectUrl = 'default/index.php'; // Default redirection if level is unrecognized
+                }
+
+                // SweetAlert for successful login
                 $alertScript = "
                     Swal.fire({
                         title: 'Login Successful',
                         text: 'Welcome back, $fullName!',
                         icon: 'success',
                         timer: 3000,
-                        showConfirmButton: false
+                        showConfirmButton: true
                     }).then(() => {
-                        window.location.href = '$level';
+                        window.location.href = '$redirectUrl';
                     });
                 ";
             }
