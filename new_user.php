@@ -145,6 +145,7 @@ if (isset($_POST['submitEmail'])) {
                 <input type="email" name="email" id="email" placeholder="Please enter your MS 365 Email." required>
                  <div id="validationServerUsernameFeedback" class="invalid-feedback"></div>
                 <input type="submit" name="registration_link" value="Send Verification Link">
+                  <button type="button" class="btn cancel" id="cancelButton" style="height: 44px;">Cancel</button>
                 
             </form>
         </div>
