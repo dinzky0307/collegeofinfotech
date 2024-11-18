@@ -19,8 +19,8 @@ $row = mysql_fetch_assoc($result);
 
 if (!$row || $row['display'] != 0) {
     // If user does not exist or `display` is not 0, redirect based on their level
-    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
-        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
+    $redirectUrl = $_SESSION['level'] === 'admin' ? 'index.php' :
+        ($_SESSION['level'] === 'teacher' ? 'index.php' : 'index.php');
     header('Location: ' . $redirectUrl);
     exit();
 }
