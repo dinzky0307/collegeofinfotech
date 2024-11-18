@@ -7,7 +7,7 @@ $alertScript = ""; // Initialize alert script
 // Redirect already logged-in users
 if (isset($_SESSION['level']) || isset($_COOKIE['level'])) {
     $redirectLevel = isset($_SESSION['level']) ? $_SESSION['level'] : $_COOKIE['level'];
-    header('location:' . htmlspecialchars($redirectLevel, ENT_QUOTES, 'UTF-8') . '/index.php');
+    header('location: index.php');
     exit();
 }
 
