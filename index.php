@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
         $alertScript = "
             Swal.fire({
                 title: 'Too Many Attempts',
-                text: 'You have been locked out due to too many failed login attempts. Please try again after 1 minute.',
+                text: 'You have been locked out due to many failed login attempts. Please try again after 1 minute.',
                 icon: 'warning',
                 confirmButtonText: 'OK'
             });
