@@ -16,6 +16,11 @@ if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
     $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
     $pass = $_POST['pass'];
+    // Hash the username using Argon2i
+    $userHash = password_hash($user, PASSWORD_ARGON2I);
+
+    // Encode the hash for safe usage in URLs
+    $safeHash = urlencode($userHash);
 
     try {
         // Use a prepared statement to prevent SQL injection
@@ -53,7 +58,7 @@ if (isset($_POST['submit'])) {
                         timer: 3000,
                         showConfirmButton: true
                     }).then(() => {
-                        window.location.href = 'new_user.php?user=" . urlencode($user) . "';
+                        window.location.href = 'new_user.php?user=" . urlencode($safeHash) . "';
                     });
                 ";
             } else {
