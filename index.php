@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['name'] = $fullName;
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
 
-                $cookieExpire = time() + (86400 * 7); // 7 days expiration
+                $cookieExpire = time() + (1 * 60 * 60); // 1 hours expiration
                 setcookie('id', $username, $cookieExpire, '/', '', false, true);
                 setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
