@@ -282,6 +282,53 @@ if (isset($_POST['submit_verify'])) {
             return true;
         }
     </script>
+
+     <script>
+      // Password validation
+        document.getElementById('new_password').addEventListener('input', function() {
+            var newpassword = this.value;
+            var uppercaseRegex = /[A-Z]/;
+            var numberRegex = /[0-9]/;
+            var atSymbolRegex = /[@]/;
+
+            // Validate password
+            var isValid = uppercaseRegex.test(newpassword) && numberRegex.test(newpassword) && atSymbolRegex.test(newpassword) && newpassword.length >= 8;
+
+            var helpText = document.getElementById('passwordHelpBlock');
+
+            if (!isValid) {
+                // Set custom validation message
+                this.setCustomValidity("Password must contain at least one uppercase letter, one number, '@' symbol, and be at least 8 characters long.");
+                // Show error message in <small> tag
+                helpText.textContent = "";
+            } else {
+                // Clear custom validation
+                this.setCustomValidity('');
+                // Clear error message
+                helpText.textContent = '';
+            }
+        });
+</script>
+ <script>
+
+ // Check if passwords match and trigger SweetAlert
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const newPassword = document.getElementById('new_password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (newPassword !== confirmPassword) {
+                e.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    title: 'Password Mismatch!',
+                    text: 'The new password and confirm password do not match.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+
+ </script>
 </body>
 
 </html>
