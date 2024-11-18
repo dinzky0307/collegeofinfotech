@@ -1,43 +1,37 @@
 <?php
-
 // Include the configuration file
 include 'config.php';
 
 // Get the username from the URL parameter
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 
-// Check if the email submission form is submitted
-if (isset($_POST['submitEmail'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+// Start the session to manage cookies and session data
+session_start();
 
-    // Update email in userdata table
-    $updateQuery = "UPDATE userdata SET email = '$email', display = 1 WHERE username = '$username'";
-    mysql_query($updateQuery);
+// Check if the page was accessed via the browser's back button
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $referrer = $_SERVER['HTTP_REFERER'];
+    $currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    
+    // If the referrer is the same as the current URL or an unauthorized action, destroy cookies and session
+    if (stripos($referrer, $currentURL) !== false) {
+        // Destroy cookies
+        setcookie('id', '', time() - 3600, '/');
+        setcookie('user_id', '', time() - 3600, '/');
+        setcookie('name', '', time() - 3600, '/');
+        setcookie('level', '', time() - 3600, '/');
+        
+        // Destroy session
+        session_unset();
+        session_destroy();
 
-    // Update email in student table
-    $updateStudentQuery = "UPDATE student SET email = '$email' WHERE studid = '$username'";
-    mysql_query($updateStudentQuery);
-
-    // Update email in teacher table
-    $updateTeacherQuery = "UPDATE teacher SET email = '$email' WHERE teachid = '$username'";
-    mysql_query($updateTeacherQuery);
-
-    // Fetch user data again
-    $result = mysql_query("SELECT * FROM userdata WHERE username='$username'");
-    $row = mysql_fetch_assoc($result);
-
-    // Proceed with login
-    $_SESSION['message'] = "You are now logged in.";
-    $_SESSION['level'] = $row['level'];
-    $_SESSION['id'] = $row['username'];
-    $_SESSION['user_id'] = $row['id'];
-    $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
-    header('location:' . $row['level'] . '');
-    exit();
+        // Redirect to the login page or home page
+        header('Location: index.php');
+        exit();
+    }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
