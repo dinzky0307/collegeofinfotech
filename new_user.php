@@ -27,22 +27,6 @@ if (!$row || $row['display'] != 0) {
 
 ?>
 
-<!-- HTML Content for new_user.php -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Complete Your Profile</title>
-</head>
-<body>
-    <h2>Welcome, <?php echo htmlspecialchars($user, ENT_QUOTES, 'UTF-8'); ?>! Please complete your profile.</h2>
-    <form method="POST" action="new_user.php?user=<?php echo urlencode($user); ?>">
-        <input type="hidden" name="username" value="<?php echo htmlspecialchars($user, ENT_QUOTES, 'UTF-8'); ?>">
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="submit" name="submitEmail">Submit</button>
-    </form>
-</body>
-</html>
 
 
 <!DOCTYPE html>
