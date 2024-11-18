@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['name'] = $fullName;
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
 
-                $cookieExpire = time() + (1 * 60 * 60); // 1 hours expiration
+                $cookieExpire = time() + (1 * 60 * 60); // 1 hour expiration
                 setcookie('id', $username, $cookieExpire, '/', '', false, true);
                 setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
@@ -76,11 +76,8 @@ if (isset($_POST['submit'])) {
                             window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                         });
                     ";
-                } else  {
-                    // Redirect users based on their level
-                    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
-                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
-
+                } else {
+                    // Redirect users based on their level using the session 'level'
                     $alertScript = "
                         Swal.fire({
                             title: 'Login Successful',
@@ -89,7 +86,8 @@ if (isset($_POST['submit'])) {
                             timer: 3000,
                             showConfirmButton: true
                         }).then(() => {
-                            window.location.href = '$redirectUrl';
+                            // Use the level to redirect
+                            window.location.href = '" . $_SESSION['level'] . "/index.php';
                         });
                     ";
                 }
