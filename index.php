@@ -6,72 +6,65 @@ $alertScript = ""; // Initialize alert script
 
 // Redirect already logged-in users
 if (isset($_SESSION['level']) || isset($_COOKIE['level'])) {
-    // Redirect based on session or cookie level
     $redirectLevel = isset($_SESSION['level']) ? $_SESSION['level'] : $_COOKIE['level'];
     header('location:' . htmlspecialchars($redirectLevel, ENT_QUOTES, 'UTF-8') . '/index.php');
     exit();
 }
 
+// Initialize login attempt tracking
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['lockout_time'] = null;
+}
+
 if (isset($_POST['submit'])) {
-    // Sanitize user inputs to prevent XSS
-    $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
-    $pass = $_POST['pass'];
-    // Hash the username using Argon2i
-    $userHash = password_hash($user, PASSWORD_ARGON2I);
+    // Check if the user is locked out
+    if ($_SESSION['login_attempts'] >= 3 && time() - $_SESSION['lockout_time'] < 60) {
+        $alertScript = "
+            Swal.fire({
+                title: 'Too Many Attempts',
+                text: 'You have been locked out due to too many failed login attempts. Please try again after 1 minute.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+        ";
+    } else {
+        // Sanitize user inputs
+        $user = htmlspecialchars(trim($_POST['user']), ENT_QUOTES, 'UTF-8');
+        $pass = $_POST['pass'];
 
-  
+        try {
+            // Use a prepared statement to prevent SQL injection
+            $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
+            $stmt->bindParam(':user', $user, PDO::PARAM_STR);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    try {
-        // Use a prepared statement to prevent SQL injection
-        $stmt = $connection->prepare("SELECT * FROM userdata WHERE username = :user");
-        $stmt->bindParam(':user', $user, PDO::PARAM_STR);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Check if a user record was found and verify the password
+            if ($row && password_verify($pass, $row['password'])) {
+                // Reset login attempts on successful login
+                $_SESSION['login_attempts'] = 0;
+                $_SESSION['lockout_time'] = null;
 
-        // Check if a user record was found and verify the password
-        if ($row && password_verify($pass, $row['password'])) {
-            $userId = htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); // Get user ID
-            $username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); // Get username
-            $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8'); // Full name
+                $userId = htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8');
+                $username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
 
-            // Store session data
-            $_SESSION['id'] = $username;
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['name'] = $fullName;
-            $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                // Store session and cookie data
+                $_SESSION['id'] = $username;
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['name'] = $fullName;
+                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
 
-            // Set cookies for persistent login
-            $cookieExpire = time() + (86400 * 7); // 7 days expiration
-            setcookie('id', $username, $cookieExpire, '/', '', false, true);
-            setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
-            setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
-            setcookie('level', $_SESSION['level'], $cookieExpire, '/', '', false, true);
+                $cookieExpire = time() + (86400 * 7); // 7 days expiration
+                setcookie('id', $username, $cookieExpire, '/', '', false, true);
+                setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
+                setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
+                setcookie('level', $_SESSION['level'], $cookieExpire, '/', '', false, true);
 
-            if ($row['display'] == 0) {
-                // Redirect new users to complete their profile
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Welcome!',
-                        text: 'Redirecting to complete your profile.',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true
-                    }).then(() => {
-                        window.location.href = 'new_user.php?user=" . urlencode($userHash) . "';
-                    });
-                ";
-            } else {
                 // Redirect users based on their level
-                $level = $_SESSION['level'];
-                $redirectUrl = '';
-
-                if ($level === 'admin') {
-                    $redirectUrl = 'admin/index.php';
-                } elseif ($level === 'teacher') {
-                    $redirectUrl = 'teacher/index.php';
-                } elseif ($level === 'student') {
-                    $redirectUrl = 'students/index.php';
-                }
+                $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
+                    ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
 
                 $alertScript = "
                     Swal.fire({
@@ -84,32 +77,38 @@ if (isset($_POST['submit'])) {
                         window.location.href = '$redirectUrl';
                     });
                 ";
+            } else {
+                // Increment login attempts on failure
+                $_SESSION['login_attempts']++;
+                if ($_SESSION['login_attempts'] >= 3) {
+                    $_SESSION['lockout_time'] = time();
+                }
+
+                $alertScript = "
+                    Swal.fire({
+                        title: 'Login Failed',
+                        text: 'Invalid username or password. Attempt {$_SESSION['login_attempts']} of 3.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                ";
             }
-        } else {
-            // SweetAlert for invalid login credentials
+        } catch (PDOException $e) {
+            // Handle database errors
+            error_log("Database error: " . $e->getMessage());
             $alertScript = "
                 Swal.fire({
                     title: 'Error',
-                    text: 'Invalid username or password. Please try again.',
+                    text: 'Something went wrong. Please try again later.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             ";
         }
-    } catch (PDOException $e) {
-        // Handle database errors and trigger SweetAlert
-        error_log("Database error: " . $e->getMessage());
-        $alertScript = "
-            Swal.fire({
-                title: 'Error',
-                text: 'Something went wrong. Please try again later.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        ";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
