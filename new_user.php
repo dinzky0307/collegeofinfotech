@@ -38,7 +38,6 @@ if (isset($_POST['submitEmail'])) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +98,8 @@ if (isset($_POST['submitEmail'])) {
         }
 
         .new-user input[type="email"],
-        .new-user input[type="submit"] {
+        .new-user input[type="submit"],
+        .new-user input[type="button"] {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
@@ -110,7 +110,8 @@ if (isset($_POST['submitEmail'])) {
         }
 
         .new-user input[type="email"]:focus,
-        .new-user input[type="submit"]:hover {
+        .new-user input[type="submit"]:hover,
+        .new-user input[type="button"]:hover {
             border-color: #007bff;
         }
 
@@ -126,14 +127,28 @@ if (isset($_POST['submitEmail'])) {
         .new-user input[type="submit"]:hover {
             background-color: #4d84e2;
         }
+
+        .new-user input[type="button"] {
+            background-color: #f44336; /* Red color for cancel button */
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .new-user input[type="button"]:hover {
+            background-color: #e53935;
+        }
     </style>
-      <!-- Include SweetAlert library -->
+    <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="new-user">
-            <h2>Microsoft 365 Account Verification</h2> 
+            <h2>Microsoft 365 Account Verification</h2>
             <center>
                 <h5 style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                     It seems that you're a new user,
@@ -143,28 +158,28 @@ if (isset($_POST['submitEmail'])) {
             <form action="send_verification.php" method="post">
                 <input type="hidden" name="username" value="<?php echo $user; ?>">
                 <input type="email" name="email" id="email" placeholder="Please enter your MS 365 Email." required>
-                 <div id="validationServerUsernameFeedback" class="invalid-feedback"></div>
+                <div id="validationServerUsernameFeedback" class="invalid-feedback"></div>
                 <input type="submit" name="registration_link" value="Send Verification Link">
-                <input type="button" name="cancelButton" value="Cancel">
-               
-                
+                <!-- Cancel Button -->
+                <input type="button" id="cancelButton" value="Cancel">
             </form>
         </div>
     </div>
-     <!-- Display SweetAlert messages based on the session status -->
+
+    <!-- Display SweetAlert messages based on the session status -->
     <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])): ?>
-     <script>
-         Swal.fire({
-             icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
-             title: '<?php echo $_SESSION['status']; ?>'
-           }).then((result) => {
-             // If the status is "success", redirect to index.php
-             if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
+    <script>
+        Swal.fire({
+            icon: '<?php echo $_SESSION['status_code']; ?>', // "success" or "error"
+            title: '<?php echo $_SESSION['status']; ?>'
+        }).then((result) => {
+            // If the status is "success", redirect to index.php
+            if ('<?php echo $_SESSION['status_code']; ?>' === 'success') {
                 window.location.href = "https://collegeofinfotech.com/index.php";
-             }
-             // If the status is "error", stay on the current page
+            }
+            // If the status is "error", stay on the current page
             else {
-                 window.location.href = `new_user.php?user=${user}`;
+                window.location.href = `new_user.php?user=${user}`;
             }
         });
     </script>
@@ -173,15 +188,16 @@ if (isset($_POST['submitEmail'])) {
         unset($_SESSION['status']);
         unset($_SESSION['status_code']);
     ?>
-<?php endif; ?>
+    <?php endif; ?>
 
+    <script>
+        // Add an event listener to the Cancel button
+        document.getElementById('cancelButton').addEventListener('click', function () {
+            // Redirect the user to a cancellation page or any other desired action
+            window.location.href = 'index.php'; // Replace 'index.php' with your desired cancel redirection page
+        });
+    </script>
 </body>
-  <script>
-            // Add an event listener to the Cancel button
-            document.getElementById('cancelButton').addEventListener('click', function ()
-            {
-                // Redirect the user to a cancellation page or any other desired action
-                window.location.href = 'index.php'; // Replace 'cancel-reset.php' with the desired cancellation page
-            });
-        </script>
+
 </html>
+
