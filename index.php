@@ -55,9 +55,8 @@ if (isset($_POST['submit'])) {
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['name'] = $fullName;
                 $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['display'] = $row['display']; // Set display session to the value from the database
 
-                $cookieExpire = time() + (1 * 60 * 60); // 1 hour expiration
+                $cookieExpire = time() + (1 * 60 * 60); // 1 hours expiration
                 setcookie('id', $username, $cookieExpire, '/', '', false, true);
                 setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
@@ -77,21 +76,10 @@ if (isset($_POST['submit'])) {
                             window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                         });
                     ";
-                } else {
-                    // Set session display to 1 when the profile is completed
-                    $_SESSION['display'] = 1;
-
+                } else  {
                     // Redirect users based on their level
-                    if ($_SESSION['level'] === 'admin') {
-                        $redirectUrl = 'admin/index.php';
-                    } elseif ($_SESSION['level'] === 'teacher') {
-                        $redirectUrl = 'teacher/index.php';
-                    } elseif ($_SESSION['level'] === 'students') {
-                        $redirectUrl = 'students/index.php';
-                    } else {
-                        // Fallback in case of an unexpected level value
-                        $redirectUrl = 'unknown.php';
-                    }
+                    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
+                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
 
                     $alertScript = "
                         Swal.fire({
@@ -136,7 +124,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
 
 
 <!DOCTYPE html>
