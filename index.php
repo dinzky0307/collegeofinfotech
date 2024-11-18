@@ -57,7 +57,7 @@ if (isset($_POST['submit'])) {
                 } elseif ($level === 'teacher') {
                     $redirectUrl = 'teacher/index.php';
                 } elseif ($level === 'student') {
-                    $redirectUrl = "students/index.php?user_id=$userId";
+                    $redirectUrl = 'students/index.php';
                 }
 
                 $alertScript = "
