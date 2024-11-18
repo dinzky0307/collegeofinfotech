@@ -1,6 +1,14 @@
 <?php
 include 'database.php';
+session_start(); // Start session
+
 $alertScript = ""; // Initialize alert script
+
+// Redirect already logged-in users
+if (isset($_SESSION['level'])) {
+    header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . '/index.php');
+    exit();
+}
 
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
@@ -20,8 +28,14 @@ if (isset($_POST['submit'])) {
             $username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); // Get username
             $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8'); // Full name
 
+            // Store session data
+            $_SESSION['id'] = $username;
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['name'] = $fullName;
+            $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+
             if ($row['display'] == 0) {
-                // SweetAlert for new user login
+                // Redirect new users to complete their profile
                 $alertScript = "
                     Swal.fire({
                         title: 'Welcome!',
@@ -34,8 +48,8 @@ if (isset($_POST['submit'])) {
                     });
                 ";
             } else {
-                // Determine redirection based on the level
-                $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                // Redirect users based on their level
+                $level = $_SESSION['level'];
                 $redirectUrl = '';
 
                 if ($level === 'admin') {
@@ -44,11 +58,8 @@ if (isset($_POST['submit'])) {
                     $redirectUrl = 'teacher';
                 } elseif ($level === 'student') {
                     $redirectUrl = 'students';
-                } else {
-                    $redirectUrl = 'default/index.php'; // Default redirection if level is unrecognized
                 }
 
-                // SweetAlert for successful login
                 $alertScript = "
                     Swal.fire({
                         title: 'Login Successful',
@@ -86,6 +97,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
