@@ -1,8 +1,5 @@
 <?php
 include 'database.php';
-session_start();
-
-$loginSuccess = false;  // Initialize variable to track successful login
 
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
@@ -19,43 +16,61 @@ if (isset($_POST['submit'])) {
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
             if ($row['display'] == 0) {
-                // Redirect to new user alert page safely
-                $loginSuccess = true;  // Set success flag for SweetAlert
+                // SweetAlert for new user login
                 echo "<script>
-                    window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                    Swal.fire({
+                        title: 'Welcome!',
+                        text: 'Redirecting to complete your profile.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'new_user.php?user=' + encodeURIComponent('$user');
+                    });
                 </script>";
-                exit();
             } else {
-                $loginSuccess = true;  // Set success flag for SweetAlert
-                // User is not new, proceed with login
-                $_SESSION['message'] = "You are now logged in.";
-                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                // SweetAlert for successful login
+                $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+
+                echo "<script>
+                    Swal.fire({
+                        title: 'Login Successful',
+                        text: 'Welcome back, $fullName!',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = '$level';
+                    });
+                </script>";
             }
         } else {
-            // Trigger SweetAlert for invalid login credentials
+            // SweetAlert for invalid login credentials
             echo "<script>
-                let loginFailed = true;
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Invalid username or password. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             </script>";
         }
     } catch (PDOException $e) {
         // Handle database errors and trigger SweetAlert
         error_log("Database error: " . $e->getMessage());
         echo "<script>
-            let dbError = true;
+            Swal.fire({
+                title: 'Error',
+                text: 'Something went wrong. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         </script>";
     }
 }
-
-// If the user is already logged in, redirect them based on their level
-if (isset($_SESSION['level'])) {
-    echo "<script>
-        window.location.href = '" . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . "';
-    </script>";
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -150,40 +165,7 @@ if (isset($_SESSION['level'])) {
       }
     });
   </script>
-   <script>
-    // PHP variable to JS to trigger SweetAlert
-    const loginSuccess = <?php echo json_encode($loginSuccess); ?>;
-
-    // Show SweetAlert notifications based on login status
-    if (loginSuccess) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful',
-        text: 'Welcome back!',
-        showConfirmButton: false,
-        timer: 1500
-      }).then(() => {
-        // Redirect after the SweetAlert notification
-        window.location.href = '<?php echo htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'); ?>';
-      });
-    }
-
-    if (typeof loginFailed !== 'undefined' && loginFailed) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Username or Password. Please try again.',
-      });
-    }
-
-    if (typeof dbError !== 'undefined' && dbError) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Database Error',
-        text: 'An error occurred while connecting to the database. Please try again later.',
-      });
-    }
-  </script>
+  
 </body>
 <style>
   .input-field {
