@@ -62,21 +62,37 @@ if (isset($_POST['submit'])) {
                 setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
                 setcookie('level', $_SESSION['level'], $cookieExpire, '/', '', false, true);
 
-                // Redirect users based on their level
-                $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
-                    ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
+                // Check if the user is new (display == 0)
+                if ($row['display'] == 0) {
+                    // Redirect new users to complete their profile
+                    $alertScript = "
+                        Swal.fire({
+                            title: 'Welcome!',
+                            text: 'Redirecting to complete your profile.',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true
+                        }).then(() => {
+                            window.location.href = 'new_user.php?user=" . urlencode($user) . "';
+                        });
+                    ";
+                } else {
+                    // Redirect users based on their level
+                    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
+                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
 
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Login Successful',
-                        text: 'Welcome back, $fullName!',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true
-                    }).then(() => {
-                        window.location.href = '$redirectUrl';
-                    });
-                ";
+                    $alertScript = "
+                        Swal.fire({
+                            title: 'Login Successful',
+                            text: 'Welcome back, $fullName!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true
+                        }).then(() => {
+                            window.location.href = '$redirectUrl';
+                        });
+                    ";
+                }
             } else {
                 // Increment login attempts on failure
                 $_SESSION['login_attempts']++;
