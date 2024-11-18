@@ -5,10 +5,8 @@ session_start(); // Start session
 $alertScript = ""; // Initialize alert script
 
 // Redirect already logged-in users
-if (isset($_SESSION['level']) || isset($_COOKIE['level'])) {
-    // Redirect based on session or cookie level
-    $redirectLevel = isset($_SESSION['level']) ? $_SESSION['level'] : $_COOKIE['level'];
-    header('location:' . htmlspecialchars($redirectLevel, ENT_QUOTES, 'UTF-8') . '/index.php');
+if (isset($_SESSION['level'])) {
+    header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8') . '/index.php');
     exit();
 }
 
@@ -35,13 +33,6 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['name'] = $fullName;
             $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-
-            // Set cookies for persistent login
-            $cookieExpire = time() + (86400 * 7); // 7 days expiration
-            setcookie('id', $username, $cookieExpire, '/', '', false, true);
-            setcookie('user_id', $row['id'], $cookieExpire, '/', '', false, true);
-            setcookie('name', $fullName, $cookieExpire, '/', '', false, true);
-            setcookie('level', $_SESSION['level'], $cookieExpire, '/', '', false, true);
 
             if ($row['display'] == 0) {
                 // Redirect new users to complete their profile
@@ -106,7 +97,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
