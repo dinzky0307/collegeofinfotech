@@ -2,33 +2,27 @@
 // Include the configuration file
 include 'config.php';
 
-// Get the username from the URL parameter
-$user = isset($_GET['user']) ? $_GET['user'] : '';
-
 // Start the session to manage cookies and session data
 session_start();
 
-// Check if the page was accessed via the browser's back button
-if (isset($_SERVER['HTTP_REFERER'])) {
-    $referrer = $_SERVER['HTTP_REFERER'];
-    $currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    
-    // If the referrer is the same as the current URL or an unauthorized action, destroy cookies and session
-    if (stripos($referrer, $currentURL) !== false) {
-        // Destroy cookies
-        setcookie('id', '', time() - 3600, '/');
-        setcookie('user_id', '', time() - 3600, '/');
-        setcookie('name', '', time() - 3600, '/');
-        setcookie('level', '', time() - 3600, '/');
-        
-        // Destroy session
-        session_unset();
-        session_destroy();
+// Get the username from the URL parameter
+$user = isset($_GET['user']) ? $_GET['user'] : '';
 
-        // Redirect to the login page or home page
-        header('Location: https://collegeofinfotech.com/index.php');
-        exit();
-    }
+// Check if the cancel button was clicked or if the user is navigating back
+if (isset($_GET['cancel']) || isset($_POST['cancel'])) {
+    // Destroy cookies
+    setcookie('id', '', time() - 3600, '/');
+    setcookie('user_id', '', time() - 3600, '/');
+    setcookie('name', '', time() - 3600, '/');
+    setcookie('level', '', time() - 3600, '/');
+    
+    // Destroy session
+    session_unset();
+    session_destroy();
+
+    // Redirect to the login page or home page
+    header('Location: index.php');
+    exit();
 }
 ?>
 
@@ -184,11 +178,17 @@ if (isset($_SERVER['HTTP_REFERER'])) {
     ?>
     <?php endif; ?>
 
-    <script>
-        // Add an event listener to the Cancel button
-        document.getElementById('cancelButton').addEventListener('click', function () {
-            // Redirect the user to a cancellation page or any other desired action
-            window.location.href = '../index.php'; // Replace 'index.php' with your desired cancel redirection page
+   <script>
+        // When cancel button is clicked, submit the form with 'cancel' action
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            var cancelButtonForm = document.createElement('form');
+            cancelButtonForm.method = 'POST';
+            var cancelInput = document.createElement('input');
+            cancelInput.type = 'hidden';
+            cancelInput.name = 'cancel';
+            cancelButtonForm.appendChild(cancelInput);
+            document.body.appendChild(cancelButtonForm);
+            cancelButtonForm.submit();
         });
     </script>
 </body>
