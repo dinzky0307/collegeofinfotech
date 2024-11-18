@@ -188,7 +188,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
         // Add an event listener to the Cancel button
         document.getElementById('cancelButton').addEventListener('click', function () {
             // Redirect the user to a cancellation page or any other desired action
-            window.location.href = 'index.php'; // Replace 'index.php' with your desired cancel redirection page
+            window.location.href = '../index.php'; // Replace 'index.php' with your desired cancel redirection page
         });
     </script>
 </body>
