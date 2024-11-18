@@ -1,33 +1,43 @@
 <?php
+
 // Include the configuration file
 include 'config.php';
-session_start(); // Start the session
-
-// Check if the user is logged in
-if (!isset($_SESSION['id']) || !isset($_SESSION['level'])) {
-    // If not logged in, redirect to login page
-    header('Location: index.php');
-    exit();
-}
 
 // Get the username from the URL parameter
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 
-// Validate the username and fetch the `display` status from the database
-$result = mysql_query("SELECT * FROM userdata WHERE username = '$user'");
-$row = mysql_fetch_assoc($result);
+// Check if the email submission form is submitted
+if (isset($_POST['submitEmail'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
 
-if (!$row || $row['display'] != 0) {
-    // If user does not exist or `display` is not 0, redirect based on their level
-    $redirectUrl = $_SESSION['level'] === 'admin' ? 'index.php' :
-        ($_SESSION['level'] === 'teacher' ? 'index.php' : 'index.php');
-    header('Location: ' . $redirectUrl);
+    // Update email in userdata table
+    $updateQuery = "UPDATE userdata SET email = '$email', display = 1 WHERE username = '$username'";
+    mysql_query($updateQuery);
+
+    // Update email in student table
+    $updateStudentQuery = "UPDATE student SET email = '$email' WHERE studid = '$username'";
+    mysql_query($updateStudentQuery);
+
+    // Update email in teacher table
+    $updateTeacherQuery = "UPDATE teacher SET email = '$email' WHERE teachid = '$username'";
+    mysql_query($updateTeacherQuery);
+
+    // Fetch user data again
+    $result = mysql_query("SELECT * FROM userdata WHERE username='$username'");
+    $row = mysql_fetch_assoc($result);
+
+    // Proceed with login
+    $_SESSION['message'] = "You are now logged in.";
+    $_SESSION['level'] = $row['level'];
+    $_SESSION['id'] = $row['username'];
+    $_SESSION['user_id'] = $row['id'];
+    $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
+    header('location:' . $row['level'] . '');
     exit();
 }
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">

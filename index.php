@@ -79,7 +79,7 @@ if (isset($_POST['submit'])) {
                 } else  {
                     // Redirect users based on their level
                     $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
-                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
+                        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students');
 
                     $alertScript = "
                         Swal.fire({
