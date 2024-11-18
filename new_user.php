@@ -1,43 +1,49 @@
 <?php
-
 // Include the configuration file
 include 'config.php';
+session_start(); // Start the session
+
+// Check if the user is logged in
+if (!isset($_SESSION['id']) || !isset($_SESSION['level'])) {
+    // If not logged in, redirect to login page
+    header('Location: login.php');
+    exit();
+}
 
 // Get the username from the URL parameter
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 
-// Check if the email submission form is submitted
-if (isset($_POST['submitEmail'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+// Validate the username and fetch the `display` status from the database
+$result = mysql_query("SELECT * FROM userdata WHERE username = '$user'");
+$row = mysql_fetch_assoc($result);
 
-    // Update email in userdata table
-    $updateQuery = "UPDATE userdata SET email = '$email', display = 1 WHERE username = '$username'";
-    mysql_query($updateQuery);
-
-    // Update email in student table
-    $updateStudentQuery = "UPDATE student SET email = '$email' WHERE studid = '$username'";
-    mysql_query($updateStudentQuery);
-
-    // Update email in teacher table
-    $updateTeacherQuery = "UPDATE teacher SET email = '$email' WHERE teachid = '$username'";
-    mysql_query($updateTeacherQuery);
-
-    // Fetch user data again
-    $result = mysql_query("SELECT * FROM userdata WHERE username='$username'");
-    $row = mysql_fetch_assoc($result);
-
-    // Proceed with login
-    $_SESSION['message'] = "You are now logged in.";
-    $_SESSION['level'] = $row['level'];
-    $_SESSION['id'] = $row['username'];
-    $_SESSION['user_id'] = $row['id'];
-    $_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];
-    header('location:' . $row['level'] . '');
+if (!$row || $row['display'] != 0) {
+    // If user does not exist or `display` is not 0, redirect based on their level
+    $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
+        ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
+    header('Location: ' . $redirectUrl);
     exit();
 }
 
 ?>
+
+<!-- HTML Content for new_user.php -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Your Profile</title>
+</head>
+<body>
+    <h2>Welcome, <?php echo htmlspecialchars($user, ENT_QUOTES, 'UTF-8'); ?>! Please complete your profile.</h2>
+    <form method="POST" action="new_user.php?user=<?php echo urlencode($user); ?>">
+        <input type="hidden" name="username" value="<?php echo htmlspecialchars($user, ENT_QUOTES, 'UTF-8'); ?>">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit" name="submitEmail">Submit</button>
+    </form>
+</body>
+</html>
+
 
 <!DOCTYPE html>
 <html lang="en">

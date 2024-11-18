@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
                             window.location.href = 'new_user.php?user=" . urlencode($user) . "';
                         });
                     ";
-                } else {
+                } else  {
                     // Redirect users based on their level
                     $redirectUrl = $_SESSION['level'] === 'admin' ? 'admin/index.php' :
                         ($_SESSION['level'] === 'teacher' ? 'teacher/index.php' : 'students/index.php');
