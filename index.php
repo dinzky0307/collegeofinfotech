@@ -39,9 +39,9 @@ if (isset($_POST['submit'])) {
                 $redirectUrl = '';
 
                 if ($level === 'admin') {
-                    $redirectUrl = 'admin/index.php';
+                    $redirectUrl = "admin/index.php?user_id=$userId";
                 } elseif ($level === 'teacher') {
-                    $redirectUrl = 'teacher/index.php';
+                    $redirectUrl = "teacher/index.php?user_id=$userId";
                 } elseif ($level === 'student') {
                     $redirectUrl = "students/index.php?user_id=$userId";
                 } else {
