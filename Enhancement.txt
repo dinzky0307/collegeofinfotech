@@ -12,6 +12,6 @@ Student portal(Select academic year)
 Mobile apps responsive (Login, Forgot Password, Send Verfication 
 Teachers portal and Students portal)
 
-Sweetalerts in login and log out.
+Sweetalerts in login and log out. with cookies session and 3 attempts login (done)
 
 Testing for Penetration Testing
