@@ -1,6 +1,5 @@
 <?php
 include 'database.php';
-$alertScript = ""; // Initialize alert script
 
 if (isset($_POST['submit'])) {
     // Sanitize user inputs to prevent XSS
@@ -16,76 +15,38 @@ if (isset($_POST['submit'])) {
 
         // Check if a user record was found and verify the password
         if ($row && password_verify($pass, $row['password'])) {
-            $userId = htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); // Get user ID
-            $username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); // Get username
-            $fullName = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8'); // Full name
-
             if ($row['display'] == 0) {
-                // SweetAlert for new user login
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Welcome!',
-                        text: 'Redirecting to complete your profile.',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true
-                    }).then(() => {
-                        window.location.href = 'new_user.php?user=" . urlencode($user) . "';
-                    });
-                ";
+                // Redirect to new user alert page safely
+                header('location: new_user.php?user=' . urlencode($user));
+                exit();
             } else {
-                // Determine redirection based on the level
-                $level = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
-                $redirectUrl = '';
-
-                if ($level === 'admin') {
-                    $redirectUrl = "../admin/index.php?user_id=$userId";
-                } elseif ($level === 'teacher') {
-                    $redirectUrl = "../teacher/index.php?user_id=$userId";
-                } elseif ($level === 'student') {
-                    $redirectUrl = "../students/index.php?user_id=$userId";
-                } else {
-                    $redirectUrl = 'default/index.php'; // Default redirection if level is unrecognized
-                }
-
-                // SweetAlert for successful login
-                $alertScript = "
-                    Swal.fire({
-                        title: 'Login Successful',
-                        text: 'Welcome back, $fullName!',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true
-                    }).then(() => {
-                        window.location.href = '$redirectUrl';
-                    });
-                ";
+                // User is not new, proceed with login
+                session_start();
+                $_SESSION['message'] = "You are now logged in.";
+                $_SESSION['level'] = htmlspecialchars($row['level'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['id'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8');
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['name'] = htmlspecialchars($row['fname'] . ' ' . $row['lname'], ENT_QUOTES, 'UTF-8');
+                header('location:' . $_SESSION['level']);
+                exit();
             }
         } else {
-            // SweetAlert for invalid login credentials
-            $alertScript = "
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Invalid username or password. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            ";
+            // Redirect to login page with an error message if credentials are invalid
+            header('location:index.php?login=0');
         }
     } catch (PDOException $e) {
-        // Handle database errors and trigger SweetAlert
+        // Handle database errors
         error_log("Database error: " . $e->getMessage());
-        $alertScript = "
-            Swal.fire({
-                title: 'Error',
-                text: 'Something went wrong. Please try again later.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        ";
+        header('location:index.php?login=0');
     }
 }
+
+// If the user is already logged in, redirect them based on their level
+if (isset($_SESSION['level'])) {
+    header('location:' . htmlspecialchars($_SESSION['level'], ENT_QUOTES, 'UTF-8'));
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
