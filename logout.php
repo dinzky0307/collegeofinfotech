@@ -35,8 +35,7 @@ echo "
         text: 'You have been successfully logged out.',
         icon: 'success',
         confirmButtonText: 'OK',
-         timer: 1000,
-      
+        allowOutsideClick: true
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = 'index.php';
