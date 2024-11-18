@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
                             } else if ('" . $_SESSION['level'] . "' === 'student') {
                                 window.location.href = 'student/index.php';   
                             } else {
-                                window.location.href = 'index.php';
+                                window.location.href = 'https://collegeofinfotech.com/index.php';
                             }
                         });
                     ";

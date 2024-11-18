@@ -26,7 +26,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
         session_destroy();
 
         // Redirect to the login page or home page
-        header('Location: index.php');
+        header('Location: https://collegeofinfotech.com/index.php');
         exit();
     }
 }
