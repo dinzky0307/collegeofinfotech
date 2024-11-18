@@ -9,7 +9,7 @@ session_start();
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 
 // Check if the cancel button was clicked or if the user is navigating back
-if (isset($_GET['cancel']) || isset($_SERVER['HTTP_REFERER'])) {
+if (isset($_GET['cancel'])) {
     // Destroy cookies
     setcookie('id', '', time() - 3600, '/');
     setcookie('user_id', '', time() - 3600, '/');
