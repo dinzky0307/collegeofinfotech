@@ -118,7 +118,7 @@ try {
                                         <td>
                                             <?= $class['total_students'] > 0 
                                                 ? "{$class['total_students']} Students" 
-                                                : "No Students"; ?>
+                                                : "0"; ?>
                                         </td>
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
