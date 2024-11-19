@@ -75,9 +75,9 @@ if ($academicYearActive) {
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <!-- <th>Instructor</th> -->
+                                <th>Instructor</th>
                                 <th>Students</th>
-                                <th>Action</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,7 +92,7 @@ if ($academicYearActive) {
                                         <td><?= htmlspecialchars($class['year'] . '-' . $class['section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
-                                        <!-- <td><?= htmlspecialchars($class['teacher']); ?></td> -->
+                                        <td><?= htmlspecialchars($class['fname']); ?> <?= htmlspecialchars($class['lname']); ?></td>
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
