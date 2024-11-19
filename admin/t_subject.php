@@ -3,24 +3,28 @@
 include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
-include('../DatabaseService.php'); // New DatabaseService for fetching data securely
+include('../DatabaseService.php'); // DatabaseService for secure database operations
 
 use Database\DatabaseService;
 
 // Initialize database service
-$dbService = new DatabaseService;
+$dbService = new DatabaseService();
 
-// Get teacher_id from the URL
+// Validate and fetch teacher_id from the URL
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
 
-if ($teacherId === 0) {
-    die("Invalid Teacher ID");
+if ($teacherId <= 0) {
+    die("<div class='alert alert-danger text-center'>Invalid Teacher ID</div>");
 }
 
-// Fetch teacher's subjects based on their ID
-$firstSemSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'First Semester'", [$teacherId]);
-$secondSemSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'Second Semester'", [$teacherId]);
-$summerSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'Summer'", [$teacherId]);
+// Fetch teacher's subjects securely based on their ID
+try {
+    $firstSemSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'First Semester'", [$teacherId]);
+    $secondSemSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'Second Semester'", [$teacherId]);
+    $summerSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id = ? AND semester = 'Summer'", [$teacherId]);
+} catch (Exception $e) {
+    die("<div class='alert alert-danger text-center'>Error fetching subjects: " . htmlspecialchars($e->getMessage()) . "</div>");
+}
 ?>
 
 <style>
@@ -29,11 +33,9 @@ $summerSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id =
         border: none;
         background: none;
         padding: 0;
-        color: #f00;
-        /* Change the color as per your preference */
+        color: #f00; /* Change the color if needed */
         cursor: pointer;
-        outline: none;
-        /* Remove outline on focus */
+        outline: none; /* Remove focus outline */
     }
 </style>
 
@@ -57,17 +59,17 @@ $summerSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id =
         <div class="tab-content">
             <!-- First Semester -->
             <div class="tab-pane active" id="firstSem">
-                <?php renderSubjectTable($firstSemSubjects); ?>
+                <?php renderSubjectTable($firstSemSubjects, "First Semester"); ?>
             </div>
 
             <!-- Second Semester -->
             <div class="tab-pane" id="secondSem">
-                <?php renderSubjectTable($secondSemSubjects); ?>
+                <?php renderSubjectTable($secondSemSubjects, "Second Semester"); ?>
             </div>
 
             <!-- Summer -->
             <div class="tab-pane" id="summer">
-                <?php renderSubjectTable($summerSubjects); ?>
+                <?php renderSubjectTable($summerSubjects, "Summer"); ?>
             </div>
         </div>
     </div>
@@ -75,12 +77,15 @@ $summerSubjects = $dbService->fetchAll("SELECT * FROM subject WHERE teacher_id =
 
 <?php
 /**
- * Function to render the subjects table
+ * Function to render a subjects table
+ *
+ * @param array $subjects - List of subjects for a given semester
+ * @param string $semester - Semester name
  */
-function renderSubjectTable($subjects)
+function renderSubjectTable($subjects, $semester)
 {
     echo '<br><div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -94,7 +99,7 @@ function renderSubjectTable($subjects)
                 <tbody>';
 
     if (empty($subjects)) {
-        echo '<tr><td colspan="6" class="text-center text-danger"><strong>*** EMPTY ***</strong></td></tr>';
+        echo '<tr><td colspan="6" class="text-center text-danger"><strong>No subjects available for ' . htmlspecialchars($semester) . '.</strong></td></tr>';
     } else {
         $count = 1;
         foreach ($subjects as $subject) {
@@ -104,7 +109,12 @@ function renderSubjectTable($subjects)
                     <td>' . htmlspecialchars($subject['course']) . '</td>
                     <td>' . htmlspecialchars($subject['year']) . '</td>
                     <td>' . htmlspecialchars($subject['section']) . '</td>
-                    <td><a href="student.php?classid=' . htmlspecialchars($subject['id']) . '&y=' . htmlspecialchars($subject['year']) . '&sem=' . htmlspecialchars($subject['semester']) . '&sec=' . htmlspecialchars($subject['section']) . '&ay=' . htmlspecialchars($subject['academic_year']) . '&code=' . htmlspecialchars($subject['subject']) . '">View Students</a></td>
+                    <td>
+                        <a href="student.php?classid=' . htmlspecialchars($subject['id']) . '&y=' . htmlspecialchars($subject['year']) . 
+                        '&sem=' . htmlspecialchars($subject['semester']) . '&sec=' . htmlspecialchars($subject['section']) . 
+                        '&ay=' . htmlspecialchars($subject['academic_year']) . '&code=' . htmlspecialchars($subject['subject']) . 
+                        '" class="btn btn-primary btn-sm">View Students</a>
+                    </td>
                   </tr>';
         }
     }
@@ -112,9 +122,6 @@ function renderSubjectTable($subjects)
     echo '</tbody></table></div>';
 }
 ?>
-
-
-
 
 <!-- /#page-wrapper -->
 <?php include('include/modal.php'); ?>
