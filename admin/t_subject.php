@@ -38,13 +38,15 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts
+// Fetch class data along with student counts, grouped by teacher_id
 $sql = "
     SELECT c.id AS class_id, c.subject, c.description, c.course, 
            CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
-           (SELECT COUNT(*) FROM studentsubject WHERE classid = c.id) AS total_students
+           COUNT(ss.studid) AS total_students
     FROM class c
+    LEFT JOIN studentsubject ss ON c.id = ss.classid
     WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
+    GROUP BY c.id
 ";
 $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
