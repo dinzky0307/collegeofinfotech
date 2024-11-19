@@ -71,7 +71,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <!-- Table -->
-       <div class="row">
+   <div class="row">
     <div class="col-lg-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="classInformation">
@@ -100,6 +100,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?= htmlspecialchars($class['year_section']); ?></td>
                                 <td><?= htmlspecialchars($class['sem']); ?></td>
                                 <td><?= htmlspecialchars($class['SY']); ?></td>
+                                <!-- Corrected the placement of "Students" and "Status" columns -->
                                 <td>
                                     <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                 </td>
@@ -120,6 +121,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+
 
     </div>
 </div>
