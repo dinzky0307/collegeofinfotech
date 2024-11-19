@@ -39,33 +39,32 @@ try {
     }
 
     // Fetch class data along with total students count
-$sql = "
-    SELECT 
-        c.id AS class_id,
-        c.subject AS subject,
-        c.description AS description,
-        c.course AS course,
-        CONCAT(c.year, ' ', c.section) AS year_section,
-        c.sem AS semester,
-        c.SY AS school_year,
-        COUNT(ss.studid) AS total_students
-    FROM 
-        class c
-    LEFT JOIN 
-        studentsubject ss ON c.id = ss.classid
-    WHERE 
-        c.teacher = :teacherId
-    GROUP BY 
-        c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
-    ORDER BY 
-        c.year, c.section, c.subject;
-";
+    $sql = "
+        SELECT 
+            c.id AS id,
+            c.subject AS subject,
+            c.description AS description,
+            c.course AS course,
+            CONCAT(c.year, ' ', c.section) AS year_section,
+            c.sem AS sem,
+            c.SY AS SY,
+            COUNT(ss.studid) AS total_students
+        FROM 
+            class c
+        LEFT JOIN 
+            studentsubject ss ON c.id = ss.classid
+        WHERE 
+            c.teacher = :teacherId
+        GROUP BY 
+            c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
+        ORDER BY 
+            c.year, c.section, c.subject;
+    ";
 
-$stmt = $connection->prepare($sql);
-$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-$stmt->execute();
-$classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+    $stmt->execute();
+    $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     die("<div class='alert alert-danger text-center'>Error fetching data: " . htmlspecialchars($e->getMessage()) . "</div>");
 }
