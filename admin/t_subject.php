@@ -85,7 +85,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Semester</th>
                 <th>S.Y.</th>
                 <th>Students</th>
-                <th>Status</th>
+              <!--   <th>Status</th> -->
             </tr>
         </thead>
         <tbody>
@@ -103,11 +103,11 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                           <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
-                        <td>
+                        <!-- <td>
                             <?= $class['total_students'] > 0 
                                 ? "{$class['total_students']} Students" 
                                 : "No Students"; ?>
-                        </td>
+                        </td> -->
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
