@@ -196,7 +196,11 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                                                     <i class="fa fa-trash-o fa-lg text-danger"></i>
                                                 </button>
                                             </form>
-                                            <!-- <a href="data/data_model.php?q=delete&table=teacher&id=<?php echo $teacher['id'] ?>" title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a></td> -->
+                                           </td> 
+                                         <td class="text-center"><a
+                                            href="classteacher.php?classid=<?php echo $teacher['id']; ?>"
+                                            title="update teacher">View</a></td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
