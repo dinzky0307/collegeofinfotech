@@ -1,250 +1,242 @@
 <?php
-include('include/header.php');
-include('include/sidebar.php');
-
-include('../database.php'); // Include the database connection code
-
-include('data/data_model.php');
-
-$data = new Data($connection);
-if (isset($_GET['q'])) {
-    $data->$_GET['q']();
-}
-
-$search = '';
-
-// Fetch the active academic year from the database
-include '../DatabaseService.php';
-use Database\DatabaseService;
-
-$dbService = new DatabaseService;
-
-$activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1");
-
-// Check if the active academic year exists and set the variables accordingly
-if ($activeAcademicYear) {
-    $academicYearActive = true;
-    $semester = $activeAcademicYear['semester']; // Get the active semester (e.g., 'First Semester', 'Second Semester', 'Final Semester')
-} else {
-    $academicYearActive = false;
-    $semester = ''; // Set the semester to an empty string or handle as needed
-}
-
-// Create a mapping array for semester values
-$semesterMapping = [
-    'First Semester' => 1,
-    'Second Semester' => 2,
-    'Final Semester' => 3,
-];
-
-// Map the active semester to the corresponding value
-$semesterValue = isset($semesterMapping[$semester]) ? $semesterMapping[$semester] : null;
-
-$subjects = [];
-if ($academicYearActive) {
-    $subjects = $data->getsubject($search, $semesterValue); // Modify this to fetch subjects based on the active semester value
-}
-
-// Function to handle the deletion of a subject
-function deleteSubject($subjectId, $connection)
-{
-    // Write your code to delete the subject with the given subject ID
-    $sql = "DELETE FROM subject WHERE id = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->execute([$subjectId]);
-}
-
-// Check if the delete button is clicked
-if (isset($_POST['deleteSubject']) && isset($_POST['subjectId'])) {
-    $subjectId = $_POST['subjectId'];
-    $delete = deleteSubject($subjectId, $connection);
-
-    if ($delete) {
-        // Redirect to the same page after the deletion
-        echo "<script type='text/javascript'>window.location.href = 'subject.php?r=deleted';</script>";
-        exit(); // Make sure to exit after redirecting to prevent further code execution
-    } else {
-
-    }
-
-}
+    include('include/header.php');
+    include('include/sidebar.php');
+    include('data/subject_model.php');
+    
+    
+    $firstsem = $subject->getsubject('First Semester',$id);    
+    $secondsem = $subject->getsubject('Second Semester',$id);
+    $summer = $subject->getsubject('Summer',$id);   
+    
+    
+    // echo $id;
 ?>
+<?php
+    // include '../DatabaseService.php';
+    // use Database\DatabaseService;
+    // $dbService = new DatabaseService;
+
+    // $sem = $dbService->fetchRow("SELECT * from ay");
+
+    // if($sem == $firstsem){
+
+    // }else if($sem == $secondsem){
+
+    // }else if($sem == $summer){
+
+    // }
+
+
+?>
+    <style>
+        /* Add this CSS to your stylesheet */
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+            /* background-color: #337ab7; Change this color to the desired fill color */
+            color: red; /* Change this color to the desired text color */
+        }
+    </style>
 <style>
-    /* Custom styling for the delete button */
-    .delete-button {
-        border: none;
-        background: none;
-        padding: 0;
-        color: #f00;
-        /* Change the color as per your preference */
-        cursor: pointer;
-        outline: none;
-        /* Remove outline on focus */
+
+/* Ensure that the sidebar and content align responsively */
+.wrapper {
+    display: flex;
+}
+
+.main-sidebar {
+    flex: 0 0 250px; /* Set a fixed width for the sidebar */
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .main-sidebar {
+        display: none; /* Hide sidebar on smaller screens */
     }
-</style>
-<div id="page-wrapper">
 
-    <div class="container-fluid">
+    .content-wrapper {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
 
-        <!-- Page Heading -->
-        <div class="row">
+
+
+
+
+
+</style> 
+<div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="main-sidebar">
+        <section class="sidebar">   
+        
+            
+            <ul class="nav navbar-nav side-nav">               
+               
+                <li class="active"><a href="index.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li><a href="subject.php"><i class="fa fa-book"></i> <span>My Subjects</span></a></li>
+                <li><a href="list.php"><i class="fa fa-envelope"></i> <span>Consultation</span></a></li>
+                <li><a href="settings.php"><i class="fa fa-gear"></i> <span>Change Password</span></a></li>
+                <li><a href="../logout.php"><i class="fa fa-power-off"></i> <span>Log Out</span></a></li>
+            </ul>
+        </section>
+    </aside>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <small>SUBJECT'S LIST</small>
+                    <small>MY SUBJECTS</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li>
                         <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
                     </li>
                     <li class="active">
-                        Subject
+                        My Subjects
                     </li>
                 </ol>
             </div>
         </div>
-        
-        <!-- /.row -->
-        <div class="row">
+                <!-- Panels Section -->
+                    <div class="row">
             <div class="col-lg-12">
-                <div class="form-inline form-padding" style="float: right;">
-                    <form action="subject.php" method="post">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addsubject"><i
-                                class="fa fa-book"></i> Add Subject</button>
+                <!-- <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#data1" role="tab" data-toggle="tab">First Semester</a></li>
+                    <li><a href="#data2" role="tab" data-toggle="tab">Second Semester</a></li>
+                    <li><a href="#data3" role="tab" data-toggle="tab">Summer</a></li>
+                </ul> -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="<?php echo isset($_GET['page']) ? 'active' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data1" role="tab" data-toggle="tab">First Semester</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data2" role="tab" data-toggle="tab">Second Semester</a></li>
+                    <li class="<?php echo isset($_GET['page']) ? '' : ''; ?>" style="border: 1px solid black; border-radius: 7px; margin-right: 10px"><a href="#data3" role="tab" data-toggle="tab">Summer</a></li>
+                </ul>
 
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-
-    <!--    <div class="col-lg-3">
-    <form action="subject.php" method="POST" id="searchForm">
-        <div class="form-group d-flex align-items-center">
-            <input type="text" class="form-control" name="search" placeholder="Search by Subject code, or Descriptive Title" />
-        </div>
-    </form>
-</div>!-->
-        </div>
-        <!--/.row -->
-        <hr />
-        <div class="row">
-            <div class="col-lg-12">
-                <?php if (isset($_GET['r'])): ?>
-                    <?php
-                    $r = $_GET['r'];
-                    if ($r == 'added') {
-                        $class = 'success';
-                    } else if ($r == 'updated') {
-                        $class = 'info';
-                    } else if ($r == 'deleted') {
-                        $class = 'danger';
-                    } else {
-                        $class = 'hide';
-                    }
-                    ?>
-                    <div class="alert alert-<?php echo $class ?> <?php echo $class; ?>">
-                        <strong>Subject successfully
-                            <?php echo $r; ?>!
-                        </strong>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- <div class="tab-pane active" id="data1"> -->
+                    <div class="tab-pane <?php echo isset($_GET['page']) ? 'active' : ''; ?>" id="data1">
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $c = 1; ?>
+                                    <?php while($row = mysql_fetch_array($firstsem)): ?>
+                                        <tr>
+                                            <td><?php echo $c; ?></td>
+                                            <td class=""><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                        </tr>
+                                    <?php $c++; ?>
+                                    <?php endwhile; ?>
+                                    <?php if(mysql_num_rows($firstsem) < 1): ?>
+                                        <tr><td colspan="6" class="text-center text-danger"><strong>*** EMPTY ***</strong></td></tr>
+                                    <?php endif;?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                <?php endif; ?>
+                    <!-- <div class="tab-pane" id="data2"> -->
+                    <div class="tab-pane <?php echo isset($_GET['page']) ? '' : ''; ?>" id="data2">
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $c = 1; ?>
+                                    <?php while($row = mysql_fetch_array($secondsem)): ?>
+                                        <tr>
+                                            <td><?php echo $c; ?></td>
+                                            <td><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                        </tr>
+                                    <?php $c++; ?>
+                                    <?php endwhile; ?>
+                                    <?php if(mysql_num_rows($secondsem) < 1): ?>
+                                        <tr><td colspan="6" class="text-center text-danger"><strong>*** EMPTY ***</strong></td></tr>
+                                    <?php endif;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <div class="tab-pane active" id="data3"> -->
+                    <div class="tab-pane <?php echo isset($_GET['page']) ? '' : ''; ?>" id="data3">
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Subject</th>
+                                        <th>Course</th>
+                                        <th>Year</th>
+                                        <th>Section</th>
+                                        <th>Students</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $c = 1; ?>
+                                    <?php while($row = mysql_fetch_array($summer)): ?>
+                                        <tr>
+                                            <td><?php echo $c; ?></td>
+                                            <td><?php echo $row['subject']; ?> - <?php echo $row['description']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <td><?php echo $row['year']; ?></td>
+                                            <td><?php echo $row['section']; ?></td>
+                                            <td><a href="student.php?classid=<?php echo $row['id'];?>&y=<?php echo $row['year'];?>&sem=<?php echo $row['sem'];?>&sec=<?php echo $row['section'];?>&ay=<?php echo $row['SY'];?>&code=<?php echo $row['subject'];?>">View Students</a></td>
+                                            
+                                        </tr>
+                                    <?php $c++; ?>
+                                    <?php endwhile; ?>
+                                    <?php if(mysql_num_rows($summer) < 1): ?>
+                                        <tr><td colspan="6" class="text-center text-danger"><strong>*** EMPTY ***</strong></td></tr>
+                                    <?php endif;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>   
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="subjectInformation">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th class="text-center">Subject Code</th>
-                                <th class="text-center">Descriptive Title</th>
-                                <th class="text-center">Lec Unit</th>
-                                <th class="text-center">Lab Unit</th>
-                                <th class="text-center">Total Units</th>
-                                <th class="text-center">Pre-requisites/s</th>
-                                <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($subjects as $number => $subject): ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $number + 1; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $subject['code']; ?></a>
-                                    </td>
-                                    <td>
-                                        <?php echo $subject['title']; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $subject['lecunit']; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $subject['labunit']; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $subject['totalunit']; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $subject['pre']; ?>
-                                    </td>
-                                    <td class="text-center"><a href="edit.php?type=subject&id=<?php echo $subject['id'] ?>"
-                                            title="Update"><i class="fa fa-edit fa-lg text-primary"></i> </a></td>
-                                    <td class="text-center">
-                                        <form class="delete-form" method="post">
-                                            <input type="hidden" name="subjectId" value="<?php echo $subject['id']; ?>">
-                                            <button type="submit" name="deleteSubject" class="delete-button" title="Remove"
-                                                onclick="return confirm('Are you sure you want to delete this subject?');">
-                                                <i class="fa fa-trash-o fa-lg text-danger"></i>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="data/data_model.php?q=delete&table=subject&id=<?php echo $subject['id'] ?>"title="Remove"><i class="fa fa-trash-o fa-lg text-danger confirmation"></i></a> -->
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                <!-- /.row -->
             </div>
-        </div>
-
+            <br><br> <br><br>  <br><br>
+            <!-- /.container-fluid -->
+             <footer class="container-fluid">
+        <?php include 'include/footer.php'; ?>
+      </footer>
+        </section>
     </div>
-    <!-- /.container-fluid -->
-
+      
 </div>
-<script>
-    $('#subjectInformation thead th').each( function () {
-    } );
-    // DataTable
-    var table = $('#subjectInformation').DataTable({
-    searching: true,
-    "columnDefs": [
-        { "searchable": true, "targets": '_all' }
-    ],
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $.noConflict();
-        $('#subjectInformation').DataTable();
-    });
-
-    function handleSearchInput(event) {
-        // Get the form element
-        const form = document.getElementById('searchForm');
-        
-        // Submit the form
-        form.submit();
-    }
-
-    // Listen for the "keyup" event on the search input and call the handleSearchInput function
-    const searchInput = document.querySelector('input[name="search"]');
-    searchInput.addEventListener('keyup', handleSearchInput);
-</script>
-<!-- /#page-wrapper -->
-<?php include('include/modal.php'); ?>
-<?php include('include/footer.php'); ?>
