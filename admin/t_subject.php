@@ -106,7 +106,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td>
                                             <?= $class['total_students'] > 0 
                                                 ? "{$class['total_students']} Students" 
-                                                : "No Students"; ?>
+                                                : "0/0"; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
