@@ -89,8 +89,8 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
+                                <th>Students</th>
                                 <th>Status</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,12 +106,24 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
                                         <td>
-                                            <?= $class['total_students_with_grades'] > 0 
-                                                ? "{$class['total_students_with_grades']} Students with Grades" 
-                                                : "No Students with Grades"; ?>
+                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
                                         <td>
-                                            <a href="classstudent.php?classid=<?= $class['class_id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
+                                            <?php
+                                            // Count the total number of students with grades
+                                            $studentCountQuery = "
+                                                SELECT COUNT(*) 
+                                                FROM studentsubject 
+                                                WHERE classid = :classid 
+                                                AND (prelim_grade IS NOT NULL OR midterm_grade IS NOT NULL OR final_grade IS NOT NULL)";
+                                            $stmt = $connection->prepare($studentCountQuery);
+                                            $stmt->bindParam(':classid', $class['class_id'], PDO::PARAM_INT);
+                                            $stmt->execute();
+                                            $totalWithGrades = $stmt->fetchColumn();
+                                            
+                                            // Show total count or a message if none
+                                            echo $totalWithGrades > 0 ? "{$totalWithGrades} Students with grades" : "No students with grades";
+                                            ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
