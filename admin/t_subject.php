@@ -37,26 +37,27 @@ try {
     $semester = $result['semester'];
     $teacherFullName = htmlspecialchars("{$result['lname']}, {$result['fname']} {$result['mname']}");
 
-    // Fetch class data with total students
+    // Fetch class data with total students for each class
     $sql = "
-       SELECT 
-    ss.subjectid, 
-    ss.year, 
-    ss.section, 
-    ss.semester,
-    COUNT(*) AS student_count
-FROM 
-    studentsubject ss
-JOIN 
-    class c ON ss.subjectid = c.subjectid
-WHERE 
-    ss.subjectid = ? AND 
-    ss.year = ? AND 
-    ss.section = ? AND 
-    ss.semester = ?
-GROUP BY 
-    ss.subjectid, ss.year, ss.section, ss.semester;
-
+        SELECT 
+            c.id AS id,
+            c.subject AS subject,
+            c.description AS description,
+            c.course AS course,
+            CONCAT(c.year, ' ', c.section) AS year_section,
+            c.sem AS sem,
+            c.SY AS SY,
+            COUNT(ss.studid) AS total_students
+        FROM 
+            class c
+        LEFT JOIN 
+            studentsubject ss ON c.id = ss.classid
+        WHERE 
+            c.teacher = :teacherId
+        GROUP BY 
+            c.id, c.subject, c.year, c.section, c.sem, c.SY
+        ORDER BY 
+            c.year, c.section, c.subject;
     ";
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
