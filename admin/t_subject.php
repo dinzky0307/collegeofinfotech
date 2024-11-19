@@ -7,12 +7,12 @@ include '../DatabaseService.php';
 
 use Database\DatabaseService;
 
-// Initialize the teacher name
-$teacherName = isset($_GET['teachername']) ? $_GET['teachername'] : '';
+// Initialize the teacher ID
+$teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
 
-// Validate teacher name
-if (empty($teacherName)) {
-    die("<div class='alert alert-danger text-center'>Invalid Teacher Name</div>");
+// Validate teacher ID
+if ($teacherId <= 0) {
+    die("<div class='alert alert-danger text-center'>Invalid Teacher ID</div>");
 }
 
 // Create an instance of DatabaseService
@@ -30,16 +30,16 @@ if ($activeAcademicYear) {
     die("<div class='alert alert-warning text-center'>No active academic year found</div>");
 }
 
-// Fetch class data based on teacher name and active academic year
+// Fetch class data along with teacher details
 $classData = [];
 if ($academicYearActive) {
-    $sql = "SELECT c.*, t.name AS teacher_name 
+    $sql = "SELECT c.*, t.lname, t.fname, t.mname 
             FROM class c
             INNER JOIN ay a ON c.SY = a.academic_year AND c.sem = a.semester
             INNER JOIN teachers t ON c.teacher = t.id
-            WHERE t.name = :teacherName AND c.SY = :academicYear AND a.semester = :semester";
+            WHERE t.id = :teacherId AND c.SY = :academicYear AND a.semester = :semester";
     $stmt = $connection->prepare($sql);
-    $stmt->bindParam(':teacherName', $teacherName, PDO::PARAM_STR);
+    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
     $stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
     $stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
     $stmt->execute();
@@ -76,7 +76,9 @@ if ($academicYearActive) {
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Instructor</th>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Middle Name</th>
                                 <th>Students</th>
                                 <th>Status</th>
                             </tr>
@@ -93,7 +95,9 @@ if ($academicYearActive) {
                                         <td><?= htmlspecialchars($class['year'] . '-' . $class['section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
-                                        <td><?= htmlspecialchars($class['teacher_name']); ?></td>
+                                        <td><?= htmlspecialchars($class['lname']); ?></td>
+                                        <td><?= htmlspecialchars($class['fname']); ?></td>
+                                        <td><?= htmlspecialchars($class['mname']); ?></td>
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
@@ -107,7 +111,7 @@ if ($academicYearActive) {
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="10" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="12" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -118,3 +122,8 @@ if ($academicYearActive) {
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#classInformation').DataTable();
+    });
+</script>
