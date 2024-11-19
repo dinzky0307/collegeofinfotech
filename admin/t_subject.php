@@ -112,9 +112,9 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr>
+                        <!-- <tr>
                             <td colspan="9" class="text-center">No class information found for this teacher.</td>
-                        </tr>
+                        </tr> -->
                     <?php endif; ?>
                 </tbody>
             </table>
