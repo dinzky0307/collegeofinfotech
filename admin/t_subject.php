@@ -37,19 +37,14 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts who have grades
+// Fetch class data along with student counts, grouped by teacher_id
 $sql = "
     SELECT c.id AS class_id, c.subject, c.description, c.course, 
            CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
-           COUNT(DISTINCT ss.studid) AS total_students_with_grades
+           COUNT(ss.studid) AS total_students
     FROM class c
     LEFT JOIN studentsubject ss ON c.id = ss.classid
     WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
-    AND (
-        ss.prelim_grade IS NOT NULL OR
-        ss.midterm_grade IS NOT NULL OR
-        ss.final_grade IS NOT NULL
-    )
     GROUP BY c.id
 ";
 $stmt = $connection->prepare($sql);
@@ -105,31 +100,19 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($class['year_section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
-                                        <td>
+                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
                                         <td>
-                                            <?php
-                                            // Count the total number of students with grades
-                                            $studentCountQuery = "
-                                                SELECT COUNT(*) 
-                                                FROM studentsubject 
-                                                WHERE classid = :classid 
-                                                AND (prelim_grade IS NOT NULL OR midterm_grade IS NOT NULL OR final_grade IS NOT NULL)";
-                                            $stmt = $connection->prepare($studentCountQuery);
-                                            $stmt->bindParam(':classid', $class['class_id'], PDO::PARAM_INT);
-                                            $stmt->execute();
-                                            $totalWithGrades = $stmt->fetchColumn();
-                                            
-                                            // Show total count or a message if none
-                                            echo $totalWithGrades > 0 ? "{$totalWithGrades} Students with grades" : "No students with grades";
-                                            ?>
+                                            <?= $class['total_students'] > 0 
+                                                ? "{$class['total_students']} Students" 
+                                                : "No Students"; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="8" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -140,13 +123,4 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#classInformation').DataTable({
-            "paging": true,
-            "ordering": true,
-            "info": true,
-            "responsive": true
-        });
-    });
-</script>
+
