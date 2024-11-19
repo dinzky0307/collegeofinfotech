@@ -38,11 +38,16 @@ try {
     $teacherFullName = htmlspecialchars("{$result['lname']}, {$result['fname']} {$result['mname']}");
 
     // Fetch class data with total students
-  $sql = "
+    $sql = "
         SELECT 
+            c.id AS id,
+            c.subject AS subject,
+            c.description AS description,
+            c.course AS course,
             CONCAT(c.year, ' ', c.section) AS year_section,
-            c.sem AS semester,
-            COUNT(ss.studid) AS total_students
+            c.sem AS sem,
+            c.SY AS SY,
+            IFNULL(COUNT(ss.studid), 0) AS total_students
         FROM 
             class c
         LEFT JOIN 
@@ -50,11 +55,10 @@ try {
         WHERE 
             c.teacher = :teacherId
         GROUP BY 
-            c.year, c.section, c.sem
+            c.id
         ORDER BY 
-            c.year, c.section;
+            c.year, c.section, c.subject;
     ";
-
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
     $stmt->execute();
