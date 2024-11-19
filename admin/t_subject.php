@@ -3,12 +3,9 @@
 include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
-include('../DatabaseService.php'); // DatabaseService for secure database operations
 
-use Database\DatabaseService;
 
-// Initialize database service
-$dbService = new DatabaseService();
+
 
 // Validate and fetch teacher_id from the URL
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
