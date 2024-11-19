@@ -123,4 +123,14 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#classInformation').DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "responsive": true
+        });
+    });
+</script>
 
