@@ -3,9 +3,6 @@ include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
 include('data/class_model.php');
-include '../DatabaseService.php';
-
-use Database\DatabaseService;
 
 // Initialize the teacher ID
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
@@ -15,23 +12,20 @@ if ($teacherId <= 0) {
     die("<div class='alert alert-danger text-center'>Invalid Teacher ID</div>");
 }
 
-// Create an instance of DatabaseService
-$dbService = new DatabaseService();
-
 // Fetch the active academic year
-$activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1");
+$activeAcademicYearQuery = "SELECT * FROM ay WHERE display = 1";
+$stmt = $connection->prepare($activeAcademicYearQuery);
+$stmt->execute();
+$activeAcademicYear = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($activeAcademicYear) {
     $academic_year = $activeAcademicYear['academic_year'];
     $semester = $activeAcademicYear['semester'];
-    $academicYearActive = true;
 } else {
-    $academicYearActive = false;
     die("<div class='alert alert-warning text-center'>No active academic year found</div>");
 }
 
 // Fetch teacher's full name
-$teacherFullName = '';
 $teacherQuery = "SELECT fname, mname, lname FROM teacher WHERE id = :teacherId";
 $stmt = $connection->prepare($teacherQuery);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
@@ -44,21 +38,20 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data
-$classData = [];
-if ($academicYearActive) {
-    $sql = "SELECT c.*, t.fname, t.mname, t.lname 
-            FROM class c
-            INNER JOIN ay a ON c.SY = a.academic_year AND c.sem = a.semester
-            INNER JOIN teacher t ON c.teacher = t.id
-            WHERE t.id = :teacherId AND c.SY = :academicYear AND a.semester = :semester";
-    $stmt = $connection->prepare($sql);
-    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-    $stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
-    $stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
-    $stmt->execute();
-    $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+// Fetch class data along with student counts
+$sql = "
+    SELECT c.id AS class_id, c.subject, c.description, c.course, 
+           CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
+           (SELECT COUNT(*) FROM studentsubject WHERE classid = c.id) AS total_students
+    FROM class c
+    WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
+";
+$stmt = $connection->prepare($sql);
+$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+$stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
+$stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
+$stmt->execute();
+$classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div id="page-wrapper">
@@ -90,7 +83,6 @@ if ($academicYearActive) {
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Students</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -103,20 +95,19 @@ if ($academicYearActive) {
                                         <td><?= htmlspecialchars($class['subject']); ?></td>
                                         <td><?= htmlspecialchars($class['description']); ?></td>
                                         <td><?= htmlspecialchars($class['course']); ?></td>
-                                        <td><?= htmlspecialchars($class['year'] . '-' . $class['section']); ?></td>
+                                        <td><?= htmlspecialchars($class['year_section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
                                         <td>
-                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
-                                        </td>
-                                        <td>
-                                            
+                                            <?= $class['total_students'] > 0 
+                                                ? "Active ({$class['total_students']} Students)" 
+                                                : "No Students"; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="12" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="8" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -126,5 +117,4 @@ if ($academicYearActive) {
         </div>
     </div>
 </div>
-
 
