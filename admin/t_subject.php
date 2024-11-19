@@ -37,39 +37,22 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with total students count
+// Fetch class data along with student counts, grouped by teacher_id
 $sql = "
-    SELECT 
-        c.id AS id,
-        c.subject AS subject,
-        c.description AS description,
-        c.course AS course,
-        CONCAT(c.year, ' ', c.section) AS year_section,
-        c.sem AS sem,
-        c.SY AS SY,
-        COUNT(ss.studid) AS total_students
-    FROM 
-        class c
-    LEFT JOIN 
-        studentsubject ss ON c.id = ss.classid
-    WHERE 
-        c.teacher = :teacherId
-    GROUP BY 
-        c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
-    ORDER BY 
-        c.year, c.section, c.subject;
+    SELECT c.id AS class_id, c.subject, c.description, c.course, 
+           CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
+           COUNT(ss.studid) AS total_students
+    FROM class c
+    LEFT JOIN studentsubject ss ON c.id = ss.classid
+    WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
+    GROUP BY c.id
 ";
-
 $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+$stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
+$stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Debugging output (optional, remove in production)
-echo "<pre>";
-print_r($classData);
-echo "</pre>";
-
 ?>
 
 <div id="page-wrapper">
@@ -101,8 +84,7 @@ echo "</pre>";
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>No. of Students</th>
-                                <th>Actions</th>
+                                <th>Students</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,14 +104,11 @@ echo "</pre>";
                                                 ? "{$class['total_students']} Students" 
                                                 : "No Students"; ?>
                                         </td>
-                                        <td>
-                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="8" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -140,12 +119,4 @@ echo "</pre>";
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#classInformation').DataTable({
-            "paging": true,
-            "ordering": true,
-            "info": true
-        });
-    });
-</script>
+
