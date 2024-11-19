@@ -37,7 +37,7 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts
+// Fetch class data along with total students count
 $sql = "
     SELECT 
         c.id AS id,
@@ -64,7 +64,6 @@ $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <div id="page-wrapper">
@@ -96,7 +95,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Students</th>
+                                <th>No. of Students</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
