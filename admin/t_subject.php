@@ -98,22 +98,6 @@ if ($academicYearActive) {
                             <?php if (!empty($classData)): ?>
                                 <?php $index = 1; ?>
                                 <?php foreach ($classData as $class): ?>
-                                    <?php
-                                    // Fetch total students for the class
-                                    $studentCountQuery = "
-                                        SELECT COUNT(*) AS total_students 
-                                        FROM class_student 
-                                        WHERE class_id = :classId
-                                    ";
-                                    $stmt = $connection->prepare($studentCountQuery);
-                                    $stmt->bindParam(':classId', $class['id'], PDO::PARAM_INT);
-                                    $stmt->execute();
-                                    $studentCountResult = $stmt->fetch(PDO::FETCH_ASSOC);
-                                    $totalStudents = $studentCountResult['total_students'] ?? 0;
-
-                                    // Define status based on total students
-                                    $status = $totalStudents > 0 ? "Active ($totalStudents Students)" : "No Students";
-                                    ?>
                                     <tr>
                                         <td><?= $index++; ?></td>
                                         <td><?= htmlspecialchars($class['subject']); ?></td>
@@ -125,12 +109,14 @@ if ($academicYearActive) {
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
-                                        <td><?= $status; ?></td>
+                                        <td>
+                                            
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="12" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -140,7 +126,5 @@ if ($academicYearActive) {
         </div>
     </div>
 </div>
-
-
 
 
