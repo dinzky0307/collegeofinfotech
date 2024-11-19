@@ -24,22 +24,26 @@ $activeAcademicYear = $dbService->fetchRow("SELECT * FROM ay WHERE display = 1")
 if ($activeAcademicYear) {
     $academic_year = $activeAcademicYear['academic_year'];
     $semester = $activeAcademicYear['semester'];
+    $academicYearActive = true;
 } else {
+    $academicYearActive = false;
     die("<div class='alert alert-warning text-center'>No active academic year found</div>");
 }
 
 // Fetch class data based on teacher ID and active academic year
 $classData = [];
-$sql = "SELECT c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY, c.teacher
-        FROM class c
-        INNER JOIN ay a ON c.SY = a.academic_year AND c.sem = a.semester
-        WHERE c.teacher = :teacherId AND c.SY = :academicYear AND a.semester = :semester";
-$stmt = $connection->prepare($sql);
-$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-$stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
-$stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
-$stmt->execute();
-$classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if ($academicYearActive) {
+    $sql = "SELECT c.* 
+            FROM class c
+            INNER JOIN ay a ON c.SY = a.academic_year AND c.sem = a.semester
+            WHERE c.teacher = :teacherId AND c.SY = :academicYear AND a.semester = :semester";
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+    $stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
+    $stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
+    $stmt->execute();
+    $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 <div id="page-wrapper">
@@ -82,13 +86,13 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php foreach ($classData as $class): ?>
                                     <tr>
                                         <td><?= $index++; ?></td>
-                                        <td><?= htmlspecialchars($class['subject'] ?? ''); ?></td>
-                                        <td><?= htmlspecialchars($class['description'] ?? ''); ?></td>
-                                        <td><?= htmlspecialchars($class['course'] ?? ''); ?></td>
-                                        <td><?= htmlspecialchars(($class['year'] ?? '') . '-' . ($class['section'] ?? '')); ?></td>
-                                        <td><?= htmlspecialchars($class['sem'] ?? ''); ?></td>
-                                        <td><?= htmlspecialchars($class['SY'] ?? ''); ?></td>
-                                        <td><?= htmlspecialchars($class['teacher'] ?? ''); ?></td>
+                                        <td><?= htmlspecialchars($class['subject']); ?></td>
+                                        <td><?= htmlspecialchars($class['description']); ?></td>
+                                        <td><?= htmlspecialchars($class['course']); ?></td>
+                                        <td><?= htmlspecialchars($class['year'] . '-' . $class['section']); ?></td>
+                                        <td><?= htmlspecialchars($class['sem']); ?></td>
+                                        <td><?= htmlspecialchars($class['SY']); ?></td>
+                                        <td><?= htmlspecialchars($class['teacher']); ?></td>
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
