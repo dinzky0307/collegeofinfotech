@@ -39,25 +39,24 @@ try {
 
     // Fetch class data with total students
     $sql = "
-        SELECT 
-            c.id AS id,
-            c.subject AS subject,
-            c.description AS description,
-            c.course AS course,
-            CONCAT(c.year, ' ', c.section) AS year_section,
-            c.sem AS sem,
-            c.SY AS SY,
-            IFNULL(COUNT(ss.studid), 0) AS total_students
-        FROM 
-            class c
-        LEFT JOIN 
-            studentsubject ss ON c.id = ss.classid
-        WHERE 
-            c.teacher = :teacherId
-        GROUP BY 
-            c.id
-        ORDER BY 
-            c.year, c.section, c.subject;
+       SELECT 
+    ss.subjectid, 
+    ss.year, 
+    ss.section, 
+    ss.semester,
+    COUNT(*) AS student_count
+FROM 
+    studentsubject ss
+JOIN 
+    class c ON ss.subjectid = c.subjectid
+WHERE 
+    ss.subjectid = ? AND 
+    ss.year = ? AND 
+    ss.section = ? AND 
+    ss.semester = ?
+GROUP BY 
+    ss.subjectid, ss.year, ss.section, ss.semester;
+
     ";
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
