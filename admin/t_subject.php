@@ -98,7 +98,7 @@ try {
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>No. of Students</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
