@@ -84,45 +84,37 @@ try {
  */
 function renderSubjectTable($subjects, $semester)
 {
-    echo '<br><div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Subject</th>
-                        <th>Course</th>
-                        <th>Year</th>
-                        <th>Section</th>
-                        <th>Students</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-    if (empty($subjects)) {
-        echo '<tr><td colspan="6" class="text-center text-danger"><strong>No subjects available for ' . htmlspecialchars($semester) . '.</strong></td></tr>';
-    } else {
+    echo "<br>";
+    echo "<div class='table-responsive'>";
+    echo "<table class='table table-striped'>";
+    echo "<thead>
+            <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>Course</th>
+                <th>Year</th>
+                <th>Section</th>
+                <th>Students</th>
+            </tr>
+          </thead>
+          <tbody>";
+    if (!empty($subjects)) {
         $count = 1;
         foreach ($subjects as $subject) {
-            echo '<tr>
-                    <td>' . $count++ . '</td>
-                    <td>' . htmlspecialchars($subject['subject']) . ' - ' . htmlspecialchars($subject['description']) . '</td>
-                    <td>' . htmlspecialchars($subject['course']) . '</td>
-                    <td>' . htmlspecialchars($subject['year']) . '</td>
-                    <td>' . htmlspecialchars($subject['section']) . '</td>
-                    <td>
-                        <a href="student.php?classid=' . htmlspecialchars($subject['id']) . '&y=' . htmlspecialchars($subject['year']) . 
-                        '&sem=' . htmlspecialchars($subject['semester']) . '&sec=' . htmlspecialchars($subject['section']) . 
-                        '&ay=' . htmlspecialchars($subject['academic_year']) . '&code=' . htmlspecialchars($subject['subject']) . 
-                        '" class="btn btn-primary btn-sm">View Students</a>
-                    </td>
-                  </tr>';
+            echo "<tr>
+                    <td>{$count}</td>
+                    <td>{$subject['subject']} - {$subject['description']}</td>
+                    <td>{$subject['course']}</td>
+                    <td>{$subject['year']}</td>
+                    <td>{$subject['section']}</td>
+                    <td><a href='student.php?classid={$subject['id']}&y={$subject['year']}&sem={$subject['semester']}&sec={$subject['section']}&ay={$subject['SY']}&code={$subject['subject']}'>View Students</a></td>
+                  </tr>";
+            $count++;
         }
+    } else {
+        echo "<tr><td colspan='6' class='text-center text-danger'><strong>*** EMPTY ***</strong></td></tr>";
     }
-
-    echo '</tbody></table></div>';
+    echo "</tbody></table></div>";
 }
 ?>
 
-<!-- /#page-wrapper -->
-<?php include('include/modal.php'); ?>
-<?php include('include/footer.php'); ?>
