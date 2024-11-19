@@ -85,6 +85,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Semester</th>
                                 <th>S.Y.</th>
                                 <th>Students</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,6 +100,9 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($class['year_section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
+                                         <td>
+                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
+                                        </td>
                                         <td>
                                             <?= $class['total_students'] > 0 
                                                 ? "{$class['total_students']} Students" 
@@ -119,7 +123,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<!-- <script>
+<script>
     $(document).ready(function() {
         $('#classInformation').DataTable({
             "paging": true,
@@ -127,4 +131,4 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             "info": true
         });
     });
-</script> -->
+</script>
