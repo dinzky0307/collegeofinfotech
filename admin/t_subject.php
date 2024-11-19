@@ -2,7 +2,6 @@
 include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
-include('data/class_model.php');
 
 // Initialize the teacher ID
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
@@ -85,7 +84,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Status</th>
+                                <th>Students</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,7 +101,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
                                         <td>
                                             <?= $class['total_students'] > 0 
-                                                ? "Active ({$class['total_students']} Students)" 
+                                                ? "{$class['total_students']} Students" 
                                                 : "No Students"; ?>
                                         </td>
                                     </tr>
@@ -119,4 +118,5 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+
 
