@@ -197,9 +197,10 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                                                 </button>
                                             </form>
                                            </td> 
-                                         <td class="text-center"><a
-                                            href="t_subject.php?classid=<?php echo $teacher['id']; ?>"
-                                            title="update teacher">View</a></td>
+                                        <td class="text-center">
+                              <a href="t_subject.php?teacher_id=<?php echo htmlspecialchars($teacher['id']); ?>" title="View Teacher's Subjects">View</a>
+                                         </td>
+
 
                                     </tr>
                                 <?php endforeach; ?>
