@@ -119,7 +119,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#classInformation').DataTable({
             "paging": true,
@@ -127,4 +127,4 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             "info": true
         });
     });
-</script>
+</script> -->
