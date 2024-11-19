@@ -117,8 +117,9 @@ if ($academicYearActive) {
     </div>
 </div>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#classInformation').DataTable();
     });
 </script>
+ -->
