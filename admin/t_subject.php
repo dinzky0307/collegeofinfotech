@@ -37,22 +37,34 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts, grouped by teacher_id
+// Fetch class data along with student counts
 $sql = "
-    SELECT c.id AS class_id, c.subject, c.description, c.course, 
-           CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
-           COUNT(ss.studid) AS total_students
-    FROM class c
-    LEFT JOIN studentsubject ss ON c.id = ss.classid
-    WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
-    GROUP BY c.id
+    SELECT 
+        c.id AS id,
+        c.subject AS subject,
+        c.description AS description,
+        c.course AS course,
+        CONCAT(c.year, ' ', c.section) AS year_section,
+        c.sem AS sem,
+        c.SY AS SY,
+        COUNT(ss.studid) AS total_students
+    FROM 
+        class c
+    LEFT JOIN 
+        studentsubject ss ON c.id = ss.classid
+    WHERE 
+        c.teacher = :teacherId
+    GROUP BY 
+        c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
+    ORDER BY 
+        c.year, c.section, c.subject;
 ";
+
 $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-$stmt->bindParam(':academicYear', $academic_year, PDO::PARAM_STR);
-$stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <div id="page-wrapper">
@@ -73,55 +85,51 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Table -->
         <div class="row">
             <div class="col-lg-12">
-              <div class="table-responsive">
-    <table class="table table-striped table-bordered" id="classInformation">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Subject Code</th>
-                <th>Subject Description</th>
-                <th>Course</th>
-                <th>Year & Section</th>
-                <th>Semester</th>
-                <th>S.Y.</th>
-                <th>Students</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($classData)): ?>
-                <?php $index = 1; ?>
-                <?php foreach ($classData as $class): ?>
-                    <tr>
-                        <td><?= $index++; ?></td>
-                        <td><?= htmlspecialchars($class['subject']); ?></td>
-                        <td><?= htmlspecialchars($class['description']); ?></td>
-                        <td><?= htmlspecialchars($class['course']); ?></td>
-                        <td><?= htmlspecialchars($class['year_section']); ?></td>
-                        <td><?= htmlspecialchars($class['sem']); ?></td>
-                        <td><?= htmlspecialchars($class['SY']); ?></td>
-                          <td>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="classInformation">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject Code</th>
+                                <th>Subject Description</th>
+                                <th>Course</th>
+                                <th>Year & Section</th>
+                                <th>Semester</th>
+                                <th>S.Y.</th>
+                                <th>Students</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($classData)): ?>
+                                <?php $index = 1; ?>
+                                <?php foreach ($classData as $class): ?>
+                                    <tr>
+                                        <td><?= $index++; ?></td>
+                                        <td><?= htmlspecialchars($class['subject']); ?></td>
+                                        <td><?= htmlspecialchars($class['description']); ?></td>
+                                        <td><?= htmlspecialchars($class['course']); ?></td>
+                                        <td><?= htmlspecialchars($class['year_section']); ?></td>
+                                        <td><?= htmlspecialchars($class['sem']); ?></td>
+                                        <td><?= htmlspecialchars($class['SY']); ?></td>
+                                        <td>
+                                            <?= $class['total_students'] > 0 
+                                                ? "{$class['total_students']} Students" 
+                                                : "No Students"; ?>
+                                        </td>
+                                        <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
-                        <td>
-                            <?= $class['total_students'] > 0 
-                                ? "{$class['total_students']} Students" 
-                                : "No Students"; ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <!-- Placeholder for empty data -->
-                    <td colspan="8" class="text-center">No class information found for this teacher.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
-
-
-
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
