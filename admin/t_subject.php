@@ -3,16 +3,18 @@ include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
 
-// Initialize the teacher ID
+// Validate and initialize the teacher ID
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
 
-// Validate teacher ID
 if ($teacherId <= 0) {
     die("<div class='alert alert-danger text-center'>Invalid Teacher ID</div>");
 }
 
 // Fetch the active academic year
-$activeAcademicYearQuery = "SELECT * FROM ay WHERE display = 1";
+$activeAcademicYearQuery = "
+    SELECT academic_year, semester 
+    FROM ay 
+    WHERE display = 1";
 $stmt = $connection->prepare($activeAcademicYearQuery);
 $stmt->execute();
 $activeAcademicYear = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -25,7 +27,10 @@ if ($activeAcademicYear) {
 }
 
 // Fetch teacher's full name
-$teacherQuery = "SELECT fname, mname, lname FROM teacher WHERE id = :teacherId";
+$teacherQuery = "
+    SELECT fname, mname, lname 
+    FROM teacher 
+    WHERE id = :teacherId";
 $stmt = $connection->prepare($teacherQuery);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
 $stmt->execute();
@@ -64,12 +69,6 @@ $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Debugging Output
-echo "<pre>";
-print_r($classData);
-echo "</pre>";
-
 ?>
 
 <div id="page-wrapper">
@@ -78,7 +77,7 @@ echo "</pre>";
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <small>INSTRUCTOR CLASS INFORMATION (<?= $teacherFullName; ?>)</small>
+                    <small>INSTRUCTOR CLASS INFORMATION (<?= htmlspecialchars($teacherFullName); ?>)</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a></li>
@@ -123,7 +122,7 @@ echo "</pre>";
                                                 : "No Students"; ?>
                                         </td>
                                         <td>
-                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
+                                            <a href="classstudent.php?classid=<?= htmlspecialchars($class['id']); ?>&SY=<?= htmlspecialchars($class['SY']); ?>" title="View Students">View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
