@@ -33,10 +33,10 @@ if ($activeAcademicYear) {
 // Fetch class data along with teacher details
 $classData = [];
 if ($academicYearActive) {
-    $sql = "SELECT c.*, t.lname, t.fname, t.mname 
+    $sql = "SELECT c.*, t.fname, t.mname, t.lname 
             FROM class c
             INNER JOIN ay a ON c.SY = a.academic_year AND c.sem = a.semester
-            INNER JOIN teachers t ON c.teacher = t.id
+            INNER JOIN teacher t ON c.teacher = t.id
             WHERE t.id = :teacherId AND c.SY = :academicYear AND a.semester = :semester";
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
@@ -121,9 +121,3 @@ if ($academicYearActive) {
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#classInformation').DataTable();
-    });
-</script>
