@@ -30,7 +30,21 @@ if ($activeAcademicYear) {
     die("<div class='alert alert-warning text-center'>No active academic year found</div>");
 }
 
-// Fetch class data along with teacher details
+// Fetch teacher's full name
+$teacherFullName = '';
+$teacherQuery = "SELECT fname, mname, lname FROM teacher WHERE id = :teacherId";
+$stmt = $connection->prepare($teacherQuery);
+$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+$stmt->execute();
+$teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($teacher) {
+    $teacherFullName = htmlspecialchars($teacher['lname'] . ', ' . $teacher['fname'] . ' ' . $teacher['mname']);
+} else {
+    die("<div class='alert alert-danger text-center'>Teacher not found</div>");
+}
+
+// Fetch class data
 $classData = [];
 if ($academicYearActive) {
     $sql = "SELECT c.*, t.fname, t.mname, t.lname 
@@ -53,7 +67,7 @@ if ($academicYearActive) {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <small>INSTRUCTOR CLASS INFORMATION</small>
+                    <small>INSTRUCTOR CLASS INFORMATION (<?= $teacherFullName; ?>)</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a></li>
@@ -76,9 +90,6 @@ if ($academicYearActive) {
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Last Name</th>
-                                <th>First Name</th>
-                                <th>Middle Name</th>
                                 <th>Students</th>
                                 <th>Status</th>
                             </tr>
@@ -95,9 +106,6 @@ if ($academicYearActive) {
                                         <td><?= htmlspecialchars($class['year'] . '-' . $class['section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
-                                        <td><?= htmlspecialchars($class['lname']); ?></td>
-                                        <td><?= htmlspecialchars($class['fname']); ?></td>
-                                        <td><?= htmlspecialchars($class['mname']); ?></td>
                                         <td>
                                             <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
@@ -121,3 +129,5 @@ if ($academicYearActive) {
         </div>
     </div>
 </div>
+
+
