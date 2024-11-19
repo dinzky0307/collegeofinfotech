@@ -64,6 +64,12 @@ $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Debugging output (optional, remove in production)
+echo "<pre>";
+print_r($classData);
+echo "</pre>";
+
 ?>
 
 <div id="page-wrapper">
