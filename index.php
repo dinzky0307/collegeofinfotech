@@ -136,6 +136,7 @@ if (isset($_POST['submit'])) {
   <link rel="icon" href="img/mcc.png">
   <title>InfoTech</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style1.css" />
 </head>
 

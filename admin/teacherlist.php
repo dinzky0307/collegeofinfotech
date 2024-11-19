@@ -148,6 +148,7 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                                 <th class="text-center">Gender</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Action</th>
+                                 <th class="text-center">Grading Status</th>
                             </tr>
                         </thead>
                         <tbody>
