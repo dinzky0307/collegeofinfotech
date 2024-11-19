@@ -198,7 +198,7 @@ if (isset($_POST['deleteTeacher']) && isset($_POST['teacherId'])) {
                                             </form>
                                            </td> 
                                          <td class="text-center"><a
-                                            href="classteacher.php?classid=<?php echo $teacher['id']; ?>"
+                                            href="t_subject.php?classid=<?php echo $teacher['id']; ?>"
                                             title="update teacher">View</a></td>
 
                                     </tr>
