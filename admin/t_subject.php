@@ -37,14 +37,19 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts, grouped by teacher_id
+// Fetch class data along with student counts who have grades
 $sql = "
     SELECT c.id AS class_id, c.subject, c.description, c.course, 
            CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
-           COUNT(ss.studid) AS total_students
+           COUNT(DISTINCT ss.studid) AS total_students_with_grades
     FROM class c
     LEFT JOIN studentsubject ss ON c.id = ss.classid
     WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
+    AND (
+        ss.prelim_grade IS NOT NULL OR
+        ss.midterm_grade IS NOT NULL OR
+        ss.final_grade IS NOT NULL
+    )
     GROUP BY c.id
 ";
 $stmt = $connection->prepare($sql);
@@ -84,8 +89,8 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Students</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,19 +105,19 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($class['year_section']); ?></td>
                                         <td><?= htmlspecialchars($class['sem']); ?></td>
                                         <td><?= htmlspecialchars($class['SY']); ?></td>
-                                         <td>
-                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
+                                        <td>
+                                            <?= $class['total_students_with_grades'] > 0 
+                                                ? "{$class['total_students_with_grades']} Students with Grades" 
+                                                : "No Students with Grades"; ?>
                                         </td>
                                         <td>
-                                            <?= $class['total_students'] > 0 
-                                                ? "{$class['total_students']} Students" 
-                                                : "No Students"; ?>
+                                            <a href="classstudent.php?classid=<?= $class['class_id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -123,4 +128,13 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-
+<script>
+    $(document).ready(function() {
+        $('#classInformation').DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "responsive": true
+        });
+    });
+</script>
