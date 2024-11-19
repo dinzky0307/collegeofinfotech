@@ -3,72 +3,71 @@ include('include/header.php');
 include('include/sidebar.php');
 include('../database.php');
 
-// Validate and initialize the teacher ID
+// Initialize the teacher ID from the query string
 $teacherId = isset($_GET['teacher_id']) ? intval($_GET['teacher_id']) : 0;
 
+// Validate teacher ID
 if ($teacherId <= 0) {
     die("<div class='alert alert-danger text-center'>Invalid Teacher ID</div>");
 }
 
-// Fetch the active academic year
-$activeAcademicYearQuery = "
-    SELECT academic_year, semester 
-    FROM ay 
-    WHERE display = 1";
-$stmt = $connection->prepare($activeAcademicYearQuery);
-$stmt->execute();
-$activeAcademicYear = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    // Fetch the active academic year
+    $activeAcademicYearQuery = "SELECT * FROM ay WHERE display = 1";
+    $stmt = $connection->prepare($activeAcademicYearQuery);
+    $stmt->execute();
+    $activeAcademicYear = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($activeAcademicYear) {
-    $academic_year = $activeAcademicYear['academic_year'];
-    $semester = $activeAcademicYear['semester'];
-} else {
-    die("<div class='alert alert-warning text-center'>No active academic year found</div>");
+    if ($activeAcademicYear) {
+        $academic_year = $activeAcademicYear['academic_year'];
+        $semester = $activeAcademicYear['semester'];
+    } else {
+        die("<div class='alert alert-warning text-center'>No active academic year found</div>");
+    }
+
+    // Fetch teacher's full name
+    $teacherQuery = "SELECT fname, mname, lname FROM teacher WHERE id = :teacherId";
+    $stmt = $connection->prepare($teacherQuery);
+    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+    $stmt->execute();
+    $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($teacher) {
+        $teacherFullName = htmlspecialchars($teacher['lname'] . ', ' . $teacher['fname'] . ' ' . $teacher['mname']);
+    } else {
+        die("<div class='alert alert-danger text-center'>Teacher not found</div>");
+    }
+
+    // Fetch class data along with total students count
+    $sql = "
+        SELECT 
+            c.id AS id,
+            c.subject AS subject,
+            c.description AS description,
+            c.course AS course,
+            CONCAT(c.year, ' ', c.section) AS year_section,
+            c.sem AS sem,
+            c.SY AS SY,
+            COUNT(ss.studid) AS total_students
+        FROM 
+            class c
+        LEFT JOIN 
+            studentsubject ss ON c.id = ss.classid
+        WHERE 
+            c.teacher = :teacherId
+        GROUP BY 
+            c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
+        ORDER BY 
+            c.year, c.section, c.subject;
+    ";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+    $stmt->execute();
+    $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    die("<div class='alert alert-danger text-center'>Error fetching data: " . htmlspecialchars($e->getMessage()) . "</div>");
 }
-
-// Fetch teacher's full name
-$teacherQuery = "
-    SELECT fname, mname, lname 
-    FROM teacher 
-    WHERE id = :teacherId";
-$stmt = $connection->prepare($teacherQuery);
-$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-$stmt->execute();
-$teacher = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($teacher) {
-    $teacherFullName = htmlspecialchars($teacher['lname'] . ', ' . $teacher['fname'] . ' ' . $teacher['mname']);
-} else {
-    die("<div class='alert alert-danger text-center'>Teacher not found</div>");
-}
-
-// Fetch class data along with total students count
-$sql = "
-    SELECT 
-        c.id AS id,
-        c.subject AS subject,
-        c.description AS description,
-        c.course AS course,
-        CONCAT(c.year, ' ', c.section) AS year_section,
-        c.sem AS sem,
-        c.SY AS SY,
-        COUNT(ss.studid) AS total_students
-    FROM 
-        class c
-    LEFT JOIN 
-        studentsubject ss ON c.id = ss.classid
-    WHERE 
-        c.teacher = :teacherId
-    GROUP BY 
-        c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
-    ORDER BY 
-        c.year, c.section, c.subject;
-";
-
-$stmt = $connection->prepare($sql);
-$stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
-$stmt->execute();
-$classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div id="page-wrapper">
@@ -77,7 +76,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <small>INSTRUCTOR CLASS INFORMATION (<?= htmlspecialchars($teacherFullName); ?>)</small>
+                    <small>Instructor Class Information (<?= $teacherFullName; ?>)</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a></li>
@@ -122,7 +121,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 : "No Students"; ?>
                                         </td>
                                         <td>
-                                            <a href="classstudent.php?classid=<?= htmlspecialchars($class['id']); ?>&SY=<?= htmlspecialchars($class['SY']); ?>" title="View Students">View</a>
+                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
