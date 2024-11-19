@@ -37,27 +37,27 @@ try {
     $semester = $result['semester'];
     $teacherFullName = htmlspecialchars("{$result['lname']}, {$result['fname']} {$result['mname']}");
 
-    // Fetch class data with total students for each class
+    // Fetch class data with total students for each class (modified query)
     $sql = "
         SELECT 
-            c.id AS id,
-            c.subject AS subject,
-            c.description AS description,
-            c.course AS course,
-            CONCAT(c.year, ' ', c.section) AS year_section,
-            c.sem AS sem,
-            c.SY AS SY,
-            COUNT(ss.studid) AS total_students
+            c.teacher AS Teacher_ID,
+            c.year AS Year,
+            c.section AS Section,
+            c.sem AS Semester,
+            c.SY AS School_Year,
+            COUNT(DISTINCT ss.studid) AS Total_Students
         FROM 
             class c
-        LEFT JOIN 
+        JOIN 
             studentsubject ss ON c.id = ss.classid
+        JOIN 
+            student s ON ss.studid = s.studid
         WHERE 
             c.teacher = :teacherId
         GROUP BY 
-            c.id, c.subject, c.year, c.section, c.sem, c.SY
+            c.teacher, c.year, c.section, c.sem, c.SY
         ORDER BY 
-            c.year, c.section, c.subject;
+            c.year, c.section, c.subject
     ";
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
@@ -92,14 +92,10 @@ try {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Subject Code</th>
-                                <th>Subject Description</th>
-                                <th>Course</th>
                                 <th>Year & Section</th>
                                 <th>Semester</th>
                                 <th>S.Y.</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>Total Students</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,24 +104,15 @@ try {
                                 <?php foreach ($classData as $class): ?>
                                     <tr>
                                         <td><?= $index++; ?></td>
-                                        <td><?= htmlspecialchars($class['subject']); ?></td>
-                                        <td><?= htmlspecialchars($class['description']); ?></td>
-                                        <td><?= htmlspecialchars($class['course']); ?></td>
-                                        <td><?= htmlspecialchars($class['year_section']); ?></td>
-                                        <td><?= htmlspecialchars($class['sem']); ?></td>
-                                        <td><?= htmlspecialchars($class['SY']); ?></td>
-                                        <td><?= $class['total_students'] > 0 
-                                                ? "{$class['total_students']} Students" 
-                                                : "0"; ?>
-                                        </td>
-                                        <td>
-                                            <a href="classstudent.php?classid=<?= $class['id']; ?>&SY=<?= $class['SY']; ?>" title="View Students">View</a>
-                                        </td>
+                                        <td><?= htmlspecialchars($class['Year'] . ' ' . $class['Section']); ?></td>
+                                        <td><?= htmlspecialchars($class['Semester']); ?></td>
+                                        <td><?= htmlspecialchars($class['School_Year']); ?></td>
+                                        <td><?= htmlspecialchars($class['Total_Students']); ?> Students</td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">No class information found for this teacher.</td>
+                                    <td colspan="5" class="text-center">No class information found for this teacher.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
