@@ -43,7 +43,7 @@ $sql = "
            CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
            COUNT(ss.studid) AS total_students
     FROM class c
-    LEFT JOIN studentsubject ss ON c.id = ss.classid
+    LEFT JOIN studentsubject ss ON c.id = ss.subjectid
     WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
     GROUP BY c.id
 ";
