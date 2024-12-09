@@ -37,7 +37,8 @@ if ($teacher) {
     die("<div class='alert alert-danger text-center'>Teacher not found</div>");
 }
 
-// Fetch class data along with student counts, grouped by teacher_id
+
+// Fetch class data along with student counts, grouped by teacher
 $sql = "
     SELECT c.id AS class_id, c.subject, c.description, c.course, 
            CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
@@ -109,6 +110,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         ? "{$class['total_students']} Students" 
                                         : "0/0"; ?>
                                 </td>
+                                
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
