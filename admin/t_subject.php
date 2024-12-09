@@ -46,6 +46,8 @@ $sql = "
         c.description, 
         c.course, 
         CONCAT(c.year, '-', c.section) AS year_section, 
+        c.year, 
+        c.section, 
         c.sem, 
         c.SY,
         COUNT(ss.studid) AS total_students
@@ -69,6 +71,7 @@ $stmt->bindParam(':semester', $semester, PDO::PARAM_STR);
 $stmt->execute();
 $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <div id="page-wrapper">
     <div class="container-fluid">
