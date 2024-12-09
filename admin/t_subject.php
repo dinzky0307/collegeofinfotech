@@ -40,13 +40,27 @@ if ($teacher) {
 
 // Fetch class data along with student counts, grouped by teacher
 $sql = "
-    SELECT c.id AS class_id, c.subject, c.description, c.course, 
-           CONCAT(c.year, '-', c.section) AS year_section, c.sem, c.SY,
-           COUNT(ss.studid) AS total_students
-    FROM class c
-    LEFT JOIN studentsubject ss ON c.id = ss.subjectid
-    WHERE c.teacher = :teacherId AND c.SY = :academicYear AND c.sem = :semester
-    GROUP BY c.id
+    SELECT 
+        c.id AS class_id, 
+        c.subject, 
+        c.description, 
+        c.course, 
+        CONCAT(c.year, '-', c.section) AS year_section, 
+        c.sem, 
+        c.SY,
+        COUNT(ss.studid) AS total_students
+    FROM 
+        class c
+    LEFT JOIN 
+        studentsubject ss 
+    ON 
+        c.id = ss.subjectid
+    WHERE 
+        c.teacher = :teacherId 
+        AND c.SY = :academicYear 
+        AND c.sem = :semester
+    GROUP BY 
+        c.id, c.subject, c.description, c.course, c.year, c.section, c.sem, c.SY
 ";
 $stmt = $connection->prepare($sql);
 $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
@@ -110,7 +124,7 @@ $classData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         ? "{$class['total_students']} Students" 
                                         : "0/0"; ?>
                                 </td>
-                                
+
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
