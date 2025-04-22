@@ -1,5 +1,5 @@
 <?php
-include 'database.php';
+include 'config.php';
 
 // Set headers for file download
 header('Content-Type: application/sql');
@@ -7,7 +7,7 @@ header('Content-Disposition: attachment; filename="database_backup_' . date('Y-m
 
 // Fetch all table names
 $tables = [];
-$result = $connection->query("SHOW TABLES");
+$result = $db->query("SHOW TABLES");
 while ($row = $result->fetch_array()) {
     $tables[] = $row[0];
 }
@@ -21,14 +21,14 @@ foreach ($tables as $table) {
     $backupSql .= "DROP TABLE IF EXISTS `$table`;\n";
 
     // Get CREATE TABLE statement
-    $createTableResult = $connection->query("SHOW CREATE TABLE `$table`");
+    $createTableResult = $db->query("SHOW CREATE TABLE `$table`");
     $createTableRow = $createTableResult->fetch_assoc();
     $backupSql .= $createTableRow['Create Table'] . ";\n\n";
 
     // Get data from table
-    $dataResult = $connection->query("SELECT * FROM `$table`");
+    $dataResult = $db->query("SELECT * FROM `$table`");
     while ($row = $dataResult->fetch_assoc()) {
-        $values = array_map([$connection, 'real_escape_string'], array_values($row));
+        $values = array_map([$db, 'real_escape_string'], array_values($row));
         $values = array_map(function($val) {
             return "'" . $val . "'";
         }, $values);
@@ -44,6 +44,6 @@ $backupSql .= "SET FOREIGN_KEY_CHECKS = 1;\n";
 // Output the .sql content
 echo $backupSql;
 
-// Close connection
-$connection->close();
+// Close db
+$db->close();
 ?>
